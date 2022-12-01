@@ -1,14 +1,18 @@
 import React from 'react';
 import { ConstructorElement, DragIcon, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import BurgerConstructorItemWrapper from './BurgerConstructorItemWrapper';
+import styles from './burgerconstructor.module.css'; 
+
 import { burgersData } from '../../utils/data';
 
 function BurgerConstructor() {
-    const img = 'https://yandex-practicum.github.io/react-developer-burger-ui-components/docs/static/img-5f9ccf21a0eb45d06e57410b025f366c.png';
+    const img = burgersData[0].image;
+    const testData = [ burgersData[3], burgersData[1], burgersData[7] ];
 
     return (
         <>
-            <div className='mt-25 pl-4 pr-4' style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div className={styles.constructor_wrapper + ' mt-25 pl-4 pr-4'}>
                 <div className='pl-8'>
                     <ConstructorElement
                         type="top"
@@ -18,31 +22,8 @@ function BurgerConstructor() {
                         thumbnail={img}
                     />
                 </div>
-
-                <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <DragIcon type="primary" />
-                    <ConstructorElement
-                        text={burgersData[3].name}
-                        price={burgersData[3].price}
-                        thumbnail={burgersData[3].image}
-                    />
-                </div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <DragIcon type="primary" />
-                    <ConstructorElement
-                        text={burgersData[1].name}
-                        price={burgersData[1].price}
-                        thumbnail={burgersData[1].image}
-                    />
-                </div>
-                <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <DragIcon type="primary" />
-                    <ConstructorElement
-                        text={burgersData[7].name}
-                        price={burgersData[7].price}
-                        thumbnail={burgersData[7].image}
-                    />
-                </div>
+                
+                { testData.map((elem) => <BurgerConstructorItemWrapper key={"constructor." + elem._id} image={elem.image} price={elem.price} name={elem.name} /> )}
 
                 <div className='pl-8'>
                     <ConstructorElement
@@ -54,9 +35,9 @@ function BurgerConstructor() {
                         thumbnail={img}
                     />
                 </div>
-                <div className='mt-10' style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                <div className={styles.constructor_buttons_wrapper + ' mt-10'}>
                     <p className="text text_type_digits-medium mr-10"><span>610</span>&nbsp;<CurrencyIcon type="primary" /></p>
-                    <Button>Оформить заказ</Button>
+                    <Button htmlType="button">Оформить заказ</Button>
                 </div>
             </div>
         </>

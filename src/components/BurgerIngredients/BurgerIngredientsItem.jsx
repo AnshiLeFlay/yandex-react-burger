@@ -14,11 +14,11 @@ function BurgerIngredientsItem( props ) {
                 props.counterNumber > 0 &&
                     <Counter count={props.counterNumber} size="default" extraClass="m-1" />
             }
-            <img className='pl-4' alt='Ингридиент' src={props.imgSrc} />
+            <img className='pl-4' alt={props.alt} src={props.imgSrc} />
             <p className={ styles.burger_item_caption + " text text_type_digits-default mt-1 mb-1" } >
                 <span className='mr-2'>{props.cost}</span><CurrencyIcon type="primary" />
             </p>
-            <p style={{ height: '48px' }} className={styles.burger_item_caption + " text text_type_main-small"}>
+            <p className={styles.burger_item_caption + " " + styles.burger_item_height + " text text_type_main-small"}>
                 {props.caption}
             </p>
         </div>

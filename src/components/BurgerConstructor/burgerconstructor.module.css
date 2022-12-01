@@ -1,0 +1,17 @@
+.constructor_item_wrapper {
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: space-between;
+}
+
+.constructor_wrapper {
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px;
+}
+
+.constructor_buttons_wrapper {
+    display: flex; 
+    align-items: center; 
+    justify-content: flex-end;
+}

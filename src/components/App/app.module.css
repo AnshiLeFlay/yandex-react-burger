@@ -9,3 +9,8 @@
     max-width: 600px;
     max-height: 912px;
 }
+
+.left_column_item {
+    display: flex; 
+    flex-direction: column;
+}

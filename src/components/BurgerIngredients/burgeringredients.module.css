@@ -10,3 +10,19 @@
     align-items: center; 
     justify-content: center
 }
+
+.burger_item_height {
+    height: 48px;
+}
+
+.tabs_wrapper {
+    width: fit-content;
+}
+
+.tabs_wrapper_content {
+    display: flex;
+}
+
+.show_scroll {
+    overflow-y: scroll;
+}
