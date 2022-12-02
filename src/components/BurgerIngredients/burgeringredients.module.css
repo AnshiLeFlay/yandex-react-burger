@@ -1,0 +1,28 @@
+.burger_item_container {
+    position: relative; 
+    width: 50%; 
+    display: inline-block; 
+    text-align: center
+}
+
+.burger_item_caption {
+    display: flex; 
+    align-items: center; 
+    justify-content: center
+}
+
+.burger_item_height {
+    height: 48px;
+}
+
+.tabs_wrapper {
+    width: fit-content;
+}
+
+.tabs_wrapper_content {
+    display: flex;
+}
+
+.show_scroll {
+    overflow-y: scroll;
+}

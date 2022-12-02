@@ -1,0 +1,16 @@
+.main_content {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.main_content_item {
+    text-align: left;
+    max-width: 600px;
+    max-height: 912px;
+}
+
+.left_column_item {
+    display: flex; 
+    flex-direction: column;
+}
