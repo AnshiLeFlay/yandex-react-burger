@@ -9,7 +9,7 @@ import styles from './burgeringredients.module.css';
 function BurgerIngredientsItem( props ) {
 
     return (
-        <div className={ styles.burger_item_container }>
+        <div onClick={ props.handleClick } className={ styles.burger_item_container }>
             {
                 props.counterNumber > 0 &&
                     <Counter count={props.counterNumber} size="default" extraClass="m-1" />

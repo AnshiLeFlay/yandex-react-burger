@@ -26,3 +26,13 @@
 .show_scroll {
     overflow-y: scroll;
 }
+
+.ingredients_modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nutrients {
+    display: flex;
+}
