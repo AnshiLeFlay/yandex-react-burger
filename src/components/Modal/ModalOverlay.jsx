@@ -1,13 +1,27 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import styles from './modal.module.css'; 
 
-function ModalOverlay(  ) {
-    //const [ show, setShow ] = React.useState( false );
+function ModalOverlay( props ) {
+
+    const handleHideOverlay = (e) => {
+        if (e.target === e.currentTarget)
+            props.onClick(e);
+    }
 
     return (
-        <div className={ styles.modal_overlay } />
+        <>
+            <div id="overlay" className={ styles.modal } >
+                { props.children }
+            </div>
+            <div onClick={ handleHideOverlay } className={ styles.modal_overlay } />
+        </>
     )
+}
+
+ModalOverlay.propTypes = {
+    onClick: PropTypes.func,
 }
 
 export default ModalOverlay;

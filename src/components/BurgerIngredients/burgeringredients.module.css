@@ -36,3 +36,7 @@
 .nutrients {
     display: flex;
 }
+
+.nutrients p {
+    text-align: center;
+}

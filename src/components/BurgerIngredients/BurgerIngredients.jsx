@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import IngredientDetails from './IngredientDetails';
 import BurgerIngredientsItem from './BurgerIngredientsItem';
 import styles from './burgeringredients.module.css'; 
 
@@ -21,24 +22,8 @@ function BurgerIngredients( props ) {
 
 	const handleCloseModal = (e) => {
 		e.preventDefault();
-		if (e.target === e.currentTarget) {
-			setVisibility( false );
-		}
+        setVisibility( false );
 	}
-
-    const escFunction = (e) => {
-        if (e.key === "Escape") {
-            setVisibility( false );
-        }
-    }
-
-    React.useEffect( () => {
-        document.addEventListener("keydown", escFunction, false);
-
-        return () => {
-            document.removeEventListener("keydown", escFunction, false);
-        }
-    });
 
     return (
         <>
@@ -75,23 +60,14 @@ function BurgerIngredients( props ) {
 
             {visible && 
                 <Modal header={'Детали ингридиента'} onClose={ handleCloseModal }>
-                    <div className={styles.ingredients_modal}>
-                        <img className='' alt={currentItem.name} src={currentItem.image} />
-                        <p className="text text_type_main-small mt-4 mb-8">{currentItem.name}</p>
-                        <div className={styles.nutrients + ' mb-15'}>
-                            <p className='text text_type_main-small text_color_inactive mr-5'>Калории, ккал<br/><span className='text_type_digits-default'>{currentItem.calories}</span></p>
-                            <p className='text text_type_main-small text_color_inactive mr-5'>Белки, г<br/><span className='text_type_digits-default'>{currentItem.proteins}</span></p>
-                            <p className='text text_type_main-small text_color_inactive mr-5'>Жиры, г<br/><span className='text_type_digits-default'>{currentItem.fat}</span></p>
-                            <p className='text text_type_main-small text_color_inactive'>Углеводы, г<br/><span className='text_type_digits-default'>{currentItem.carbohydrates}</span></p>
-                        </div>
-                    </div>
+                    <IngredientDetails currentItem={currentItem} />
                 </Modal>
             }
         </>
     );
 }
 
-Modal.propTypes = {
+BurgerIngredients.propTypes = {
     data: PropTypes.array,
 };
   

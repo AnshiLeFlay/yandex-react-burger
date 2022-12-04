@@ -1,6 +1,7 @@
 import React from 'react';
-import { ConstructorElement, CurrencyIcon, CheckMarkIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement, CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import OrderDetails from './OrderDetails';
 import BurgerConstructorItemWrapper from './BurgerConstructorItemWrapper';
 import styles from './burgerconstructor.module.css'; 
 
@@ -20,24 +21,8 @@ function BurgerConstructor() {
 
 	const handleCloseModal = (e) => {
 		e.preventDefault();
-		if (e.target === e.currentTarget) {
-			setVisibility( false );
-		}
+        setVisibility( false );
 	}
-
-    const escFunction = (e) => {
-        if (e.key === "Escape") {
-            setVisibility( false );
-        }
-    }
-
-    React.useEffect( () => {
-        document.addEventListener("keydown", escFunction, false);
-
-        return () => {
-            document.removeEventListener("keydown", escFunction, false);
-        }
-    });
 
     return (
         <>
@@ -70,11 +55,7 @@ function BurgerConstructor() {
                         <Button onClick={handleOpenModal} htmlType="button">Оформить заказ</Button>
                         {visible && 
                             <Modal onClose={ handleCloseModal }>
-                                <p className="text text_type_digits-large mt-4 mb-8 ml-25 mr-25">034536</p>
-                                <p className="text text_type_main-medium mb-15">идентификатор заказа</p>
-                                <span className={styles.check_icon}><CheckMarkIcon type="primary" /></span>
-                                <p className="text text_type_main-small mt-15 mb-2">Ваш заказ начали готовить</p>
-                                <p className="text text_type_main-small text_color_inactive mb-30">Дождитесь готовности на орбитальной станции</p>
+                                <OrderDetails />
                             </Modal>
                         }
                     </div>
@@ -82,6 +63,6 @@ function BurgerConstructor() {
             </div>
         </>
     );
-  }
+}
   
-  export default BurgerConstructor;
+export default BurgerConstructor;

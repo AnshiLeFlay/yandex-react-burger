@@ -15,26 +15,27 @@ function App() {
 	const [burgersDataFromAPI, setData] = React.useState([]);
 
 	React.useEffect( () => {
-        try {
-            fetch( API_URL )
-            .then( response => response.json() )
-            .then( data => setData(data.data) )
-        } catch ( error ) {
-            console.log('Ошибка подключения к API: ', error);
-        }
+
+		fetch( API_URL )
+        	.then( res => {
+				if (res.ok) {
+                    return res.json();
+                }
+                return Promise.reject(`Ошибка ${res.status}`);
+			} ).then( data => setData(data.data) )
+			.catch(( error ) => {
+				console.log('Ошибка подключения к API: ', error);
+			})
     }, [] );
 
 	return (
-		<>
-			<div className="App">
-				<AppHeader />
-				<div className={ styles.main_content }>
-					<div className={ styles.main_content_item + ' ' + styles.left_column_item }><BurgerIngredients data={burgersDataFromAPI} /></div>
-					<div className={ styles.main_content_item }><BurgerConstructor /></div>
-				</div>
-			</div>
-			
-		</>
+		<div className="App">
+			<AppHeader />
+			<main className={ styles.main_content }>
+				<div className={ styles.main_content_item + ' ' + styles.left_column_item }><BurgerIngredients data={burgersDataFromAPI} /></div>
+				<div className={ styles.main_content_item }><BurgerConstructor /></div>
+			</main>
+		</div>
 	);
 }
 
