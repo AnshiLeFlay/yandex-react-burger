@@ -44,17 +44,17 @@ function BurgerIngredients( props ) {
             <div className={styles.show_scroll + ' custom-scroll mt-10'}>
                 <p className="text text_type_main-medium mb-6">Булки</p>
                 <div className='pl-4'>
-                    { Array.isArray( props.data ) && props.data.filter(filterElem => filterElem.type === 'bun').map((elem) => (
+                    { props.data.filter(filterElem => filterElem.type === 'bun').map((elem) => (
                         <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} />
                     ) )}
                 </div>
                 <p className="text text_type_main-medium mt-10 mb-6">Соусы</p>
                 <div className='pl-4'>
-                    { Array.isArray(props.data) && props.data.filter(filterElem => filterElem.type === 'sauce').map((elem) => <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} /> )}
+                    { props.data.filter(filterElem => filterElem.type === 'sauce').map((elem) => <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} /> )}
                 </div>
                 <p className="text text_type_main-medium mt-10 mb-6">Начинки</p>
                 <div className='pl-4'>
-                    { Array.isArray(props.data) && props.data.filter(filterElem => filterElem.type === 'main').map((elem) => <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} /> )}
+                    { props.data.filter(filterElem => filterElem.type === 'main').map((elem) => <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} /> )}
                 </div>
             </div>
 
@@ -68,7 +68,7 @@ function BurgerIngredients( props ) {
 }
 
 BurgerIngredients.propTypes = {
-    data: PropTypes.array,
+    data: PropTypes.array.isRequired,
 };
   
 export default BurgerIngredients;

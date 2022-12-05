@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -12,11 +12,9 @@ const modalRoot = document.getElementById("burger-modals");
 function Modal( props ) {
     const { children, onClose, header } = props;
 
-    const closeRef = useRef( null );
-
     const escFunction = (e) => {
         if (e.key === "Escape") {
-            closeRef.current.click();
+            onClose(e);
         }
     }
 
@@ -28,23 +26,19 @@ function Modal( props ) {
         }
     });
 
-    //<div ref={ closeRef } onClick={ onClose } className={styles.modal}>
-
     return ReactDOM.createPortal(
-        <>
-            <ModalOverlay onClick={ onClose } >
-                <div className={styles.modal_body}>
-                    <p className={ styles.modal_header + ' mt-10 ml-10 mr-10 text text_type_main-medium'}>
-                        <span>{header}</span><span onClick={ onClose } ref={ closeRef } /><CloseIcon onClick={ onClose } type="primary" />
-                    </p>
-                    <div className={ styles.modal_children }>
-                        {children}
-                    </div>
+        <ModalOverlay onClick={ onClose } >
+            <div className={styles.modal_body}>
+                <p className={ styles.modal_header + ' mt-10 ml-10 mr-10 text text_type_main-medium'}>
+                    <span>{header}</span><CloseIcon onClick={ onClose } type="primary" />
+                </p>
+                <div className={ styles.modal_children }>
+                    {children}
                 </div>
-            </ModalOverlay>
-        </>,
-        modalRoot
-      );
+            </div>
+        </ModalOverlay>
+        , modalRoot
+    );
   
   }
 

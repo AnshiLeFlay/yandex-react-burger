@@ -22,13 +22,13 @@ function IngredientDetails( props ) {
 
 IngredientDetails.propTypes = {
     currentItem: PropTypes.shape({
-        name: PropTypes.string,
-        image: PropTypes.string,
-        calories: PropTypes.number, 
-        proteins: PropTypes.number, 
-        fat: PropTypes.number, 
-        carbohydrates: PropTypes.number,
-    }),
+        name: PropTypes.string.isRequired,
+        image: PropTypes.string.isRequired,
+        calories: PropTypes.number.isRequired, 
+        proteins: PropTypes.number.isRequired, 
+        fat: PropTypes.number.isRequired, 
+        carbohydrates: PropTypes.number.isRequired,
+    }).isRequired,
 };
 
 export default IngredientDetails;
