@@ -1,13 +1,29 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import IngredientDetails from './IngredientDetails';
 import BurgerIngredientsItem from './BurgerIngredientsItem';
 import styles from './burgeringredients.module.css'; 
 
-import {burgersData} from '../../utils/data';
+import Modal from '../Modal/Modal';
 
-function BurgerIngredients() {
+function BurgerIngredients( props ) {
     const [current, setCurrent] = React.useState('one');
+ 
+    const [currentItem, setCurrentItem] = React.useState([]);
+
+    const [ visible, setVisibility ] = React.useState( false );
+
+    function handleOpenModal(e, elemData) {
+        setCurrentItem(elemData);
+        setVisibility( true );
+    }
+
+	const handleCloseModal = (e) => {
+		e.preventDefault();
+        setVisibility( false );
+	}
 
     return (
         <>
@@ -28,19 +44,31 @@ function BurgerIngredients() {
             <div className={styles.show_scroll + ' custom-scroll mt-10'}>
                 <p className="text text_type_main-medium mb-6">Булки</p>
                 <div className='pl-4'>
-                    { burgersData.filter(filterElem => filterElem.type === 'bun').map((elem) => <BurgerIngredientsItem key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} /> )}
+                    { props.data.filter(filterElem => filterElem.type === 'bun').map((elem) => (
+                        <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} />
+                    ) )}
                 </div>
                 <p className="text text_type_main-medium mt-10 mb-6">Соусы</p>
                 <div className='pl-4'>
-                    { burgersData.filter(filterElem => filterElem.type === 'sauce').map((elem) => <BurgerIngredientsItem key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} /> )}
+                    { props.data.filter(filterElem => filterElem.type === 'sauce').map((elem) => <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} /> )}
                 </div>
                 <p className="text text_type_main-medium mt-10 mb-6">Начинки</p>
                 <div className='pl-4'>
-                    { burgersData.filter(filterElem => filterElem.type === 'main').map((elem) => <BurgerIngredientsItem key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} /> )}
+                    { props.data.filter(filterElem => filterElem.type === 'main').map((elem) => <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} /> )}
                 </div>
             </div>
+
+            {visible && 
+                <Modal header={'Детали ингридиента'} onClose={ handleCloseModal }>
+                    <IngredientDetails currentItem={currentItem} />
+                </Modal>
+            }
         </>
     );
-  }
+}
+
+BurgerIngredients.propTypes = {
+    data: PropTypes.array.isRequired,
+};
   
-  export default BurgerIngredients;
+export default BurgerIngredients;
