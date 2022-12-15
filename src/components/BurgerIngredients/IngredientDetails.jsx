@@ -10,6 +10,7 @@ function IngredientDetails( props ) {
         <div className={styles.ingredients_modal}>
             <img alt={currentItem.name} src={currentItem.image} />
             <p className="text text_type_main-small mt-4 mb-8">{currentItem.name}</p>
+            <p>{ currentItem._id }</p>
             <div className={styles.nutrients + ' mb-15'}>
                 <p className='text text_type_main-small text_color_inactive mr-5'>Калории, ккал<br/><span className='text_type_digits-default'>{currentItem.calories}</span></p>
                 <p className='text text_type_main-small text_color_inactive mr-5'>Белки, г<br/><span className='text_type_digits-default'>{currentItem.proteins}</span></p>
