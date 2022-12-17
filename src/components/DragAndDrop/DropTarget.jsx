@@ -7,10 +7,8 @@ import { useDrop } from 'react-dnd';
 //import styles from './draganddrop.module.css'; 
 
 //обертка для блоков с ингридиентами и конструктора
-
 const DropTarget = ( props ) => {
     const dispatch = useDispatch();
-    //const items = useSelector(state => state.itemList.items)
 
     const [{ isHover } , drop] = useDrop({
         accept: "item",
@@ -18,15 +16,11 @@ const DropTarget = ( props ) => {
             isHover: monitor.isOver(),
         }),
         drop(itemId) {
-            //здесь надо вызвать добавление в массив конструктора
-            /*dispatch({
-                type: UPDATE_TYPE,
-                ...itemId,
-                board
-            });*/
-            console.log('itemId');
-            console.log(itemId);
-            dispatch( { type: ADD_INGREDIENTS_CONSTRUCTOR, item: itemId.id } );
+            //if ( itemId.board === 'constructor' )
+                //dispatch( { type: MOVE_INGREDIENTS_CONSTRUCTOR, item: itemId.id, content: itemId.content } );
+                //console.log( 'move lock' );
+            //else 
+            dispatch( { type: ADD_INGREDIENTS_CONSTRUCTOR, item: itemId.id, content: itemId.content } );
         },
     });
 
@@ -40,19 +34,3 @@ const DropTarget = ( props ) => {
 };
 
 export default DropTarget;
-
-/*
-<DropTarget>
-<DraggableItem key={item.id} data={item}>
-//ingredient
-</DraggableItem>
-</DropTarget>
-
-
-{items
-    // Получим массив животных, соответствующих целевому элементу
-    .filter(item => item.board === board)
-    // Отрисуем массив
-    .map(item => <DraggableItem key={item.id} data={item} />)
-}
-*/

@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-import { draggableItemReducer } from "./draggable-item";
-import { dropTargetReducer } from "./drop-target";
+//import { draggableItemReducer } from "./draggable-item";
+//import { dropTargetReducer } from "./drop-target";
 
 import {
     GET_DATA_REQUEST,
@@ -130,8 +130,21 @@ const ingredientsReducer = ( state = initialState.ingredients, action ) => {
             };
         }
         case MOVE_INGREDIENTS_CONSTRUCTOR: {
+            //itemDrag
+            //itemReplace
+
+            
+            const bufferState = state.burgerIngredients.consist;
+            //console.log( bufferState );
+            bufferState.splice(action.itemReplace, 0, bufferState.splice(action.itemDrag, 1)[0]);
+            //console.log( bufferState );
+
             return {
-                ...state
+                ...state,
+                burgerIngredients: { 
+                    bun: state.burgerIngredients.bun,
+                    consist: [ ...bufferState ] 
+                }
             };
         }
         case ADD_DATA_INGREDIENTS_MODAL: {
@@ -155,7 +168,5 @@ const ingredientsReducer = ( state = initialState.ingredients, action ) => {
 export const rootReducer = combineReducers({
     data: getIngredientsData,
     order: getOrderData,
-    ingredients: ingredientsReducer,
-    itemList: draggableItemReducer,
-    boardList: dropTargetReducer
+    ingredients: ingredientsReducer
 });

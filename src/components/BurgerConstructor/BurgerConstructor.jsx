@@ -69,7 +69,11 @@ function BurgerConstructor() {
                     <BurgerConstructorItemWrapper type="bun" pos="top" key={"top." + bunTopBot._id} image={bunTopBot.image} price={bunTopBot.price} name={bunTopBot.name + ' (верх)'} />
                 }
                 
-                { constructor.map((elem) => <BurgerConstructorItemWrapper key={"constructor." + elem._id} image={elem.image} price={elem.price} name={elem.name} /> )}
+                { constructor.map((elem, index) => 
+                    <DraggableItem key={'key_constructor_' + index + '.' + elem._id} data={{ id: elem._id, content: '', board: 'constructor', index: index}}>
+                        <BurgerConstructorItemWrapper key={'constructor.' + index + '.' + elem._id} image={elem.image} price={elem.price} name={elem.name} /> 
+                    </DraggableItem>
+                )}
 
                 {
                     bunTopBot.image !== undefined &&

@@ -8,7 +8,6 @@ import IngredientDetails from './IngredientDetails';
 import BurgerIngredientsItem from './BurgerIngredientsItem';
 import Modal from '../Modal/Modal';
 import { getItems, ADD_DATA_INGREDIENTS_MODAL, DELETE_DATA_INGREDIENTS_MODAL } from '../../services/actions';
-import DropTarget from '../DragAndDrop/DropTarget';
 import DraggableItem from '../DragAndDrop/DraggableItem';
 import styles from './burgeringredients.module.css'; 
 
@@ -55,22 +54,30 @@ function BurgerIngredients() {
             <div className={styles.show_scroll + ' custom-scroll mt-10'}>
                 <p className="text text_type_main-medium mb-6">Булки</p>
                 <div className='pl-4'>
-                    { data.filter(filterElem => filterElem.type === 'bun').map((elem) => (
-                        <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} />
-                    ) )}
+                    { data.filter(filterElem => filterElem.type === 'bun').map(
+                        (elem) => 
+                        <DraggableItem key={'bun_' + elem._id} data={{ id: elem._id, content: 'bun', board: 'ingredients'}}>
+                            <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} />
+                        </DraggableItem>
+                    )}
                 </div>
                 <p className="text text_type_main-medium mt-10 mb-6">Соусы</p>
                 <div className='pl-4'>
                     { data.filter(filterElem => filterElem.type === 'sauce').map(
                         (elem) => 
-                        <DraggableItem key={'sauce_' + elem._id} data={{ id: elem._id, content: 'sauce'}}>
+                        <DraggableItem key={'sauce_' + elem._id} data={{ id: elem._id, content: 'sauce', board: 'ingredients'}}>
                             <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} /> 
                         </DraggableItem>
                     )}
                 </div>
                 <p className="text text_type_main-medium mt-10 mb-6">Начинки</p>
                 <div className='pl-4'>
-                    { data.filter(filterElem => filterElem.type === 'main').map((elem) => <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} /> )}
+                    { data.filter(filterElem => filterElem.type === 'main').map(
+                        (elem) => 
+                        <DraggableItem key={'main_' + elem._id} data={{ id: elem._id, content: 'main', board: 'ingredients'}}>
+                            <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} /> 
+                        </DraggableItem>
+                    )}
                 </div>
             </div>
 
@@ -82,11 +89,5 @@ function BurgerIngredients() {
         </>
     );
 }
-
-/*
-BurgerIngredients.propTypes = {
-    data: PropTypes.array.isRequired,
-};
-*/
   
 export default BurgerIngredients;

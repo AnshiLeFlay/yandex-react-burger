@@ -16,8 +16,6 @@ export const MOVE_INGREDIENTS_CONSTRUCTOR = 'MOVE_INGREDIENTS_CONSTRUCTOR';
 export const ADD_DATA_INGREDIENTS_MODAL = 'ADD_DATA_INGREDIENTS_MODAL';
 export const DELETE_DATA_INGREDIENTS_MODAL = 'DELETE_DATA_INGREDIENTS_MODAL';
 
-export const UPDATE_TYPE = 'UPDATE_TYPE';
-
 /*
 + Получение списка ингредиентов от API. Используется в компоненте BurgerIngredients.
 Получение списка ингредиентов для конструктора бургера. Используется в компоненте BurgerConstructor.
