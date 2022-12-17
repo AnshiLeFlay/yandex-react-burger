@@ -1,12 +1,21 @@
 import { combineReducers } from 'redux';
 
+import { draggableItemReducer } from "./draggable-item";
+import { dropTargetReducer } from "./drop-target";
+
 import {
     GET_DATA_REQUEST,
     GET_DATA_SUCCESS,
     GET_DATA_FAILED,
     GET_ORDER_NUMBER_REQUEST,
     GET_ORDER_NUMBER_SUCCESS,
-    GET_ORDER_NUMBER_FAILED
+    GET_ORDER_NUMBER_FAILED,
+    GET_INGREDIENTS_CONSTRUCTOR,
+    ADD_INGREDIENTS_CONSTRUCTOR,
+    DELETE_INGREDIENTS_CONSTRUCTOR,
+    MOVE_INGREDIENTS_CONSTRUCTOR,
+    ADD_DATA_INGREDIENTS_MODAL,
+    DELETE_DATA_INGREDIENTS_MODAL
 } from '../actions';
 
 /*
@@ -25,8 +34,13 @@ const initialState = {
         dataRequest: false,
         dataFailed: false
     },
-    burgerIngredients: [],
-    currentIngridient: {},
+    ingredients: {
+        burgerIngredients: {
+            bun: '60d3b41abdacab0026a733c6',
+            consist: [ '60d3b41abdacab0026a733ce', '60d3b41abdacab0026a733c8', '60d3b41abdacab0026a733ca']
+        },
+        currentIngredient: {},
+    },
     order: {
         data: {},
         orderRequest: false,
@@ -57,6 +71,7 @@ const getIngredientsData = ( state = initialState.data, action ) => {
     }
 }
 
+/* Получение и обновление номера заказа в модальном окне OrderDetails. */
 const getOrderData = ( state = initialState.order, action ) => {
     switch (action.type) {
         case GET_ORDER_NUMBER_REQUEST: {
@@ -66,8 +81,6 @@ const getOrderData = ( state = initialState.order, action ) => {
             };
         }
         case GET_ORDER_NUMBER_SUCCESS: {
-            console.log('action suc');
-            console.log(action);
             return { ...state, orderFailed: false, orderRequest: false, data: action.items };
         }
         case GET_ORDER_NUMBER_FAILED: {
@@ -83,31 +96,66 @@ const getOrderData = ( state = initialState.order, action ) => {
 Получение списка ингредиентов для конструктора бургера. Используется в компоненте BurgerConstructor.
 Добавление данных о просматриваемом в модальном окне IngredientDetails ингредиенте.
 Удаление данных о просматриваемом в модальном окне ингредиенте при закрытии модального окна.
-Получение и обновление номера заказа в модальном окне OrderDetails.
 */
-/*
-const getIngredientsBurger = ( state, action ) => {
-    
+const ingredientsReducer = ( state = initialState.ingredients, action ) => {
+    switch (action.type) {
+        case GET_INGREDIENTS_CONSTRUCTOR: {
+            return {
+                ...state
+            };
+        }
+        case ADD_INGREDIENTS_CONSTRUCTOR: {
+            if ( action.content === 'bun' )
+            {
+                return {
+                    ...state,
+                    burgerIngredients: { 
+                        bun: action.item,
+                        consist: [...state.burgerIngredients.consist]
+                    }
+                };
+            } else {
+                return {
+                    ...state,
+                    burgerIngredients: { 
+                        bun: state.burgerIngredients.bun,
+                        consist: [ ...state.burgerIngredients.consist, action.item ] 
+                    }
+                };
+            }
+        }
+        case DELETE_INGREDIENTS_CONSTRUCTOR: {
+            return {
+                ...state
+            };
+        }
+        case MOVE_INGREDIENTS_CONSTRUCTOR: {
+            return {
+                ...state
+            };
+        }
+        case ADD_DATA_INGREDIENTS_MODAL: {
+            return {
+                ...state,
+                currentIngredient: action.item
+            };
+        }
+        case DELETE_DATA_INGREDIENTS_MODAL: {
+            return {
+                ...state,
+                currentIngredient: {}
+            };
+        }
+        default: {
+            return state;
+        }
+    }
 }
-
-const addDataForIngredientDetails = ( state, action ) => {
-    
-}
-
-const deleteDataFromIngredientDetails = ( state, action ) => {
-    
-}
-
-const getOrderNumber = ( state, action ) => {
-    
-}
-
-const updateOrderNumber = ( state, action ) => {
-    
-}
-*/
 
 export const rootReducer = combineReducers({
     data: getIngredientsData,
-    order: getOrderData
+    order: getOrderData,
+    ingredients: ingredientsReducer,
+    itemList: draggableItemReducer,
+    boardList: dropTargetReducer
 });

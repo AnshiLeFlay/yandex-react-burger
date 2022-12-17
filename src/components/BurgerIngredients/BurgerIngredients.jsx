@@ -7,47 +7,32 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientDetails from './IngredientDetails';
 import BurgerIngredientsItem from './BurgerIngredientsItem';
 import Modal from '../Modal/Modal';
-import { getItems, getOrderNumber } from '../../services/actions';
+import { getItems, ADD_DATA_INGREDIENTS_MODAL, DELETE_DATA_INGREDIENTS_MODAL } from '../../services/actions';
+import DropTarget from '../DragAndDrop/DropTarget';
+import DraggableItem from '../DragAndDrop/DraggableItem';
 import styles from './burgeringredients.module.css'; 
 
 function BurgerIngredients() {
     const [ current, setCurrent ] = React.useState( 'one' );
-    const [ currentItem, setCurrentItem ] = React.useState( [] );
     const [ visible, setVisibility ] = React.useState( false );
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const testDATA = { 
-        "ingredients": ["60d3b41abdacab0026a733c7","60d3b41abdacab0026a733cf"]
-    };
 
     const dispatch = useDispatch();
     const data = useSelector( store => store.data.ingredients );
-    const orderCheck = useSelector( store => store.order.data );
 
     useEffect( () => {
-        dispatch( getItems() ); 
+        dispatch( getItems() );
     }, [ dispatch ] );
-
-    
-    useEffect( () => {
-        dispatch( getOrderNumber( testDATA ) );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ dispatch ] )
-
-
-    
-    useEffect( () => {
-        console.log( "order number - " + orderCheck.order.number );
-    }, [ orderCheck ] );
-    
-
+  
     function handleOpenModal( e, elemData ) {
-        setCurrentItem( elemData );
+        //добавляем в хранилище данные по ингредиенту и отображаем модальное окно
+        dispatch({ type: ADD_DATA_INGREDIENTS_MODAL, item: elemData });
         setVisibility( true );
     }
 
 	const handleCloseModal = ( e ) => {
 		e.preventDefault();
+        //перед закрытием очищаем данные
+        dispatch({ type: DELETE_DATA_INGREDIENTS_MODAL });
         setVisibility( false );
 	}
 
@@ -76,7 +61,12 @@ function BurgerIngredients() {
                 </div>
                 <p className="text text_type_main-medium mt-10 mb-6">Соусы</p>
                 <div className='pl-4'>
-                    { data.filter(filterElem => filterElem.type === 'sauce').map((elem) => <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} /> )}
+                    { data.filter(filterElem => filterElem.type === 'sauce').map(
+                        (elem) => 
+                        <DraggableItem key={'sauce_' + elem._id} data={{ id: elem._id, content: 'sauce'}}>
+                            <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} /> 
+                        </DraggableItem>
+                    )}
                 </div>
                 <p className="text text_type_main-medium mt-10 mb-6">Начинки</p>
                 <div className='pl-4'>
@@ -86,7 +76,7 @@ function BurgerIngredients() {
 
             {visible && 
                 <Modal header={'Детали ингридиента'} onClose={ handleCloseModal }>
-                    <IngredientDetails currentItem={currentItem} />
+                    <IngredientDetails />
                 </Modal>
             }
         </>

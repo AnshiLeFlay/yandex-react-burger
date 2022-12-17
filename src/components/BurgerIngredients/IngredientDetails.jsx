@@ -1,16 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+//import PropTypes from 'prop-types';
 
 import styles from './burgeringredients.module.css'; 
 
-function IngredientDetails( props ) {
-    const { currentItem } = props;
+function IngredientDetails() {
+    const currentItem = useSelector( store => store?.ingredients?.currentIngredient );
 
+    //нужна обработка ошибок на невалидный currentItem - undefined
     return (
         <div className={styles.ingredients_modal}>
             <img alt={currentItem.name} src={currentItem.image} />
             <p className="text text_type_main-small mt-4 mb-8">{currentItem.name}</p>
-            <p>{ currentItem._id }</p>
             <div className={styles.nutrients + ' mb-15'}>
                 <p className='text text_type_main-small text_color_inactive mr-5'>Калории, ккал<br/><span className='text_type_digits-default'>{currentItem.calories}</span></p>
                 <p className='text text_type_main-small text_color_inactive mr-5'>Белки, г<br/><span className='text_type_digits-default'>{currentItem.proteins}</span></p>
@@ -21,6 +22,7 @@ function IngredientDetails( props ) {
     )
 }
 
+/*
 IngredientDetails.propTypes = {
     currentItem: PropTypes.shape({
         name: PropTypes.string.isRequired,
@@ -31,5 +33,6 @@ IngredientDetails.propTypes = {
         carbohydrates: PropTypes.number.isRequired,
     }).isRequired,
 };
+*/
 
 export default IngredientDetails;
