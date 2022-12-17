@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-//import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -14,9 +13,28 @@ import styles from './burgeringredients.module.css';
 function BurgerIngredients() {
     const [ current, setCurrent ] = React.useState( 'one' );
     const [ visible, setVisibility ] = React.useState( false );
+    const [ orderCounts, setOrderCounts ] = React.useState( {} );
+    const burgerBun = useSelector( store => store.ingredients.burgerIngredients.bun );
+    const burgerContent = useSelector( store => store.ingredients.burgerIngredients.consist );
 
     const dispatch = useDispatch();
     const data = useSelector( store => store.data.ingredients );
+
+    const countUnique = arr => {
+        const counts = {};
+        for ( let i = 0; i < arr.length; i++ ) {
+           counts[arr[i]] = 1 + (counts[arr[i]] || 0);
+        };
+        return counts;
+    };
+
+    useEffect( () => {
+        const orderArr =  [ burgerBun, ...burgerContent ];
+        console.log('unique Ids values in order');
+        console.log( countUnique( orderArr ) );
+        //console.log( orderArr );
+        setOrderCounts( countUnique( orderArr ) );
+    }, [burgerBun, burgerContent]);
 
     useEffect( () => {
         dispatch( getItems() );
@@ -57,7 +75,7 @@ function BurgerIngredients() {
                     { data.filter(filterElem => filterElem.type === 'bun').map(
                         (elem) => 
                         <DraggableItem key={'bun_' + elem._id} data={{ id: elem._id, content: 'bun', board: 'ingredients'}}>
-                            <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} />
+                            <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={ orderCounts[ elem._id ] } />
                         </DraggableItem>
                     )}
                 </div>
@@ -66,7 +84,7 @@ function BurgerIngredients() {
                     { data.filter(filterElem => filterElem.type === 'sauce').map(
                         (elem) => 
                         <DraggableItem key={'sauce_' + elem._id} data={{ id: elem._id, content: 'sauce', board: 'ingredients'}}>
-                            <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} /> 
+                            <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={ orderCounts[ elem._id ] } /> 
                         </DraggableItem>
                     )}
                 </div>
@@ -75,7 +93,7 @@ function BurgerIngredients() {
                     { data.filter(filterElem => filterElem.type === 'main').map(
                         (elem) => 
                         <DraggableItem key={'main_' + elem._id} data={{ id: elem._id, content: 'main', board: 'ingredients'}}>
-                            <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={0} /> 
+                            <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={ orderCounts[ elem._id ] } /> 
                         </DraggableItem>
                     )}
                 </div>

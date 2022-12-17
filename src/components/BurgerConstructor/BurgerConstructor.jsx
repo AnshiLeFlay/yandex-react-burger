@@ -7,7 +7,7 @@ import BurgerConstructorItemWrapper from './BurgerConstructorItemWrapper';
 import styles from './burgerconstructor.module.css'; 
 
 import Modal from '../Modal/Modal';
-import { getOrderNumber, ADD_INGREDIENTS_CONSTRUCTOR } from '../../services/actions';
+import { getOrderNumber } from '../../services/actions';
 import DropTarget from '../DragAndDrop/DropTarget';
 import DraggableItem from '../DragAndDrop/DraggableItem';
 
@@ -21,9 +21,6 @@ function BurgerConstructor() {
     const [ visible, setVisibility ] = React.useState( false );
 
     const dispatch = useDispatch();
-    const testDATA = { 
-        "ingredients": ["60d3b41abdacab0026a733c7","60d3b41abdacab0026a733cf"]
-    };
     
     useEffect( () => {
         let buf = [];
@@ -34,8 +31,6 @@ function BurgerConstructor() {
                 buf.push( con );
             } 
         });
-
-        console.log( burgerContent );
 
         setConstructor( buf );
 
@@ -50,8 +45,11 @@ function BurgerConstructor() {
     }, [burgerBun, data]);
     
 	const handleOpenModal = () => {
-        //dispatch( { type: ADD_INGREDIENTS_CONSTRUCTOR, item: '60d3b41abdacab0026a733c7' } );
-        dispatch( getOrderNumber( testDATA ) );
+        const orderArr =  { 
+            "ingredients": [ burgerBun, ...burgerContent ] 
+        };
+
+        dispatch( getOrderNumber( orderArr ) );
 		setVisibility( true );
 	}
 
@@ -95,5 +93,5 @@ function BurgerConstructor() {
         </DropTarget>
     );
 }
-// <DraggableItem key={'2123123123'} data={{ id: '1231231', content: 'hey'}}>
+
 export default BurgerConstructor;
