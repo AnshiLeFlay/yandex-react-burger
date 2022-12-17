@@ -30,9 +30,6 @@ function BurgerIngredients() {
 
     useEffect( () => {
         const orderArr =  [ burgerBun, ...burgerContent ];
-        console.log('unique Ids values in order');
-        console.log( countUnique( orderArr ) );
-        //console.log( orderArr );
         setOrderCounts( countUnique( orderArr ) );
     }, [burgerBun, burgerContent]);
 

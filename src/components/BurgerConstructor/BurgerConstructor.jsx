@@ -19,8 +19,21 @@ function BurgerConstructor() {
     const [ constructor, setConstructor ] = React.useState( [] );
     const [ bunTopBot, setBuns ] = React.useState( [] );
     const [ visible, setVisibility ] = React.useState( false );
+    const [ orderCost, setOrderCost ] = React.useState( 0 );
 
     const dispatch = useDispatch();
+
+    useEffect( () => {
+        const orderArr =  [ burgerBun, burgerBun, ...burgerContent ];
+        let cost = 0;
+
+        orderArr.forEach( ( elem ) => {
+            cost += data.find( item => item._id === elem ).price;
+        });
+
+        setOrderCost( cost );
+
+    }, [burgerBun, burgerContent, data]);
     
     useEffect( () => {
         let buf = [];
@@ -69,7 +82,7 @@ function BurgerConstructor() {
                 
                 { constructor.map((elem, index) => 
                     <DraggableItem key={'key_constructor_' + index + '.' + elem._id} data={{ id: elem._id, content: '', board: 'constructor', index: index}}>
-                        <BurgerConstructorItemWrapper key={'constructor.' + index + '.' + elem._id} image={elem.image} price={elem.price} name={elem.name} /> 
+                        <BurgerConstructorItemWrapper key={'constructor.' + index + '.' + elem._id} pos={ index } image={elem.image} price={elem.price} name={elem.name} /> 
                     </DraggableItem>
                 )}
 
@@ -79,7 +92,7 @@ function BurgerConstructor() {
                 }
 
                 <div className={styles.constructor_buttons_wrapper + ' mt-10'}>
-                    <p className="text text_type_digits-medium mr-10"><span>610</span>&nbsp;<CurrencyIcon type="primary" /></p>
+                    <p className="text text_type_digits-medium mr-10"><span>{ orderCost }</span>&nbsp;<CurrencyIcon type="primary" /></p>
                     <div style={{overflow: 'hidden'}}>
                         <Button onClick={handleOpenModal} htmlType="button">Оформить заказ</Button>
                         {visible && 

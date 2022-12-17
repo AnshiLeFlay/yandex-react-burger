@@ -125,19 +125,22 @@ const ingredientsReducer = ( state = initialState.ingredients, action ) => {
             }
         }
         case DELETE_INGREDIENTS_CONSTRUCTOR: {
+            const bufferState = state.burgerIngredients.consist;
+
+            bufferState.splice(action.itemDelete, 1);
+
             return {
-                ...state
+                ...state,
+                burgerIngredients: { 
+                    bun: state.burgerIngredients.bun,
+                    consist: [ ...bufferState ] 
+                }
             };
         }
         case MOVE_INGREDIENTS_CONSTRUCTOR: {
-            //itemDrag
-            //itemReplace
-
-            
             const bufferState = state.burgerIngredients.consist;
-            //console.log( bufferState );
+
             bufferState.splice(action.itemReplace, 0, bufferState.splice(action.itemDrag, 1)[0]);
-            //console.log( bufferState );
 
             return {
                 ...state,

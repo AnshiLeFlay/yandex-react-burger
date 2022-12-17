@@ -1,11 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { DELETE_INGREDIENTS_CONSTRUCTOR } from '../../services/actions';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './burgerconstructor.module.css'; 
 
 function BurgerConstructorItemWrapper ( props ) {
     const itemType = props.type;
+
+    const dispatch = useDispatch();
+
+    const handleClose = () => {
+        dispatch({ type: DELETE_INGREDIENTS_CONSTRUCTOR, itemDelete: props.pos });
+    }
 
     return (
         <>
@@ -28,6 +36,7 @@ function BurgerConstructorItemWrapper ( props ) {
                             text={ props.name }
                             price={ props.price }
                             thumbnail={ props.image }
+                            handleClose={ handleClose }
                         />
                     </div>
                 
