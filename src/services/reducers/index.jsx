@@ -7,6 +7,7 @@ import {
     GET_ORDER_NUMBER_REQUEST,
     GET_ORDER_NUMBER_SUCCESS,
     GET_ORDER_NUMBER_FAILED,
+    DELETE_ORDER_NUMBER,
     GET_INGREDIENTS_CONSTRUCTOR,
     ADD_INGREDIENTS_CONSTRUCTOR,
     DELETE_INGREDIENTS_CONSTRUCTOR,
@@ -81,7 +82,10 @@ const getOrderData = ( state = initialState.order, action ) => {
             return { ...state, orderFailed: false, orderRequest: false, data: action.items };
         }
         case GET_ORDER_NUMBER_FAILED: {
-            return { ...state, orderFailed: true, orderRequest: false };
+            return { ...state, orderFailed: true, orderRequest: false, data: '' };
+        }
+        case DELETE_ORDER_NUMBER: {
+            return { ...state, orderFailed: false, orderRequest: false, data: '' };
         }
         default: {
             return state;

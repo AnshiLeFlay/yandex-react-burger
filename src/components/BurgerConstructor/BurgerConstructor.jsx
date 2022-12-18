@@ -7,7 +7,7 @@ import BurgerConstructorItemWrapper from './BurgerConstructorItemWrapper';
 import styles from './burgerconstructor.module.css'; 
 
 import Modal from '../Modal/Modal';
-import { getOrderNumber } from '../../services/actions';
+import { getOrderNumber, DELETE_ORDER_NUMBER } from '../../services/actions';
 import DropTarget from '../DragAndDrop/DropTarget';
 import DraggableItem from '../DragAndDrop/DraggableItem';
 
@@ -60,10 +60,12 @@ function BurgerConstructor() {
     }, [burgerBun, data]);
     
 	const handleOpenModal = () => {
+
         const orderArr =  { 
             "ingredients": [ burgerBun, ...burgerContent ] 
         };
 
+        dispatch( { type: DELETE_ORDER_NUMBER } );
         dispatch( getOrderNumber( orderArr ) );
 		setVisibility( true );
 	}
