@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useInView } from 'react-intersection-observer';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -20,6 +21,10 @@ function BurgerIngredients() {
     const dispatch = useDispatch();
     const data = useSelector( store => store.data.ingredients );
 
+    const { ref: bunsRef, inView: bunsView } = useInView();
+    const { ref: sauceRef, inView: sauceView } = useInView();
+    const { ref: mainRef, inView: mainView } = useInView();
+
     const countUnique = arr => {
         const counts = {};
         for ( let i = 0; i < arr.length; i++ ) {
@@ -27,6 +32,13 @@ function BurgerIngredients() {
         };
         return counts;
     };
+
+    useEffect( () => {
+        if ( bunsView ) { setCurrent('one'); return; }
+        if ( sauceView ) { setCurrent('two'); return; }
+        if ( mainView ) { setCurrent('three'); return; }
+
+    }, [bunsView, sauceView, mainView]);
 
     useEffect( () => {
         const orderArr =  [ burgerBun, ...burgerContent ];
@@ -54,7 +66,7 @@ function BurgerIngredients() {
         <>
             <p className="text text_type_main-large mt-10 mb-5">Соберите бургер</p>
             <div className={ styles.tabs_wrapper }>
-                <div className={ styles.tabs_wrapper_content }>
+                <div id='parent-tab' className={ styles.tabs_wrapper_content }>
                     <Tab value="one" active={current === 'one'} onClick={setCurrent}>
                     Булки
                     </Tab>
@@ -67,32 +79,38 @@ function BurgerIngredients() {
                 </div>
             </div>
             <div className={styles.show_scroll + ' custom-scroll mt-10'}>
-                <p className="text text_type_main-medium mb-6">Булки</p>
-                <div className='pl-4'>
-                    { data.filter(filterElem => filterElem.type === 'bun').map(
-                        (elem) => 
-                        <DraggableItem key={'bun_' + elem._id} data={{ id: elem._id, content: 'bun', board: 'ingredients'}}>
-                            <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={ orderCounts[ elem._id ] } />
-                        </DraggableItem>
-                    )}
+                <div id="buns-section" ref={bunsRef}>
+                    <p className="text text_type_main-medium mb-6">Булки</p>
+                    <div className='pl-4'>
+                        { data.filter(filterElem => filterElem.type === 'bun').map(
+                            (elem) => 
+                            <DraggableItem key={'bun_' + elem._id} data={{ id: elem._id, content: 'bun', board: 'ingredients'}}>
+                                <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={ orderCounts[ elem._id ] } />
+                            </DraggableItem>
+                        )}
+                    </div>
                 </div>
-                <p className="text text_type_main-medium mt-10 mb-6">Соусы</p>
-                <div className='pl-4'>
-                    { data.filter(filterElem => filterElem.type === 'sauce').map(
-                        (elem) => 
-                        <DraggableItem key={'sauce_' + elem._id} data={{ id: elem._id, content: 'sauce', board: 'ingredients'}}>
-                            <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={ orderCounts[ elem._id ] } /> 
-                        </DraggableItem>
-                    )}
+                <div ref={sauceRef} id="sauce-section">
+                    <p className="text text_type_main-medium mt-10 mb-6">Соусы</p>
+                    <div className='pl-4'>
+                        { data.filter(filterElem => filterElem.type === 'sauce').map(
+                            (elem) => 
+                            <DraggableItem key={'sauce_' + elem._id} data={{ id: elem._id, content: 'sauce', board: 'ingredients'}}>
+                                <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={ orderCounts[ elem._id ] } /> 
+                            </DraggableItem>
+                        )}
+                    </div>
                 </div>
-                <p className="text text_type_main-medium mt-10 mb-6">Начинки</p>
-                <div className='pl-4'>
-                    { data.filter(filterElem => filterElem.type === 'main').map(
-                        (elem) => 
-                        <DraggableItem key={'main_' + elem._id} data={{ id: elem._id, content: 'main', board: 'ingredients'}}>
-                            <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={ orderCounts[ elem._id ] } /> 
-                        </DraggableItem>
-                    )}
+                <div ref={mainRef} id="main-section">
+                    <p className="text text_type_main-medium mt-10 mb-6">Начинки</p>
+                    <div className='pl-4'>
+                        { data.filter(filterElem => filterElem.type === 'main').map(
+                            (elem) => 
+                            <DraggableItem key={'main_' + elem._id} data={{ id: elem._id, content: 'main', board: 'ingredients'}}>
+                                <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={ orderCounts[ elem._id ] } /> 
+                            </DraggableItem>
+                        )}
+                    </div>
                 </div>
             </div>
 
