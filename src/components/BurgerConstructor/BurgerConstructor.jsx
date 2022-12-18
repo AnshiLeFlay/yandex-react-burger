@@ -24,7 +24,7 @@ function BurgerConstructor() {
     const dispatch = useDispatch();
 
     useEffect( () => {
-        if (data.price !== undefined) {
+        if (data[0] !== undefined) {
             const orderArr =  [ burgerBun, burgerBun, ...burgerContent ];
             let cost = 0;
 
