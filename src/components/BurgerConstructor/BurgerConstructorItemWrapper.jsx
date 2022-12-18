@@ -45,32 +45,11 @@ function BurgerConstructorItemWrapper ( props ) {
     );
 }
 
-/*
-<div className={ styles.constructor_item_wrapper } >
-    <DragIcon type="primary" />
-    <ConstructorElement
-        text={props.name}
-        price={props.price}
-        thumbnail={props.image}
-    />
-</div>
-<div className='pl-8'>
-    <ConstructorElement
-        className='ml-8'
-        type="bottom"
-        isLocked={true}
-        text="Краторная булка N-200i (низ)"
-        price={200}
-        thumbnail={img}
-    />
-</div>
-*/
-
 BurgerConstructorItemWrapper.propTypes = {
     name: PropTypes.string,
     price: PropTypes.number,
     image: PropTypes.string,
-    type: PropTypes.string,
+    type: PropTypes.string
 };
   
 export default BurgerConstructorItemWrapper;

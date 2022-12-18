@@ -8,7 +8,6 @@ import styles from './burgerconstructor.module.css';
 function OrderDetails() {
     const orderNumber = useSelector( store => store?.order?.data?.order?.number );
 
-    //проверка orderNumber !=== undefined && 
     return (
         <>
             <p className="text text_type_digits-large mt-4 mb-8 ml-25 mr-25">{ orderNumber }</p>

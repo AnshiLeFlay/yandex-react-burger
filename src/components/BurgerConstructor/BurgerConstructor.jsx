@@ -24,14 +24,16 @@ function BurgerConstructor() {
     const dispatch = useDispatch();
 
     useEffect( () => {
-        const orderArr =  [ burgerBun, burgerBun, ...burgerContent ];
-        let cost = 0;
+        if (data.price !== undefined) {
+            const orderArr =  [ burgerBun, burgerBun, ...burgerContent ];
+            let cost = 0;
 
-        orderArr.forEach( ( elem ) => {
-            cost += data.find( item => item._id === elem ).price;
-        });
+            orderArr.forEach( ( elem ) => {
+                cost += data.find( item => item._id === elem ).price;
+            });
 
-        setOrderCost( cost );
+            setOrderCost( cost );
+        }
 
     }, [burgerBun, burgerContent, data]);
     

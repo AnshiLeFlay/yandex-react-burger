@@ -1,8 +1,5 @@
 import { combineReducers } from 'redux';
 
-//import { draggableItemReducer } from "./draggable-item";
-//import { dropTargetReducer } from "./drop-target";
-
 import {
     GET_DATA_REQUEST,
     GET_DATA_SUCCESS,

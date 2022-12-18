@@ -16,14 +16,6 @@ export const MOVE_INGREDIENTS_CONSTRUCTOR = 'MOVE_INGREDIENTS_CONSTRUCTOR';
 export const ADD_DATA_INGREDIENTS_MODAL = 'ADD_DATA_INGREDIENTS_MODAL';
 export const DELETE_DATA_INGREDIENTS_MODAL = 'DELETE_DATA_INGREDIENTS_MODAL';
 
-/*
-+ Получение списка ингредиентов от API. Используется в компоненте BurgerIngredients.
-Получение списка ингредиентов для конструктора бургера. Используется в компоненте BurgerConstructor.
-Добавление данных о просматриваемом в модальном окне IngredientDetails ингредиенте.
-Удаление данных о просматриваемом в модальном окне ингредиенте при закрытии модального окна.
-+ Получение и обновление номера заказа в модальном окне OrderDetails.
-*/
-
 /* усилитель 1 - получение ингридиентов из API */
 export function getItems() {
     return function(dispatch) {

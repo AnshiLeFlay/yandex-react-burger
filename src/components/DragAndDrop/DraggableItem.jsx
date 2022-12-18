@@ -17,7 +17,7 @@ const DraggableItem = ( props ) => {
             isDrag: monitor.isDragging()
         })
     });
-    //() => { console.log('tyt'); return { id, content, board, index } },
+
     const [{ isDragConstructor }, dragConstructor] = useDrag({
         type: "constructor-item",
         item: { id, content, board, index },
@@ -34,7 +34,6 @@ const DraggableItem = ( props ) => {
             }
         },
         drop(itemId, monitor) {
-            console.log(ref);
             if (!ref.current) {
                 return;
             }
@@ -43,7 +42,6 @@ const DraggableItem = ( props ) => {
             const hoverIndex = index;
             
             if (dragIndex === hoverIndex) {
-                console.log('1');
                 return;
             }
 
@@ -54,30 +52,14 @@ const DraggableItem = ( props ) => {
 
             
             if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-                console.log('2');
                 return
             }
             
             if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-                console.log('3');
                 return
             }
-            
-            console.log('dragIndex');
-            console.log(dragIndex);
-            console.log('hoverIndex');
-            console.log(hoverIndex);
 
-            //moveCard(dragIndex, hoverIndex)
             dispatch( { type: MOVE_INGREDIENTS_CONSTRUCTOR, itemDrag: dragIndex, itemReplace: hoverIndex } );
-  
-            //itemId.index = hoverIndex;
-            /*
-            if ( itemId.board === 'constructor' )
-                //dispatch( { type: MOVE_INGREDIENTS_CONSTRUCTOR, item: itemId.id, content: itemId.content } );
-                console.log( 'move lock' );
-            else dispatch( { type: ADD_INGREDIENTS_CONSTRUCTOR, item: itemId.id, content: itemId.content } );
-            */
         },
     });
 

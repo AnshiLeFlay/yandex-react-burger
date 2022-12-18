@@ -1,10 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { ADD_INGREDIENTS_CONSTRUCTOR } from '../../services/actions';
 import { useDrop } from 'react-dnd';
-
-//import { DraggableItem } from './DraggableItem';
-//import styles from './draganddrop.module.css'; 
 
 //обертка для блоков с ингридиентами и конструктора
 const DropTarget = ( props ) => {
@@ -16,10 +14,6 @@ const DropTarget = ( props ) => {
             isHover: monitor.isOver(),
         }),
         drop(itemId) {
-            //if ( itemId.board === 'constructor' )
-                //dispatch( { type: MOVE_INGREDIENTS_CONSTRUCTOR, item: itemId.id, content: itemId.content } );
-                //console.log( 'move lock' );
-            //else 
             dispatch( { type: ADD_INGREDIENTS_CONSTRUCTOR, item: itemId.id, content: itemId.content } );
         },
     });
@@ -31,6 +25,10 @@ const DropTarget = ( props ) => {
             { props.children }
         </div>
     )
+};
+
+DropTarget.propTypes = {
+    children: PropTypes.element
 };
 
 export default DropTarget;

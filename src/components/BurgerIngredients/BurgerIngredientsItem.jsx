@@ -4,8 +4,6 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 
 import styles from './burgeringredients.module.css'; 
 
-//props.countNumber заменить на state
-
 function BurgerIngredientsItem( props ) {
 
     return (
