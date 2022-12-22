@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import styles from './burgeringredients.module.css'; 
 
-function IngredientDetails( props ) {
-    const { currentItem } = props;
+function IngredientDetails() {
+    const currentItem = useSelector( store => store?.ingredients?.currentIngredient );
 
     return (
         <div className={styles.ingredients_modal}>
@@ -19,16 +19,5 @@ function IngredientDetails( props ) {
         </div>
     )
 }
-
-IngredientDetails.propTypes = {
-    currentItem: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        image: PropTypes.string.isRequired,
-        calories: PropTypes.number.isRequired, 
-        proteins: PropTypes.number.isRequired, 
-        fat: PropTypes.number.isRequired, 
-        carbohydrates: PropTypes.number.isRequired,
-    }).isRequired,
-};
 
 export default IngredientDetails;

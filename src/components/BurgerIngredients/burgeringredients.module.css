@@ -5,6 +5,13 @@
     text-align: center
 }
 
+.burger_item_container_drag {
+    position: relative; 
+    width: 50%; 
+    display: inline-block; 
+    text-align: center
+}
+
 .burger_item_caption {
     display: flex; 
     align-items: center; 
