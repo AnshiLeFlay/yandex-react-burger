@@ -14,22 +14,31 @@ export function ProtectedRoute({ children, ...rest }) {
 
     const [ isUserLoaded, setUserLoaded ] = useState(false);
 
-    const init = async () => {
+    const init = () => {
         //await getUser();
         //проверить если данные о пользователе в хранилище
         //если их нет проверить куки
         //если есть кука, то обновить данные
         //if ( token )
         //if ( accessToken !== '' )
+        console.log( 'tokens' );
+        console.log( token );
+        console.log( accessToken );
         if ( token !== '' ) {
             if ( accessToken !== '' ) {
                 //ok
                 //проверить надо ли обновить токе?
+                //console.log('ok');
                 setAuth( true );
-            } /*else {
+            } else {
                 //update
-            }*/
+                //get another accessToken
+                setAuth( true );
+            }
+            //console.log('ne ok');
         }
+
+        //console.log( 'tyt ne ok' );
 
         setUserLoaded(true);
     };

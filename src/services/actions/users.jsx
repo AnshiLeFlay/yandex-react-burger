@@ -113,7 +113,8 @@ export function login( email, password ) {
                     name: res.user.name
                 });
 
-                setCookie( 'refreshToken', res.refreshToken );
+                //устанавливаем cookie на 1 день
+                setCookie( 'refreshToken', res.refreshToken, { expires: 86400 } );
             } else {
                 dispatch({
                     type: LOGIN_FAILED

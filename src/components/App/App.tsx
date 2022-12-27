@@ -16,9 +16,11 @@ function App() {
 
 	return (
 		<div className="App">
-			<AppHeader />
-			<main className={ styles.main_content }>
 			<Router>
+				<AppHeader />
+				
+				<main className={ styles.main_content }>
+			
 				<Switch>
 					<Route path="/login">
 						<LoginPage />
@@ -37,19 +39,20 @@ function App() {
 					</ProtectedRoute>
 					<ProtectedRoute path='/'>
 						<div className={ styles.main_content_item + ' ' + styles.left_column_item }>
-							<DndProvider backend={HTML5Backend}>
+							<DndProvider backend={ HTML5Backend }>
 								<BurgerIngredients />
 							</DndProvider>
 						</div>
 						<div className={ styles.main_content_item }>
-							<DndProvider backend={HTML5Backend}>
+							<DndProvider backend={ HTML5Backend }>
 								<BurgerConstructor />
 							</DndProvider>
 						</div>
 					</ProtectedRoute>
 				</Switch>
+			
+				</main>
 			</Router>
-			</main>
 		</div>
 	);
 }

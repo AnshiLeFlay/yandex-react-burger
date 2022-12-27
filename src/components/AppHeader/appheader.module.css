@@ -23,3 +23,19 @@
     margin-right: auto; 
     width: 370px
 }
+
+.navlink {
+    text-decoration: none;
+}
+
+.nav_item_active {
+    color: #F2F2F3 !important;
+}
+
+.nav_item_inactive {
+    color: #8585AD;
+}
+
+.nav_item_inactive svg {
+    fill: #8585AD;
+}
