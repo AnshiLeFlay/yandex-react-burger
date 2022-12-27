@@ -2,6 +2,7 @@ import React from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 import { LoginPage, RegisterPage, ForgotPage, ResetPage, ProfilePage } from '../../pages/';
 //import logo from './logo.svg';
 //import './App.css';
@@ -31,10 +32,10 @@ function App() {
 					<Route path="/reset-password">
 						<ResetPage />
 					</Route>
-					<Route path="/profile">
+					<ProtectedRoute path="/profile">
 						<ProfilePage />
-					</Route>
-					<Route path='/'>
+					</ProtectedRoute>
+					<ProtectedRoute path='/'>
 						<div className={ styles.main_content_item + ' ' + styles.left_column_item }>
 							<DndProvider backend={HTML5Backend}>
 								<BurgerIngredients />
@@ -45,7 +46,7 @@ function App() {
 								<BurgerConstructor />
 							</DndProvider>
 						</div>
-					</Route>
+					</ProtectedRoute>
 				</Switch>
 			</Router>
 			</main>

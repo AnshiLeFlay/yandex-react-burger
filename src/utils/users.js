@@ -1,4 +1,9 @@
-import { API_URL_REGISTER, API_URL_RESET_STEP_1, API_URL_RESET_STEP_2 } from "./api";
+import { 
+    API_URL_REGISTER, 
+    API_URL_RESET_STEP_1, 
+    API_URL_RESET_STEP_2,
+    API_URL_LOGIN 
+} from "./api";
 
 export const registerUser = async ( name, email, password ) => {
     const settings = {
@@ -67,5 +72,29 @@ export const resetPassword = async ( password, token ) => {
         } return Promise.reject(`Ошибка ${res.status}`);
     } catch (error) {
         return Promise.reject(`Ошибка ${error}`);
+    }
+}
+
+export const loginUser = async ( email, password ) => {
+    const settings = {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( {
+            'email': email,
+            'password': password
+        } )
+    };
+
+    try {
+        const res = await fetch( API_URL_LOGIN, settings );
+
+        if ( res.ok ) {
+            return await res.json();
+        } return Promise.reject(`Ошибка авторизации ${res.status}`);
+    } catch (error) {
+        return Promise.reject(`Ошибка авторизации ${error}`);
     }
 }

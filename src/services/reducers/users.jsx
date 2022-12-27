@@ -7,7 +7,10 @@ import {
     PASSWORD_RESET_FAILED,
     REGISTER_REQUEST,
     REGISTER_SUCCESS,
-    REGISTER_FAILED
+    REGISTER_FAILED,
+    LOGIN_REQUEST,
+    LOGIN_SUCCESS,
+    LOGIN_FAILED
 } from '../actions/users';
 
 const initialState = {
@@ -16,7 +19,15 @@ const initialState = {
     resetRequest: false,
     resetFailed: false,
     registerRequest: false,
-    registerFailed: false
+    registerFailed: false,
+    loginRequest: false,
+    loginFailed: false,
+    user: {
+        email: '',
+        name: '',
+        accessToken: '',
+        refreshToken: ''
+    }
 }
 
 export const users = ( state = initialState, action ) => {
@@ -56,6 +67,25 @@ export const users = ( state = initialState, action ) => {
         }
         case REGISTER_FAILED: {
             return { ...state, registerFailed: true, registerRequest: false };
+        }
+        case LOGIN_REQUEST: {
+            return {
+                ...state,
+                loginRequest: true
+            };
+        }
+        case LOGIN_SUCCESS: {
+            return { ...state, loginFailed: false, loginRequest: false,
+                user: {
+                    email: action.email,
+                    name: action.name,
+                    accessToken: action.accessToken,
+                    refreshToken: action.refreshToken
+                }
+            };
+        }
+        case LOGIN_FAILED: {
+            return { ...state, loginFailed: true, loginRequest: false };
         }
         default: {
             return state;

@@ -1,4 +1,11 @@
-import { forgotPassword, resetPassword, registerUser } from '../../utils/users';
+import { 
+    forgotPassword, 
+    resetPassword, 
+    registerUser,
+    loginUser
+} from '../../utils/users';
+
+import { setCookie } from "../../utils/cookie";
 
 export const PASSWORD_FORGOT_REQUEST = 'PASSWORD_FORGOT_REQUEST';
 export const PASSWORD_FORGOT_SUCCESS = 'PASSWORD_FORGOT_SUCCESS';
@@ -11,6 +18,10 @@ export const PASSWORD_RESET_FAILED = 'PASSWORD_RESET_FAILED';
 export const REGISTER_REQUEST = 'REGISTER_REQUEST';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAILED = 'REGISTER_FAILED';
+
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILED = 'LOGIN_FAILED';
 
 export function forgot( email ) {
     return function( dispatch ) {
@@ -63,9 +74,49 @@ export function register( name, email, password ) {
                     type: REGISTER_SUCCESS
                     /*items: res.data*/
                 });
+                console.log( res );
+                //авторизовать пользователя после успешной регистрации
+
             } else {
                 dispatch({
                     type: REGISTER_FAILED
+                });
+            }
+        });
+    };
+}
+
+export function login( email, password ) {
+    return function( dispatch ) {
+        dispatch({
+            type: LOGIN_REQUEST
+        });
+        loginUser( email, password ).then(res => {
+            if (res && res.success) {
+                /* anser from server
+                {
+                    "success": true,
+                    "accessToken": "Bearer ...",
+                    "refreshToken": "",
+                    "user": {
+                        "email": "",
+                        "name": ""
+                    }
+                } 
+                */
+            
+                dispatch({
+                    type: LOGIN_SUCCESS,
+                    accessToken: res.accessToken,
+                    refreshToken: res.refreshToken,
+                    email: res.user.email,
+                    name: res.user.name
+                });
+
+                setCookie( 'refreshToken', res.refreshToken );
+            } else {
+                dispatch({
+                    type: LOGIN_FAILED
                 });
             }
         });
