@@ -1,5 +1,5 @@
 import React from 'react';
-//import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './pages.module.css';
 
@@ -19,9 +19,9 @@ export function ProfilePage() {
     return (
         <div className={ `mt-30 ${styles.wrapper_profile}` }>
             <div className={ styles.profile_cells_wrapper }>
-                <p className={ `text text_type_main-medium ${styles.profile_cells}` }>Профиль</p>
-                <p className={ `text text_type_main-medium ${styles.profile_cells}` }>История заказов</p>
-                <p className={ `mb-20 text text_type_main-medium ${styles.profile_cells}` }>Выход</p>
+                <p className={ `text text_type_main-medium ${styles.profile_cells}` }> <Link className={ `${styles.profile_link} ${styles.profile_link_active}` } to='/profile'>Профиль</Link></p>
+                <p className={ `text text_type_main-medium ${styles.profile_cells}` }> <Link className={ `${styles.profile_link} ${styles.profile_link_inactive}` } to='/profile/orders'>История заказов</Link></p>
+                <p className={ `mb-20 text text_type_main-medium ${styles.profile_cells}` }> <Link className={ `${styles.profile_link} ${styles.profile_link_inactive}` } to='/'>Выход</Link></p>
                 <p className="text text_type_main-small text_color_inactive">В этом разделе вы можете<br />изменить свои персональные данные</p>
             </div>
             <div className='ml-15'>
@@ -49,7 +49,6 @@ export function ProfilePage() {
                     placeholder={ 'Пароль' }
                     value={ password }
                     name={ 'password' }
-                    extraClass='mb-6'
                 />
             </div>
         </div>

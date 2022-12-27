@@ -26,3 +26,15 @@
 .profile_cells_wrapper {
     width: 320px;
 }
+
+.profile_link {
+    text-decoration: none;
+}
+
+.profile_link_active {
+    color: #F2F2F3;
+}
+
+.profile_link_inactive {
+    color: #8585AD;
+}
