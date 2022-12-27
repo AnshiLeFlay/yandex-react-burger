@@ -6,7 +6,7 @@ import styles from './appheader.module.css';
 
 function AppHeader() {
     return (
-        <header className={ styles.header }>
+        <header className={ `mt-5 ${styles.header}` }>
             <nav className={ styles.nav + ' mt-4 mb-4' }>
                 <div>
                     <MenuItem text={'Конструктор'}><BurgerIcon type="primary" /></MenuItem>

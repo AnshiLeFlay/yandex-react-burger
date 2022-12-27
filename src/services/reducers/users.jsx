@@ -52,7 +52,7 @@ export const users = ( state = initialState, action ) => {
             };
         }
         case REGISTER_SUCCESS: {
-            return { ...state, refisterFailed: false, registerRequest: false };
+            return { ...state, registerFailed: false, registerRequest: false };
         }
         case REGISTER_FAILED: {
             return { ...state, registerFailed: true, registerRequest: false };

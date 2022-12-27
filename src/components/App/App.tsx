@@ -2,7 +2,7 @@ import React from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { LoginPage, RegisterPage, ForgotPage, ResetPage } from '../../pages/';
+import { LoginPage, RegisterPage, ForgotPage, ResetPage, ProfilePage } from '../../pages/';
 //import logo from './logo.svg';
 //import './App.css';
 import styles from './app.module.css';
@@ -30,6 +30,9 @@ function App() {
 					</Route>
 					<Route path="/reset-password">
 						<ResetPage />
+					</Route>
+					<Route path="/profile">
+						<ProfilePage />
 					</Route>
 					<Route path='/'>
 						<div className={ styles.main_content_item + ' ' + styles.left_column_item }>

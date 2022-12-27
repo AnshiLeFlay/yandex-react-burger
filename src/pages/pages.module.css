@@ -7,6 +7,22 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.wrapper_profile {
+    display: flex;
+    width: 1240px;
+}
+
 .link {
     color: #4C4CFF;
+}
+
+.profile_cells {
+    height: 64px;
+    display: flex;
+    align-items: center;
+}
+
+.profile_cells_wrapper {
+    width: 320px;
 }
