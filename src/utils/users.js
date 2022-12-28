@@ -2,7 +2,9 @@ import {
     API_URL_REGISTER, 
     API_URL_RESET_STEP_1, 
     API_URL_RESET_STEP_2,
-    API_URL_LOGIN 
+    API_URL_LOGIN,
+    API_URL_LOGOUT,
+    API_URL_UPDATE_TOKEN
 } from "./api";
 
 export const registerUser = async ( name, email, password ) => {
@@ -96,5 +98,47 @@ export const loginUser = async ( email, password ) => {
         } return Promise.reject(`Ошибка авторизации ${res.status}`);
     } catch (error) {
         return Promise.reject(`Ошибка авторизации ${error}`);
+    }
+}
+
+export const logoutUser = async ( token ) => {
+    const settings = {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( { 'token': token } )
+    };
+
+    try {
+        const res = await fetch( API_URL_LOGOUT, settings );
+
+        if ( res.ok ) {
+            return await res.json();
+        } return Promise.reject(`Ошибка выхода ${res.status}`);
+    } catch (error) {
+        return Promise.reject(`Ошибка выхода ${error}`);
+    }
+}
+
+export const updateToken = async ( token ) => {
+    const settings = {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( { 'token': token } )
+    };
+
+    try {
+        const res = await fetch( API_URL_UPDATE_TOKEN, settings );
+
+        if ( res.ok ) {
+            return await res.json();
+        } return Promise.reject(`Ошибка обновления токена ${res.status}`);
+    } catch (error) {
+        return Promise.reject(`Ошибка обновления токена ${error}`);
     }
 }

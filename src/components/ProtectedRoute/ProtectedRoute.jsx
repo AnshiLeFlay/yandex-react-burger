@@ -1,44 +1,40 @@
 //import { useAuth } from '../services/auth';
 import React, { useEffect, useState } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { token } from '../../services/actions/users';
 import { getCookie } from '../../utils/cookie';
 
 export function ProtectedRoute({ children, ...rest }) {
     //let { getUser, ...auth } = useAuth();
     const [ auth, setAuth ] = useState( false );
-    //const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const accessToken = useSelector( store => store.users.user.accessToken);
-    const token = getCookie('refreshToken');
+    const username = useSelector( store => store.users.user.name);
+    //const refreshToken = getCookie('refreshToken');
 
     const [ isUserLoaded, setUserLoaded ] = useState(false);
 
     const init = () => {
-        //await getUser();
         //проверить если данные о пользователе в хранилище
         //если их нет проверить куки
         //если есть кука, то обновить данные
-        //if ( token )
-        //if ( accessToken !== '' )
-        console.log( 'tokens' );
-        console.log( token );
-        console.log( accessToken );
-        if ( token !== '' ) {
+
+        //console.log(refreshToken);
+        const refreshToken = getCookie('refreshToken');
+    
+        if ( refreshToken !== '' && refreshToken !== undefined ) {
+            //console.log('if');
             if ( accessToken !== '' ) {
-                //ok
-                //проверить надо ли обновить токе?
-                //console.log('ok');
                 setAuth( true );
             } else {
                 //update
                 //get another accessToken
+                dispatch( token( refreshToken ) );
                 setAuth( true );
             }
-            //console.log('ne ok');
         }
-
-        //console.log( 'tyt ne ok' );
 
         setUserLoaded(true);
     };
@@ -47,6 +43,12 @@ export function ProtectedRoute({ children, ...rest }) {
         init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [] );
+
+    
+    useEffect( () => {
+        if ( username === '' || username === undefined ) setAuth( false );
+    }, [ username ] );
+    
 
     if (!isUserLoaded) {
         return null;

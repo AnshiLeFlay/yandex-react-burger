@@ -1,19 +1,29 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Input, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useDispatch } from 'react-redux';
+import { logout } from '../services/actions/users';
+import { getCookie } from '../utils/cookie';
 import styles from './pages.module.css';
 
 export function ProfilePage() {
+    const dispatch = useDispatch();
+
     const [ username, setUsername ] = React.useState('');
 
-    const [ email, setEmail ] = React.useState('')
+    const [ email, setEmail ] = React.useState('');
     const onChangeEmail = e => {
         setEmail(e.target.value)
     }
 
     const [ password, setPassword ] = React.useState('');
     const onChangePassword = e => {
-        setPassword(e.target.value)
+        setPassword(e.target.value);
+    }
+
+    const handleLogout = async (e) => {
+        e.preventDefault();
+        dispatch( logout( getCookie( 'refreshToken' ) ) );
     }
 
     return (
@@ -21,7 +31,7 @@ export function ProfilePage() {
             <div className={ styles.profile_cells_wrapper }>
                 <p className={ `text text_type_main-medium ${styles.profile_cells}` }> <Link className={ `${styles.profile_link} ${styles.profile_link_active}` } to='/profile'>Профиль</Link></p>
                 <p className={ `text text_type_main-medium ${styles.profile_cells}` }> <Link className={ `${styles.profile_link} ${styles.profile_link_inactive}` } to='/profile/orders'>История заказов</Link></p>
-                <p className={ `mb-20 text text_type_main-medium ${styles.profile_cells}` }> <Link className={ `${styles.profile_link} ${styles.profile_link_inactive}` } to='/'>Выход</Link></p>
+                <p className={ `mb-20 text text_type_main-medium ${styles.profile_cells}` }> <Link onClick={ handleLogout } className={ `${styles.profile_link} ${styles.profile_link_inactive}` } to='/' >Выход</Link></p>
                 <p className="text text_type_main-small text_color_inactive">В этом разделе вы можете<br />изменить свои персональные данные</p>
             </div>
             <div className='ml-15'>

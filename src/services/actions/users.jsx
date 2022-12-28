@@ -2,10 +2,12 @@ import {
     forgotPassword, 
     resetPassword, 
     registerUser,
-    loginUser
+    loginUser,
+    logoutUser,
+    updateToken
 } from '../../utils/users';
 
-import { setCookie } from "../../utils/cookie";
+import { setCookie, deleteCookie } from "../../utils/cookie";
 
 export const PASSWORD_FORGOT_REQUEST = 'PASSWORD_FORGOT_REQUEST';
 export const PASSWORD_FORGOT_SUCCESS = 'PASSWORD_FORGOT_SUCCESS';
@@ -22,6 +24,14 @@ export const REGISTER_FAILED = 'REGISTER_FAILED';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
+
+export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
+export const LOGOUT_FAILED = 'LOGOUT_FAILED';
+
+export const UPDATE_TOKEN_REQUEST = 'UPDATE_TOKEN_REQUEST';
+export const UPDATE_TOKEN_SUCCESS = 'UPDATE_TOKEN_SUCCESS';
+export const UPDATE_TOKEN_FAILED = 'UPDATE_TOKEN_FAILED';
 
 export function forgot( email ) {
     return function( dispatch ) {
@@ -123,3 +133,49 @@ export function login( email, password ) {
         });
     };
 }
+
+export function logout( token ) {
+    return function( dispatch ) {
+        dispatch({
+            type: LOGOUT_REQUEST
+        });
+        logoutUser( token ).then(res => {
+            if (res && res.success) {
+                dispatch({
+                    type: LOGOUT_SUCCESS,
+                });
+
+                deleteCookie( 'refreshToken' );
+            } else {
+                dispatch({
+                    type: LOGOUT_FAILED
+                });
+            }
+        });
+    };
+}
+
+export function token( refreshToken ) {
+    return function( dispatch ) {
+        dispatch({
+            type: UPDATE_TOKEN_REQUEST
+        });
+        updateToken( refreshToken ).then(res => {
+            if (res && res.success) {
+                dispatch({
+                    type: UPDATE_TOKEN_SUCCESS,
+                    accessToken: res.accessToken,
+                    refreshToken: res.refreshToken
+                    /*items: res.data*/
+                });
+                //console.log( res );
+                //авторизовать пользователя после успешной регистрации
+
+            } else {
+                dispatch({
+                    type: UPDATE_TOKEN_FAILED
+                });
+            }
+        });
+    };
+} 
