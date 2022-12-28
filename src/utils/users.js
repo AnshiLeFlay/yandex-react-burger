@@ -124,6 +124,9 @@ export const logoutUser = async ( token ) => {
 }
 
 export const updateToken = async ( token ) => {
+    console.log('token from updateToken');
+    console.log( token );
+
     const settings = {
         method: 'POST',
         headers: {
@@ -145,12 +148,17 @@ export const updateToken = async ( token ) => {
 }
 
 export const updateUser = async ( token, data ) => {
+    console.log('token from updateUser');
+    console.log( token );
+    //console.log(`Bearer ${token}`);
+    console.log(data);
+
     const settings = {
         method: 'PATCH',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': token
+            'Authorization': 'Bearer ' + token
         },
         body: JSON.stringify( data )
     };
@@ -160,13 +168,16 @@ export const updateUser = async ( token, data ) => {
 
         if ( res.ok ) {
             return await res.json();
-        } return Promise.reject(`Ошибка обновления ${res.status}`);
+        } return Promise.reject(`1 Ошибка обновления ${res.status}`);
     } catch (error) {
-        return Promise.reject(`Ошибка обновления ${error}`);
+        return Promise.reject(`2 Ошибка обновления ${error}`);
     }
 }
 
 export const getUserData = async ( token ) => {
+    console.log('token from getUserData');
+    console.log( token );
+
     const settings = {
         method: 'GET',
         headers: {
@@ -181,8 +192,8 @@ export const getUserData = async ( token ) => {
 
         if ( res.ok ) {
             return await res.json();
-        } return Promise.reject(`Ошибка получения информации ${res.status}`);
+        } return Promise.reject(`1 Ошибка получения информации ${res.status}`);
     } catch (error) {
-        return Promise.reject(`Ошибка получения информации ${error}`);
+        return Promise.reject(`2 Ошибка получения информации ${error}`);
     }
 }

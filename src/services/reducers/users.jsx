@@ -96,7 +96,7 @@ export const users = ( state = initialState, action ) => {
         }
         case LOGIN_SUCCESS: {
             return { ...state, loginFailed: false, loginRequest: false,
-                user: {
+                user: { 
                     email: action.email,
                     name: action.name,
                     accessToken: action.accessToken,

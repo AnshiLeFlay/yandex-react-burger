@@ -1,27 +1,24 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { forgot } from '../services/actions/users';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './pages.module.css';
 
 export function ForgotPage() {
-    const failed = useSelector( store => store.users.forgotFailed );
-    const request = useSelector( store => store.users.forgotRequest);
     const dispatch = useDispatch();
+
+    const history = useHistory();
 
     const [ email, setEmail ] = React.useState('')
     const onChangeEmail = e => {
-        setEmail(e.target.value)
+        setEmail( e.target.value );
     }
 
     const handleBtn = () => {
         dispatch( forgot( email ) );
+        history.push('/reset-password');
     }
-
-    React.useEffect( () => {
-        console.log(failed);
-    }, [failed, request]);
 
     return (
         <div className={ styles.wrapper }>

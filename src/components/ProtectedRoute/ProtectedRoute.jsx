@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { token } from '../../services/actions/users';
+import { token, userData } from '../../services/actions/users';
 import { getCookie } from '../../utils/cookie';
 
 export function ProtectedRoute({ children, ...rest }) {
@@ -16,7 +16,7 @@ export function ProtectedRoute({ children, ...rest }) {
 
     const [ isUserLoaded, setUserLoaded ] = useState(false);
 
-    const init = () => {
+    const init = async () => {
         //проверить если данные о пользователе в хранилище
         //если их нет проверить куки
         //если есть кука, то обновить данные
@@ -26,30 +26,47 @@ export function ProtectedRoute({ children, ...rest }) {
     
         if ( refreshToken !== '' && refreshToken !== undefined ) {
             //console.log('if');
-            if ( accessToken !== '' ) {
+            if ( accessToken !== '' &&  accessToken !== undefined ) {
                 setAuth( true );
             } else {
                 //update
                 //get another accessToken
                 dispatch( token( refreshToken ) );
+                //dispatch( us )
                 setAuth( true );
             }
+        } else {
+            //console.log()
+            //dispatch( token( refreshToken ) );
+            //dispatch( userData( refreshToken ) );
         }
 
         setUserLoaded(true);
     };
+
+    
+    useEffect( () => {
+        if ( username === '' && getCookie('refreshToken') === undefined ) setAuth(false); 
+    }, [ username ])
+    
 
     useEffect( () => {
         init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [] );
 
-    
+    /*
     useEffect( () => {
-        if ( accessToken === '' || accessToken === undefined ) console.log('no access token');
-    }, [ accessToken ] );
-    
-    
+        if ( accessToken === '' || accessToken === undefined ) {
+            if ( getCookie('refreshToken') !== undefined ) {
+                dispatch( token( getCookie('refreshToken') ) );
+            }
+        } else {
+            if ( username === '' ) dispatch( userData( accessToken ) );
+        }
+        //console.log( getCookie('refreshToken') );
+    }, [ accessToken, username, dispatch ] );
+    */
 
     if (!isUserLoaded) {
         return null;

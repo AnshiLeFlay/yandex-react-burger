@@ -94,7 +94,7 @@ export function register( name, email, password ) {
                     type: REGISTER_SUCCESS
                     /*items: res.data*/
                 });
-                console.log( res );
+                //console.log( res );
                 //авторизовать пользователя после успешной регистрации
 
             } else {
@@ -179,8 +179,7 @@ export function token( refreshToken ) {
                     /*items: res.data*/
                 });
                 //console.log( res );
-                //авторизовать пользователя после успешной регистрации
-
+                
             } else {
                 dispatch({
                     type: UPDATE_TOKEN_FAILED

@@ -3,7 +3,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
-import { LoginPage, RegisterPage, ForgotPage, ResetPage, ProfilePage } from '../../pages/';
+import { LoginPage, RegisterPage, ForgotPage, ResetPage, ProfilePage, ProfileOrdersPage } from '../../pages/';
 //import logo from './logo.svg';
 //import './App.css';
 import styles from './app.module.css';
@@ -18,7 +18,7 @@ function App() {
 		<div className="App">
 			<Router>
 				<AppHeader />
-				
+
 				<main className={ styles.main_content }>
 			
 				<Switch>
@@ -36,6 +36,9 @@ function App() {
 					</Route>
 					<ProtectedRoute path="/profile">
 						<ProfilePage />
+					</ProtectedRoute>
+					<ProtectedRoute path="/profile/orders">
+						<ProfileOrdersPage />
 					</ProtectedRoute>
 					<ProtectedRoute path='/'>
 						<div className={ styles.main_content_item + ' ' + styles.left_column_item }>

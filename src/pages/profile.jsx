@@ -29,6 +29,7 @@ export function ProfilePage() {
     const handleLogout = (e) => {
         e.preventDefault();
         dispatch( logout( getCookie( 'refreshToken' ) ) );
+
     }
 
     const handleBtn = () => {
@@ -41,11 +42,13 @@ export function ProfilePage() {
             };
         } else {
             data = {
-                name: username,
-                email: email
+                'user': {
+                    'name': username,
+                    'email': email
+                }
             };
         }
-        dispatch( updateData( data ) );
+        dispatch( updateData( accessToken, data ) );
         setBtnLock( true );
     }
 
