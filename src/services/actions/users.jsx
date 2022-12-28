@@ -4,7 +4,9 @@ import {
     registerUser,
     loginUser,
     logoutUser,
-    updateToken
+    updateToken,
+    updateUser,
+    getUserData
 } from '../../utils/users';
 
 import { setCookie, deleteCookie } from "../../utils/cookie";
@@ -32,6 +34,14 @@ export const LOGOUT_FAILED = 'LOGOUT_FAILED';
 export const UPDATE_TOKEN_REQUEST = 'UPDATE_TOKEN_REQUEST';
 export const UPDATE_TOKEN_SUCCESS = 'UPDATE_TOKEN_SUCCESS';
 export const UPDATE_TOKEN_FAILED = 'UPDATE_TOKEN_FAILED';
+
+export const UPDATE_USER_REQUEST = 'UPDATE_USER_REQUEST';
+export const UPDATE_USER_SUCCESS = 'UPDATE_USER_SUCCESS';
+export const UPDATE_USER_FAILED = 'UPDATE_USER_FAILED';
+
+export const GET_USER_DATA_REQUEST = 'GET_USER_DATA_REQUEST';
+export const GET_USER_DATA_SUCCESS = 'GET_USER_DATA_SUCCESS';
+export const GET_USER_DATA_FAILED = 'GET_USER_DATA_FAILED';
 
 export function forgot( email ) {
     return function( dispatch ) {
@@ -140,7 +150,7 @@ export function logout( token ) {
             type: LOGOUT_REQUEST
         });
         logoutUser( token ).then(res => {
-            if (res && res.success) {
+            if ( res && res.success ) {
                 dispatch({
                     type: LOGOUT_SUCCESS,
                 });
@@ -161,7 +171,7 @@ export function token( refreshToken ) {
             type: UPDATE_TOKEN_REQUEST
         });
         updateToken( refreshToken ).then(res => {
-            if (res && res.success) {
+            if ( res && res.success ) {
                 dispatch({
                     type: UPDATE_TOKEN_SUCCESS,
                     accessToken: res.accessToken,
@@ -175,6 +185,50 @@ export function token( refreshToken ) {
                 dispatch({
                     type: UPDATE_TOKEN_FAILED
                 });
+            }
+        });
+    };
+} 
+
+export function updateData( token, data ) {
+    return function( dispatch ) {
+        dispatch( {
+            type: UPDATE_USER_REQUEST
+        } );
+        updateUser( token, data ).then( res => {
+            if ( res && res.success ) {
+                dispatch( {
+                    type: UPDATE_USER_SUCCESS,
+                    name: res.user.name,
+                    email: res.user.email
+                } );
+            } else {
+                dispatch( {
+                    type: UPDATE_USER_FAILED
+                } );
+                //обновить токен
+            }
+        });
+    };
+} 
+
+export function userData( token ) {
+    return function( dispatch ) {
+        dispatch( {
+            type: GET_USER_DATA_REQUEST
+        } );
+        getUserData( token ).then( res => {
+            if ( res && res.success ) {
+                dispatch( {
+                    type: GET_USER_DATA_SUCCESS,
+                    name: res.user.name,
+                    email: res.user.email
+                } );
+            } else {
+                dispatch( {
+                    type: GET_USER_DATA_FAILED
+                } );
+                //обновить токен
             }
         });
     };

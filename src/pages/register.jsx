@@ -19,7 +19,7 @@ export function RegisterPage() {
     }
 
     const failed = useSelector( store => store.users.registerFailed );
-    const request = useSelector( store => store.users.registerRequest);
+    const request = useSelector( store => store.users.registerRequest );
     const dispatch = useDispatch();
 
     const handleBtn = () => {

@@ -1,30 +1,75 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Input, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
-import { logout } from '../services/actions/users';
+import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout, userData, updateData, token } from '../services/actions/users';
 import { getCookie } from '../utils/cookie';
 import styles from './pages.module.css';
 
 export function ProfilePage() {
     const dispatch = useDispatch();
+    const init_username = useSelector( store => store.users.user.name );
+    const init_email = useSelector( store => store.users.user.email );
+    const accessToken = useSelector( store => store.users.user.accessToken );
+    const dataFailed = useSelector( store => store.users.userFailed );
 
-    const [ username, setUsername ] = React.useState('');
+    const [ username, setUsername ] = React.useState( init_username );
+    const [ email, setEmail ] = React.useState( init_email );
+    const [ password, setPassword ] = React.useState('');
+    const [ btnLock, setBtnLock ] = React.useState( true );
 
-    const [ email, setEmail ] = React.useState('');
     const onChangeEmail = e => {
         setEmail(e.target.value)
     }
-
-    const [ password, setPassword ] = React.useState('');
+    
     const onChangePassword = e => {
         setPassword(e.target.value);
     }
 
-    const handleLogout = async (e) => {
+    const handleLogout = (e) => {
         e.preventDefault();
         dispatch( logout( getCookie( 'refreshToken' ) ) );
     }
+
+    const handleBtn = () => {
+        let data;
+        if ( password !== '' ) {
+            data = {
+                name: username,
+                email: email,
+                password: password
+            };
+        } else {
+            data = {
+                name: username,
+                email: email
+            };
+        }
+        dispatch( updateData( data ) );
+        setBtnLock( true );
+    }
+
+    const handleReset = () => {
+        setBtnLock( true );
+        setUsername( init_username );
+        setEmail( init_email );
+        setPassword( '' );
+    }
+
+    useEffect( () => {
+        if ( username !== init_username || email !== init_email ) setBtnLock( false );
+    }, [ username, email, init_username, init_email ] )
+
+    useEffect( () => {
+        //при монтировании компонента обновить данные с сервера
+        dispatch( userData( accessToken ) );
+        if ( dataFailed ) {
+            /* если ошибка - обновить токен и попробовать еще раз */
+            dispatch( token( getCookie( 'refreshToken' ) ) );
+            dispatch( userData( accessToken ) );
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [] );
 
     return (
         <div className={ `mt-30 ${styles.wrapper_profile}` }>
@@ -59,7 +104,19 @@ export function ProfilePage() {
                     placeholder={ 'Пароль' }
                     value={ password }
                     name={ 'password' }
+                    extraClass='mb-6'
                 />
+                { 
+                    !btnLock && 
+                        <div className={ styles.btn_wrapper }>
+                            <Button onClick={ handleReset } htmlType="button" type="secondary" size="medium">
+                                Отмена
+                            </Button>
+                            <Button onClick={ handleBtn } htmlType="button" type="primary" size="medium">
+                                Сохранить
+                            </Button>
+                        </div>
+                }
             </div>
         </div>
     );

@@ -16,7 +16,13 @@ import {
     LOGOUT_FAILED,
     UPDATE_TOKEN_REQUEST,
     UPDATE_TOKEN_SUCCESS,
-    UPDATE_TOKEN_FAILED
+    UPDATE_TOKEN_FAILED,
+    UPDATE_USER_REQUEST,
+    UPDATE_USER_SUCCESS,
+    UPDATE_USER_FAILED,
+    GET_USER_DATA_REQUEST,
+    GET_USER_DATA_SUCCESS,
+    GET_USER_DATA_FAILED
 } from '../actions/users';
 
 const initialState = {
@@ -32,6 +38,10 @@ const initialState = {
     logoutFailed: false,
     tokenRequest: false,
     tokenFailed: false,
+    updateRequest: false,
+    updateFailed: false,
+    userRequest: false,
+    userFailed: false,
     user: {
         email: '',
         name: '',
@@ -133,6 +143,42 @@ export const users = ( state = initialState, action ) => {
         }
         case UPDATE_TOKEN_FAILED: {
             return { ...state, tokenFailed: true, tokenRequest: false };
+        }
+        case UPDATE_USER_REQUEST: {
+            return {
+                ...state,
+                updateRequest: true
+            };
+        }
+        case UPDATE_USER_SUCCESS: {
+            return { ...state, updateFailed: false, updateRequest: false,
+                user: {
+                    ...state.user,
+                    name: action.name,
+                    email: action.email
+                }
+            };
+        }
+        case UPDATE_USER_FAILED: {
+            return { ...state, updateFailed: true, updateRequest: false };
+        }
+        case GET_USER_DATA_REQUEST: {
+            return {
+                ...state,
+                userRequest: true
+            };
+        }
+        case GET_USER_DATA_SUCCESS: {
+            return { ...state, userFailed: false, userRequest: false,
+                user: {
+                    ...state.user,
+                    name: action.name,
+                    email: action.email
+                }
+            };
+        }
+        case GET_USER_DATA_FAILED: {
+            return { ...state, userFailed: true, userRequest: false };
         }
         default: {
             return state;

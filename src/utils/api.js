@@ -10,7 +10,7 @@ export const API_URL_LOGIN = 'https://norma.nomoreparties.space/api/auth/login';
 export const API_URL_LOGOUT = 'https://norma.nomoreparties.space/api/auth/logout';
 export const API_URL_UPDATE_TOKEN = 'https://norma.nomoreparties.space/api/auth/token';
 
-export const API_URL_GET_UPDATE_USER = 'https://norma.nomoreparties.space/api/auth/user';
+export const API_URL_AUTH_USER = 'https://norma.nomoreparties.space/api/auth/user';
 //export const API_URL_UPDATE_USER = 'https://norma.nomoreparties.space/api/auth/user';
 
 /*

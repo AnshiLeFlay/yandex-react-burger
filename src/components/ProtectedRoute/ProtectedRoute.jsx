@@ -46,8 +46,9 @@ export function ProtectedRoute({ children, ...rest }) {
 
     
     useEffect( () => {
-        if ( username === '' || username === undefined ) setAuth( false );
-    }, [ username ] );
+        if ( accessToken === '' || accessToken === undefined ) console.log('no access token');
+    }, [ accessToken ] );
+    
     
 
     if (!isUserLoaded) {
