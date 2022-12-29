@@ -3,6 +3,6 @@ import { RegisterPage } from './register';
 import { ForgotPage } from './forgot-password';
 import { ResetPage } from './reset-password';
 import { ProfilePage  } from './profile';
-import { ProfileOrdersPage } from './profile-orders';
+import { IngredientsPage } from './ingredients';
 
-export { LoginPage, RegisterPage, ForgotPage, ResetPage, ProfilePage, ProfileOrdersPage };
+export { LoginPage, RegisterPage, ForgotPage, ResetPage, ProfilePage, IngredientsPage };

@@ -8,7 +8,7 @@ import styles from './appheader.module.css';
 function MenuItem( props ) {
     return (
         <NavLink
-            exact to={{ pathname: props.pathname }}
+            exact={ props?.exact } to={{ pathname: props.pathname }}
             className={ `pr-5 pl-5 text text_type_main-default ${styles.navlink} ${styles.nav_item_inactive}` }
             activeClassName={styles.nav_item_active}
         > 
@@ -25,6 +25,7 @@ function MenuItem( props ) {
 MenuItem.propTypes = {
     text: PropTypes.string.isRequired,
     pathname: PropTypes.string.isRequired,
+    exact: PropTypes.bool,
     children: PropTypes.element
 };
 

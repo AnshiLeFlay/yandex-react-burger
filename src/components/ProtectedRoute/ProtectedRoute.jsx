@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { token, userData } from '../../services/actions/users';
+import { token, userData, fullUpdate } from '../../services/actions/users';
 import { getCookie } from '../../utils/cookie';
 
 export function ProtectedRoute({ children, ...rest }) {
@@ -23,6 +23,8 @@ export function ProtectedRoute({ children, ...rest }) {
 
         //console.log(refreshToken);
         const refreshToken = getCookie('refreshToken');
+        console.log('protected');
+        console.log( refreshToken );
     
         if ( refreshToken !== '' && refreshToken !== undefined ) {
             //console.log('if');
@@ -31,7 +33,7 @@ export function ProtectedRoute({ children, ...rest }) {
             } else {
                 //update
                 //get another accessToken
-                dispatch( token( refreshToken ) );
+                dispatch( fullUpdate( refreshToken ) );
                 //dispatch( us )
                 setAuth( true );
             }
@@ -46,7 +48,10 @@ export function ProtectedRoute({ children, ...rest }) {
 
     
     useEffect( () => {
-        if ( username === '' && getCookie('refreshToken') === undefined ) setAuth(false); 
+        //console.log( getCookie('refreshToken') );
+        if ( username === '' ) {
+            if ( getCookie('refreshToken') === undefined ) setAuth(false); 
+        } 
     }, [ username ])
     
 

@@ -37,9 +37,29 @@
 }
 
 .profile_link_active {
-    color: #F2F2F3;
+    color: #F2F2F3 !important;
 }
 
 .profile_link_inactive {
     color: #8585AD;
+}
+
+.form_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ingredients_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nutrients {
+    display: flex;
+}
+
+.nutrients p {
+    text-align: center;
 }

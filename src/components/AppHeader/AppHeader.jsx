@@ -18,7 +18,7 @@ function AppHeader() {
         <header className={ `mt-5 ml-10 mr-10 ${styles.header}` }>
             <nav className={ styles.nav + ' mt-4 mb-4' }>
                 <div>
-                    <MenuItem pathname={'/'} text={'Конструктор'}><BurgerIcon type="primary" /></MenuItem>
+                    <MenuItem exact={true} pathname={'/'} text={'Конструктор'}><BurgerIcon type="primary" /></MenuItem>
                     <MenuItem pathname={'/orders'} text={'Лента заказов'}><ListIcon type="primary" /></MenuItem>
                 </div>
                 <div className={ styles.header_logo }>

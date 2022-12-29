@@ -3,7 +3,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
-import { LoginPage, RegisterPage, ForgotPage, ResetPage, ProfilePage, ProfileOrdersPage } from '../../pages/';
+import { LoginPage, RegisterPage, ForgotPage, ResetPage, ProfilePage, IngredientsPage } from '../../pages/';
 //import logo from './logo.svg';
 //import './App.css';
 import styles from './app.module.css';
@@ -34,13 +34,16 @@ function App() {
 					<Route path="/reset-password">
 						<ResetPage />
 					</Route>
+					<ProtectedRoute path="/profile/orders">
+						<ProfilePage />
+					</ProtectedRoute>
 					<ProtectedRoute path="/profile">
 						<ProfilePage />
 					</ProtectedRoute>
-					<ProtectedRoute path="/profile/orders">
-						<ProfileOrdersPage />
-					</ProtectedRoute>
-					<ProtectedRoute path='/'>
+					<Route path="/ingredients/:id">
+						<IngredientsPage />
+					</Route>
+					<Route path='/'>
 						<div className={ styles.main_content_item + ' ' + styles.left_column_item }>
 							<DndProvider backend={ HTML5Backend }>
 								<BurgerIngredients />
@@ -51,7 +54,7 @@ function App() {
 								<BurgerConstructor />
 							</DndProvider>
 						</div>
-					</ProtectedRoute>
+					</Route>
 				</Switch>
 			
 				</main>
@@ -61,18 +64,3 @@ function App() {
 }
 
 export default App;
-
-/*
-
-<div className={ styles.main_content_item + ' ' + styles.left_column_item }>
-	<DndProvider backend={HTML5Backend}>
-		<BurgerIngredients />
-	</DndProvider>
-</div>
-<div className={ styles.main_content_item }>
-	<DndProvider backend={HTML5Backend}>
-		<BurgerConstructor />
-	</DndProvider>
-</div>
-
-*/

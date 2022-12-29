@@ -147,6 +147,17 @@ export const updateToken = async ( token ) => {
     }
 }
 
+/*
+export const fullUpdate = async ( token ) => {
+    updateToken( token ).then( res => {
+        console.log( res );
+        updateUser( res.accessToken );
+    } ).then( () => {
+
+    } );
+}
+*/
+
 export const updateUser = async ( token, data ) => {
     console.log('token from updateUser');
     console.log( token );
@@ -158,10 +169,12 @@ export const updateUser = async ( token, data ) => {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+            'Authorization': token
         },
         body: JSON.stringify( data )
     };
+
+    console.log( settings );
 
     try {
         const res = await fetch( API_URL_AUTH_USER, settings );

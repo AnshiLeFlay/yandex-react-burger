@@ -14,10 +14,11 @@ export function ResetPage() {
 
     const [ password, setPassword ] = React.useState('');
     const onChangePassword = e => {
-        setPassword(e.target.value)
+        setPassword( e.target.value );
     }
 
-    const handleBtn = () => {
+    const handleBtn = ( e ) => {
+        e.preventDefault();
         dispatch( reset( password, code ) );
     }
 
@@ -28,26 +29,28 @@ export function ResetPage() {
     return (
         <div className={ styles.wrapper }>
             <p className='mb-6 text text_type_main-medium'>Восстановление пароля</p>
-            <PasswordInput
-                onChange={ onChangePassword }
-                value={ password }
-                placeholder={ 'Введите новый пароль' }
-                name={ 'password' }
-                extraClass='mb-6'
-            />
-            <Input
-                type={'text'}
-                placeholder={'Введите код из письма'}
-                onChange={ e => setCode( e.target.value ) }
-                value={ code }
-                name={'code'}
-                size={'default'}
-                extraClass="mb-6"
-            />
-            
-            <Button onClick={ handleBtn } htmlType="button" type="primary" size="medium" extraClass='mb-20'>
-                Сохранить
-            </Button>
+            <form className={ styles.form_wrapper }>
+                <PasswordInput
+                    onChange={ onChangePassword }
+                    value={ password }
+                    placeholder={ 'Введите новый пароль' }
+                    name={ 'password' }
+                    extraClass='mb-6'
+                />
+                <Input
+                    type={'text'}
+                    placeholder={'Введите код из письма'}
+                    onChange={ e => setCode( e.target.value ) }
+                    value={ code }
+                    name={'code'}
+                    size={'default'}
+                    extraClass="mb-6"
+                />
+                
+                <Button onClick={ handleBtn } htmlType="button" type="primary" size="medium" extraClass='mb-20'>
+                    Сохранить
+                </Button>
+            </form>
             <p className='text text_type_main-small'><span className='text_color_inactive'>Вспомнили пароль?</span> <Link className={styles.link} to='/login'>Войти</Link></p>
         </div>
     );

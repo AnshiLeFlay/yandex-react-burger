@@ -96,7 +96,7 @@ export function register( name, email, password ) {
                 });
                 //console.log( res );
                 //авторизовать пользователя после успешной регистрации
-
+                //dispatch( login( email, password) );
             } else {
                 dispatch({
                     type: REGISTER_FAILED
@@ -176,10 +176,7 @@ export function token( refreshToken ) {
                     type: UPDATE_TOKEN_SUCCESS,
                     accessToken: res.accessToken,
                     refreshToken: res.refreshToken
-                    /*items: res.data*/
                 });
-                //console.log( res );
-                
             } else {
                 dispatch({
                     type: UPDATE_TOKEN_FAILED
@@ -205,7 +202,6 @@ export function updateData( token, data ) {
                 dispatch( {
                     type: UPDATE_USER_FAILED
                 } );
-                //обновить токен
             }
         });
     };
@@ -227,8 +223,46 @@ export function userData( token ) {
                 dispatch( {
                     type: GET_USER_DATA_FAILED
                 } );
-                //обновить токен
             }
         });
     };
 } 
+
+export function fullUpdate( token ) {
+    return function( dispatch ) {
+        dispatch({
+            type: UPDATE_TOKEN_REQUEST
+        });
+        updateToken( token ).then(res => {
+            if ( res && res.success ) {
+
+                console.log('full update');
+                console.log( res.accessToken );
+                dispatch({
+                    type: UPDATE_TOKEN_SUCCESS,
+                    accessToken: res.accessToken,
+                    refreshToken: res.refreshToken
+                });
+
+                getUserData( res.accessToken ).then( res => {
+                    if ( res && res.success ) {
+                        dispatch( {
+                            type: GET_USER_DATA_SUCCESS,
+                            name: res.user.name,
+                            email: res.user.email
+                        } );
+                    } else {
+                        dispatch( {
+                            type: GET_USER_DATA_FAILED
+                        } );
+                    }
+                });
+                
+            } else {
+                dispatch({
+                    type: UPDATE_TOKEN_FAILED
+                });
+            }
+        });
+    }
+}
