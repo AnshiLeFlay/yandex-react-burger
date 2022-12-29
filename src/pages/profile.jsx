@@ -64,8 +64,11 @@ export function ProfilePage() {
     }, [ username, email, init_username, init_email ] );
 
     useEffect( () => {
-        console.log( history.location );
-    }, [history.location] )
+        //console.log(init_username);
+        setUsername( init_username );
+        setEmail( init_email );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ init_username, init_email ] )
 
     useEffect( () => {
        if ( accessToken === '' || accessToken !== undefined ) fullUpdate( getCookie( 'refreshToken' ) );

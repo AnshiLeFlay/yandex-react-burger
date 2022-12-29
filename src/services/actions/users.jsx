@@ -244,6 +244,8 @@ export function fullUpdate( token ) {
                     refreshToken: res.refreshToken
                 });
 
+                setCookie( 'refreshToken', res.refreshToken, { expires: 86400 } );
+
                 getUserData( res.accessToken ).then( res => {
                     if ( res && res.success ) {
                         dispatch( {

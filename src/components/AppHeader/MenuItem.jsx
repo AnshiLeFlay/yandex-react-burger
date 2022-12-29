@@ -30,14 +30,3 @@ MenuItem.propTypes = {
 };
 
 export default MenuItem;
-
-/*
-<Button extraClass='pr-5 pl-5' htmlType="button" type="secondary" size="medium">
-    <div className={ styles.item }>
-        <span>
-            { props.children }
-        </span>
-        <span className="ml-2">{ props.text }</span>
-    </div>
-</Button>
-*/

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { token, userData, fullUpdate } from '../../services/actions/users';
+import { fullUpdate } from '../../services/actions/users';
 import { getCookie } from '../../utils/cookie';
 
 export function ProtectedRoute({ children, ...rest }) {
@@ -23,8 +23,8 @@ export function ProtectedRoute({ children, ...rest }) {
 
         //console.log(refreshToken);
         const refreshToken = getCookie('refreshToken');
-        console.log('protected');
-        console.log( refreshToken );
+        //console.log('protected');
+        //console.log( refreshToken );
     
         if ( refreshToken !== '' && refreshToken !== undefined ) {
             //console.log('if');

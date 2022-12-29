@@ -133,12 +133,14 @@ export const updateToken = async ( token ) => {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify( { 'token': token } )
+        body: JSON.stringify( { "token": token } )
     };
+
+    console.log( settings );
 
     try {
         const res = await fetch( API_URL_UPDATE_TOKEN, settings );
-
+        console.log( res );
         if ( res.ok ) {
             return await res.json();
         } return Promise.reject(`1 Ошибка обновления токена ${res.status}`);
