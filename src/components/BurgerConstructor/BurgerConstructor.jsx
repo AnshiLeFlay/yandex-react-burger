@@ -10,6 +10,8 @@ import Modal from '../Modal/Modal';
 import { getOrderNumber, DELETE_ORDER_NUMBER } from '../../services/actions';
 import DropTarget from '../DragAndDrop/DropTarget';
 import DraggableItem from '../DragAndDrop/DraggableItem';
+import { getCookie } from '../../utils/cookie';
+import { useHistory } from 'react-router-dom';
 
 function BurgerConstructor() {
     const data = useSelector( store => store.data.ingredients );
@@ -20,6 +22,8 @@ function BurgerConstructor() {
     const [ bunTopBot, setBuns ] = React.useState( [] );
     const [ visible, setVisibility ] = React.useState( false );
     const [ orderCost, setOrderCost ] = React.useState( 0 );
+
+    const history = useHistory();
 
     const dispatch = useDispatch();
 
@@ -60,6 +64,11 @@ function BurgerConstructor() {
     }, [burgerBun, data]);
     
 	const handleOpenModal = () => {
+
+        if ( getCookie( 'refreshToken' ) === undefined ) { 
+            history.push('/login');
+            return;
+        }
 
         const orderArr =  { 
             "ingredients": [ burgerBun, ...burgerContent ] 

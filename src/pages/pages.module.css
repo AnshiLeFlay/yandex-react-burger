@@ -1,0 +1,65 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.wrapper_profile {
+    display: flex;
+    width: 1240px;
+}
+
+.btn_wrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.link {
+    color: #4C4CFF;
+}
+
+.profile_cells {
+    height: 64px;
+    display: flex;
+    align-items: center;
+}
+
+.profile_cells_wrapper {
+    width: 320px;
+}
+
+.profile_link {
+    text-decoration: none;
+}
+
+.profile_link_active {
+    color: #F2F2F3 !important;
+}
+
+.profile_link_inactive {
+    color: #8585AD;
+}
+
+.form_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ingredients_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nutrients {
+    display: flex;
+}
+
+.nutrients p {
+    text-align: center;
+}

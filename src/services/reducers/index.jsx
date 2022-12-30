@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux';
 
+import { users } from './users';
+
 import {
     GET_DATA_REQUEST,
     GET_DATA_SUCCESS,
@@ -172,5 +174,6 @@ const ingredientsReducer = ( state = initialState.ingredients, action ) => {
 export const rootReducer = combineReducers({
     data: getIngredientsData,
     order: getOrderData,
-    ingredients: ingredientsReducer
+    ingredients: ingredientsReducer,
+    users: users
 });
