@@ -1,18 +1,19 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { reset } from '../services/actions/users';
-import { Link } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './pages.module.css';
 
 export function ResetPage() {
+    const history = useHistory();
     const failed = useSelector( store => store.users.resetFailed );
-    const request = useSelector( store => store.users.resetRequest);
+
     const dispatch = useDispatch();
 
-    const [ code, setCode ] = React.useState('');
+    const [ code, setCode ] = React.useState( '' );
 
-    const [ password, setPassword ] = React.useState('');
+    const [ password, setPassword ] = React.useState( '' );
     const onChangePassword = e => {
         setPassword( e.target.value );
     }
@@ -20,11 +21,22 @@ export function ResetPage() {
     const handleBtn = ( e ) => {
         e.preventDefault();
         dispatch( reset( password, code ) );
+
+        //если нет ошибок отправляем на страницу авторизации
+        if ( failed !== true ) {
+            history.push( '/login' );
+        } else {
+            console.log( 'error reset password' );
+        }
     }
 
-    React.useEffect( () => {
-        console.log(failed);
-    }, [failed, request]);
+    if ( history.location?.state?.from !== '/forgot-password' ) {
+        return (
+            <Redirect
+                to={ '/' }
+            />
+        );
+    }
 
     return (
         <div className={ styles.wrapper }>

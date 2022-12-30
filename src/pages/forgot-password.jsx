@@ -1,7 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { forgot } from '../services/actions/users';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, Redirect } from 'react-router-dom';
+import { getCookie } from '../utils/cookie';
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './pages.module.css';
 
@@ -17,7 +18,17 @@ export function ForgotPage() {
 
     const handleBtn = () => {
         dispatch( forgot( email ) );
-        history.push('/reset-password');
+
+        history.push( '/reset-password', { from: '/forgot-password'} );
+    }
+
+    //если у пользователя есть cookie, то отправляем его на прошлую страницу, либо на главную
+    if ( getCookie( 'refreshToken' ) !== undefined ) {
+        return (
+            <Redirect
+                to={ history.location.state?.from || '/' }
+            />
+        );
     }
 
     return (

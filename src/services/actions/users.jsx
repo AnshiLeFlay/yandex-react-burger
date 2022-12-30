@@ -9,7 +9,7 @@ import {
     getUserData
 } from '../../utils/users';
 
-import { setCookie, deleteCookie } from "../../utils/cookie";
+import { setCookie, deleteCookie, getCookie } from "../../utils/cookie";
 
 export const PASSWORD_FORGOT_REQUEST = 'PASSWORD_FORGOT_REQUEST';
 export const PASSWORD_FORGOT_SUCCESS = 'PASSWORD_FORGOT_SUCCESS';
@@ -52,7 +52,6 @@ export function forgot( email ) {
             if (res && res.success) {
                 dispatch({
                     type: PASSWORD_FORGOT_SUCCESS
-                    /*items: res.data*/
                 });
             } else {
                 dispatch({
@@ -72,7 +71,6 @@ export function reset( password, token ) {
             if (res && res.success) {
                 dispatch({
                     type: PASSWORD_RESET_SUCCESS
-                    /*items: res.data*/
                 });
             } else {
                 dispatch({
@@ -92,11 +90,10 @@ export function register( name, email, password ) {
             if (res && res.success) {
                 dispatch({
                     type: REGISTER_SUCCESS
-                    /*items: res.data*/
                 });
-                //console.log( res );
+
                 //авторизовать пользователя после успешной регистрации
-                //dispatch( login( email, password) );
+                dispatch( login( email, password ) );
             } else {
                 dispatch({
                     type: REGISTER_FAILED
@@ -177,6 +174,8 @@ export function token( refreshToken ) {
                     accessToken: res.accessToken,
                     refreshToken: res.refreshToken
                 });
+
+                setCookie( 'refreshToken', res.refreshToken, { expires: 86400 } );
             } else {
                 dispatch({
                     type: UPDATE_TOKEN_FAILED
@@ -199,11 +198,42 @@ export function updateData( token, data ) {
                     email: res.user.email
                 } );
             } else {
-                dispatch( {
-                    type: UPDATE_USER_FAILED
-                } );
+                //проверка jwt expired
+
+                if ( res.message === 'jwt expired' ) {
+
+                    updateToken( getCookie( 'refreshToken' ) ).then( res2 => {
+                        if ( res2 && res2.success ) {
+                            dispatch({
+                                type: UPDATE_TOKEN_SUCCESS,
+                                accessToken: res2.accessToken,
+                                refreshToken: res2.refreshToken
+                            });
+            
+                            setCookie( 'refreshToken', res2.refreshToken, { expires: 86400 } );
+
+                            updateUser( res2.accessToken, data ).then( res3 => {
+                                if ( res3 && res3.success ) {
+                                    dispatch( {
+                                        type: UPDATE_USER_SUCCESS,
+                                        name: res3.user.name,
+                                        email: res3.user.email
+                                    } );
+                                } else {
+                                    dispatch( {
+                                        type: UPDATE_USER_FAILED
+                                    } );
+                                }
+                            } );
+                        }
+                    } );
+                } else {
+                    dispatch( {
+                        type: UPDATE_USER_FAILED
+                    } );
+                }
             }
-        });
+        } );
     };
 } 
 
@@ -220,9 +250,39 @@ export function userData( token ) {
                     email: res.user.email
                 } );
             } else {
-                dispatch( {
-                    type: GET_USER_DATA_FAILED
-                } );
+                if ( res.message === 'jwt expired' ) {
+                    //проверка jwt expired
+
+                    updateToken( getCookie( 'refreshToken' ) ).then( res2 => {
+                        if ( res2 && res2.success ) {
+                            dispatch({
+                                type: UPDATE_TOKEN_SUCCESS,
+                                accessToken: res2.accessToken,
+                                refreshToken: res2.refreshToken
+                            });
+            
+                            setCookie( 'refreshToken', res2.refreshToken, { expires: 86400 } );
+
+                            getUserData( res2.accessToken ).then( res3 => {
+                                if ( res3 && res3.success ) {
+                                    dispatch( {
+                                        type: GET_USER_DATA_SUCCESS,
+                                        name: res.user.name,
+                                        email: res.user.email
+                                    } );
+                                } else {
+                                    dispatch( {
+                                        type: GET_USER_DATA_FAILED
+                                    } );
+                                }
+                            } );
+                        }
+                    } );
+                } else {
+                    dispatch( {
+                        type: GET_USER_DATA_FAILED
+                    } );
+                }
             }
         });
     };
@@ -236,8 +296,6 @@ export function fullUpdate( token ) {
         updateToken( token ).then(res => {
             if ( res && res.success ) {
 
-                console.log('full update');
-                console.log( res.accessToken );
                 dispatch({
                     type: UPDATE_TOKEN_SUCCESS,
                     accessToken: res.accessToken,

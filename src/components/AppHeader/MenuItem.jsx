@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-//import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './appheader.module.css'; 
 

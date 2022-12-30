@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../services/actions/users';
 import { Link, useHistory, Redirect } from 'react-router-dom';
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { getCookie } from '../utils/cookie';
 import styles from './pages.module.css';
 
 export function LoginPage() {
@@ -28,6 +29,15 @@ export function LoginPage() {
     }
 
     if ( !failed && accessToken !== '' ) {
+        return (
+            <Redirect
+                to={ history.location.state?.from || '/' }
+            />
+        );
+    }
+
+    //если у пользователя есть cookie, то отправляем его на прошлую страницу, либо на главную
+    if ( getCookie( 'refreshToken' ) !== undefined ) {
         return (
             <Redirect
                 to={ history.location.state?.from || '/' }

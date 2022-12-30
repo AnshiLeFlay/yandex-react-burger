@@ -124,9 +124,6 @@ export const logoutUser = async ( token ) => {
 }
 
 export const updateToken = async ( token ) => {
-    console.log('token from updateToken');
-    console.log( token );
-
     const settings = {
         method: 'POST',
         headers: {
@@ -136,11 +133,9 @@ export const updateToken = async ( token ) => {
         body: JSON.stringify( { "token": token } )
     };
 
-    console.log( settings );
-
     try {
         const res = await fetch( API_URL_UPDATE_TOKEN, settings );
-        console.log( res );
+
         if ( res.ok ) {
             return await res.json();
         } return Promise.reject(`1 Ошибка обновления токена ${res.status}`);
@@ -149,23 +144,7 @@ export const updateToken = async ( token ) => {
     }
 }
 
-/*
-export const fullUpdate = async ( token ) => {
-    updateToken( token ).then( res => {
-        console.log( res );
-        updateUser( res.accessToken );
-    } ).then( () => {
-
-    } );
-}
-*/
-
 export const updateUser = async ( token, data ) => {
-    console.log('token from updateUser');
-    console.log( token );
-    //console.log(`Bearer ${token}`);
-    console.log(data);
-
     const settings = {
         method: 'PATCH',
         headers: {
@@ -176,23 +155,22 @@ export const updateUser = async ( token, data ) => {
         body: JSON.stringify( data )
     };
 
-    console.log( settings );
-
     try {
         const res = await fetch( API_URL_AUTH_USER, settings );
 
-        if ( res.ok ) {
-            return await res.json();
-        } return Promise.reject(`1 Ошибка обновления ${res.status}`);
+        //обработка ошибок запроса перенесена в action
+        return await res.json();
+
+        //if ( res.ok ) {
+        //    return await res.json();
+        //} else if ( res.message === 'jwt expired' ) return await res.json();
+        //else return Promise.reject(`1 Ошибка обновления ${res.status}`);
     } catch (error) {
         return Promise.reject(`2 Ошибка обновления ${error}`);
     }
 }
 
 export const getUserData = async ( token ) => {
-    console.log('token from getUserData');
-    console.log( token );
-
     const settings = {
         method: 'GET',
         headers: {
@@ -205,9 +183,13 @@ export const getUserData = async ( token ) => {
     try {
         const res = await fetch( API_URL_AUTH_USER, settings );
 
-        if ( res.ok ) {
-            return await res.json();
-        } return Promise.reject(`1 Ошибка получения информации ${res.status}`);
+        //обработка ошибок заспроса перенесена в action
+        return await res.json();
+
+        //if ( res.ok ) {
+        //    return await res.json();
+        //} else return await res.json();/*else if ( res.message === 'jwt expired' ) return await res.json();
+        //else return Promise.reject(`1 Ошибка получения информации ${res.status}`);*/
     } catch (error) {
         return Promise.reject(`2 Ошибка получения информации ${error}`);
     }

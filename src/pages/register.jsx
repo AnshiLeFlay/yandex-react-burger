@@ -1,11 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../services/actions/users';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Input, PasswordInput, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './pages.module.css';
 
 export function RegisterPage() {
+    const history = useHistory();
+
     const [ username, setUsername ] = React.useState('');
 
     const [ email, setEmail ] = React.useState('')
@@ -19,7 +21,8 @@ export function RegisterPage() {
     }
 
     const failed = useSelector( store => store.users.registerFailed );
-    const request = useSelector( store => store.users.registerRequest );
+    const token = useSelector( store => store.users.user.refreshToken );
+
     const dispatch = useDispatch();
 
     const handleBtn = ( e ) => {
@@ -27,9 +30,15 @@ export function RegisterPage() {
         dispatch( register( username, email, password ));
     }
 
+    
     React.useEffect( () => {
-        console.log(failed);
-    }, [failed, request]);
+        //проверяем, что нет ошибок и токен записался в store
+        //если все ок, то перенаправляем на страницу '/'
+        if ( token !== '' && failed !== true ) {
+            history.push('/')
+        }
+    }, [ token, failed, history ]);
+    
 
     return (
         <div className={ styles.wrapper }>
