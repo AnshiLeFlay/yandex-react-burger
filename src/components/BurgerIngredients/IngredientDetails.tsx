@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import styles from './burgeringredients.module.css'; 
 
 function IngredientDetails() {
-    const currentItem = useSelector( store => store?.ingredients?.currentIngredient );
+    const currentItem: any = useSelector<any>( store => store?.ingredients?.currentIngredient );
 
     return (
         <div className={styles.ingredients_modal}>

@@ -4,8 +4,6 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 import { LoginPage, RegisterPage, ForgotPage, ResetPage, ProfilePage, IngredientsPage } from '../../pages/';
-//import logo from './logo.svg';
-//import './App.css';
 import styles from './app.module.css';
 
 import AppHeader from '../AppHeader/AppHeader';

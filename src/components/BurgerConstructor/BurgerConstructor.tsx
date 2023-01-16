@@ -13,51 +13,58 @@ import DraggableItem from '../DragAndDrop/DraggableItem';
 import { getCookie } from '../../utils/cookie';
 import { useHistory } from 'react-router-dom';
 
-function BurgerConstructor() {
-    const data = useSelector( store => store.data.ingredients );
-    const burgerBun = useSelector( store => store.ingredients.burgerIngredients.bun );
-    const burgerContent = useSelector( store => store.ingredients.burgerIngredients.consist );
+interface IBurgerElem {
+    image?: string; 
+    _id?: string; 
+    price: number; 
+    name?: string;
+};
 
-    const [ constructor, setConstructor ] = React.useState( [] );
-    const [ bunTopBot, setBuns ] = React.useState( [] );
-    const [ visible, setVisibility ] = React.useState( false );
-    const [ orderCost, setOrderCost ] = React.useState( 0 );
+function BurgerConstructor() {
+    const data: any = useSelector<any>( store => store.data.ingredients );
+    const burgerBun: any = useSelector<any>( store => store.ingredients.burgerIngredients.bun );
+    const burgerContent: any = useSelector<any>( store => store.ingredients.burgerIngredients.consist );
+
+    const [ constructor, setConstructor ] = React.useState<Array<[]>>( [] );
+    const [ bunTopBot, setBuns ] = React.useState<IBurgerElem>( { price: 0 } );
+    const [ visible, setVisibility ] = React.useState<boolean>( false );
+    const [ orderCost, setOrderCost ] = React.useState<number>( 0 );
 
     const history = useHistory();
 
-    const dispatch = useDispatch();
+    const dispatch: any = useDispatch();
 
     useEffect( () => {
-        if (data[0] !== undefined) {
+        if ( data[0] !== undefined ) {
             const orderArr =  [ burgerBun, burgerBun, ...burgerContent ];
             let cost = 0;
 
             orderArr.forEach( ( elem ) => {
-                cost += data.find( item => item._id === elem ).price;
+                cost += data.find( ( item: { _id: string; } ) => item._id === elem ).price;
             });
 
             setOrderCost( cost );
         }
 
-    }, [burgerBun, burgerContent, data]);
+    }, [ burgerBun, burgerContent, data ] );
     
     useEffect( () => {
-        let buf = [];
-        let con = {};
-        burgerContent.forEach((elem) => {
-            con = data.find( item => item._id === elem );
+        let buf: Array<[]> = [];
+        let con: any = {};
+        burgerContent.forEach( (elem: string) => {
+            con = data.find( (item: { _id: string; } ) => item._id === elem );
             if ( con !== undefined ) {
                 buf.push( con );
             } 
-        });
+        } );
 
         setConstructor( buf );
 
     }, [ burgerContent, data ] );
 
     useEffect( () => {
-        let buf = {};
-        buf = data.find( item => item._id === burgerBun );
+        let buf: IBurgerElem = { price: 0 };
+        buf = data.find( ( item: { _id: string; } ) => item._id === burgerBun );
 
         if ( buf !== undefined ) setBuns( buf );
 
@@ -79,32 +86,32 @@ function BurgerConstructor() {
 		setVisibility( true );
 	}
 
-	const handleCloseModal = (e) => {
+	const handleCloseModal = ( e: Event ) => {
 		e.preventDefault();
         setVisibility( false );
 	}
 
     return (
         <DropTarget>
-            <div className={styles.constructor_wrapper + ' mt-25 pl-4 pr-4'}>
+            <div className={ `mt-25 pl-4 pr-4 ${ styles.constructor_wrapper }` }>
                 
                 {
                     bunTopBot.image !== undefined &&
-                    <BurgerConstructorItemWrapper type="bun" pos="top" key={"top." + bunTopBot._id} image={bunTopBot.image} price={bunTopBot.price} name={bunTopBot.name + ' (верх)'} />
+                    <BurgerConstructorItemWrapper type="bun" pos="top" key={ "top." + bunTopBot._id } image={ bunTopBot.image } price={ bunTopBot.price } name={ bunTopBot.name + ' (верх)' } />
                 }
                 
-                { constructor.map((elem, index) => 
-                    <DraggableItem key={'key_constructor_' + index + '.' + elem._id} data={{ id: elem._id, content: '', board: 'constructor', index: index}}>
-                        <BurgerConstructorItemWrapper key={'constructor.' + index + '.' + elem._id} pos={ index } image={elem.image} price={elem.price} name={elem.name} /> 
+                { constructor.map( ( elem: any, index: number ) => 
+                    <DraggableItem key={ 'key_constructor_' + index + '.' + elem._id } data={ { id: elem._id, content: '', board: 'constructor', index: index } }>
+                        <BurgerConstructorItemWrapper key={ 'constructor.' + index + '.' + elem._id } position={ index } image={ elem.image } price={ elem.price } name={ elem.name } /> 
                     </DraggableItem>
                 )}
 
                 {
                     bunTopBot.image !== undefined &&
-                    <BurgerConstructorItemWrapper type="bun" pos="bottom" key={"bot." + bunTopBot._id} image={bunTopBot.image} price={bunTopBot.price} name={bunTopBot.name + ' (низ)'} />
+                    <BurgerConstructorItemWrapper type="bun" pos="bottom" key={ "bot." + bunTopBot._id } image={ bunTopBot.image } price={ bunTopBot.price } name={ bunTopBot.name + ' (низ)' } />
                 }
 
-                <div className={styles.constructor_buttons_wrapper + ' mt-10'}>
+                <div className={ styles.constructor_buttons_wrapper + ' mt-10' }>
                     <p className="text text_type_digits-medium mr-10"><span>{ orderCost }</span>&nbsp;<CurrencyIcon type="primary" /></p>
                     <div style={{overflow: 'hidden'}}>
                         <Button onClick={handleOpenModal} htmlType="button">Оформить заказ</Button>

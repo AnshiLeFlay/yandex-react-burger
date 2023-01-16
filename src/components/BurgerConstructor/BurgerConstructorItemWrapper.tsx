@@ -1,18 +1,28 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { DELETE_INGREDIENTS_CONSTRUCTOR } from '../../services/actions';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './burgerconstructor.module.css'; 
 
-function BurgerConstructorItemWrapper ( props ) {
+interface IBurgerConstructorItemWrapperProps {
+    name: string;
+    price: number;
+    image: string;
+    type?: string | undefined;
+    position?: number;
+    pos?: "top" | "bottom" | undefined ;
+}
+
+const BurgerConstructorItemWrapper: FC<IBurgerConstructorItemWrapperProps> = ( props ) => {
     const itemType = props.type;
 
-    const dispatch = useDispatch();
+    const dispatch: any = useDispatch();
 
     const handleClose = () => {
-        dispatch({ type: DELETE_INGREDIENTS_CONSTRUCTOR, itemDelete: props.pos });
+        if ( itemType === 'bun' )
+            dispatch({ type: DELETE_INGREDIENTS_CONSTRUCTOR, itemDelete: props.pos });
+        else dispatch({ type: DELETE_INGREDIENTS_CONSTRUCTOR, itemDelete: props.position });
     }
 
     return (
@@ -21,7 +31,6 @@ function BurgerConstructorItemWrapper ( props ) {
                 itemType === 'bun' ? 
                     <div className='pl-8'>
                         <ConstructorElement
-                            className='ml-8'
                             type={ props.pos }
                             isLocked={ true }
                             text={ props.name }
@@ -44,12 +53,5 @@ function BurgerConstructorItemWrapper ( props ) {
         </>      
     );
 }
-
-BurgerConstructorItemWrapper.propTypes = {
-    name: PropTypes.string,
-    price: PropTypes.number,
-    image: PropTypes.string,
-    type: PropTypes.string
-};
   
 export default BurgerConstructorItemWrapper;

@@ -1,10 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC, ReactNode } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import styles from './appheader.module.css'; 
 
-function MenuItem( props ) {
+interface IMenuItemProps {
+    text: string;
+    pathname: string;
+    exact?: boolean;
+    children?: ReactNode | JSX.Element | string;
+}
+
+const MenuItem: FC<IMenuItemProps> = ( props ) => {
     return (
         <NavLink
             exact={ props?.exact } to={{ pathname: props.pathname }}
@@ -19,13 +25,6 @@ function MenuItem( props ) {
             </div>
         </NavLink>
     );
-  }
-
-MenuItem.propTypes = {
-    text: PropTypes.string.isRequired,
-    pathname: PropTypes.string.isRequired,
-    exact: PropTypes.bool,
-    children: PropTypes.element
-};
+}
 
 export default MenuItem;
