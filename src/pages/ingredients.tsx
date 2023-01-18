@@ -5,11 +5,21 @@ import { getItems } from '../services/actions';
 
 import styles from './pages.module.css'; 
 
+type TIngredient = {
+    _id?: string;
+    name?: string;
+    image?: string;
+    calories?: string;
+    proteins?: string;
+    fat?: string;
+    carbohydrates?: string;
+}
+
 export function IngredientsPage() {
-    const ingredients = useSelector( store => store?.data?.ingredients );
-    const [ currentItem, setCurrentItem ] = React.useState( {} );
+    const ingredients: any = useSelector<any>( store => store?.data?.ingredients );
+    const [ currentItem, setCurrentItem ] = React.useState<TIngredient>( {} );
     const history = useHistory();
-    const dispatch = useDispatch();
+    const dispatch: any = useDispatch();
 
     useEffect( () => {
         //обновить список ингредиентов
@@ -18,8 +28,8 @@ export function IngredientsPage() {
     }, [ ] );
 
     useEffect( () => {
-        const res = ingredients.find( elem => elem._id === history.location.pathname.split('/')[2] );
-        console.log( res );
+        const res = ingredients.find( ( elem: TIngredient ) => elem._id === history.location.pathname.split('/')[2] );
+
         if ( res !== undefined ) setCurrentItem( res );
     }, [ history.location.pathname, ingredients ] )
 

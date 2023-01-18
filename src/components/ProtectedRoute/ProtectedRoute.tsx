@@ -1,27 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FC } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { fullUpdate } from '../../services/actions/users';
 import { getCookie } from '../../utils/cookie';
 
-const getAccessToken = store => store.users.user.accessToken; 
-const getUsername = store => store.users.user.name
+interface IStore {
+    users: { 
+        user: { 
+            accessToken?: string; 
+            name?: string;
+        }; 
+    }; 
+}
 
-export function ProtectedRoute({ children, ...rest }) {
-    const [ auth, setAuth ] = useState( false );
-    const dispatch = useDispatch();
-    const accessToken = useSelector( getAccessToken );
-    const username = useSelector( getUsername );
+interface IProtectedRouteProps {
+    children?: React.ReactNode | JSX.Element | string;
+    path: string;
+}
 
-    const [ isUserLoaded, setUserLoaded ] = useState(false);
+const getAccessToken: any = ( store: IStore ) => store.users.user.accessToken; 
+const getUsername: any = ( store: IStore ) => store.users.user.name
+
+export const ProtectedRoute: FC<IProtectedRouteProps> = ( { children, ...rest } ) => {
+    const [ auth, setAuth ] = useState<boolean>( false );
+    const dispatch: any = useDispatch();
+    const accessToken = useSelector<any>( getAccessToken );
+    const username = useSelector<any>( getUsername );
+
+    const [ isUserLoaded, setUserLoaded ] = useState<boolean>( false );
 
     const init = async () => {
         //проверить если данные о пользователе в хранилище
         //если их нет проверить куки
         //если есть кука, то обновить данные
 
-        const refreshToken = getCookie('refreshToken');
+        const refreshToken = getCookie( 'refreshToken' );
     
         if ( refreshToken !== '' && refreshToken !== undefined ) {
             if ( accessToken !== '' &&  accessToken !== undefined ) {
@@ -34,7 +48,7 @@ export function ProtectedRoute({ children, ...rest }) {
             }
         }
 
-        setUserLoaded(true);
+        setUserLoaded( true );
     };
 
     
@@ -56,11 +70,11 @@ export function ProtectedRoute({ children, ...rest }) {
 
     return (
         <Route
-            {...rest}
-                // Получим текущий маршрут, с которого произойдёт переадресация 
-                // для неавторизованного пользователя
+            { ...rest }
+            // Получим текущий маршрут, с которого произойдёт переадресация 
+            // для неавторизованного пользователя
             render={
-                ({ location }) => auth ? (
+                ( { location } ) => auth ? (
                     children
                 ) : (
                     <Redirect

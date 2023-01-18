@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../services/actions/users';
 import { Link, useHistory } from 'react-router-dom';
@@ -11,21 +11,21 @@ export function RegisterPage() {
     const [ username, setUsername ] = React.useState('');
 
     const [ email, setEmail ] = React.useState('')
-    const onChangeEmail = e => {
+    const onChangeEmail = ( e: React.ChangeEvent<HTMLInputElement> ) => {
         setEmail(e.target.value)
     }
 
     const [ password, setPassword ] = React.useState('');
-    const onChangePassword = e => {
+    const onChangePassword = ( e: React.ChangeEvent<HTMLInputElement> ) => {
         setPassword( e.target.value );
     }
 
-    const failed = useSelector( store => store.users.registerFailed );
-    const token = useSelector( store => store.users.user.refreshToken );
+    const failed: any = useSelector<any>( store => store.users.registerFailed );
+    const token: any = useSelector<any>( store => store.users.user.refreshToken );
 
-    const dispatch = useDispatch();
+    const dispatch: any = useDispatch();
 
-    const handleBtn = ( e ) => {
+    const handleBtn = ( e: SyntheticEvent ) => {
         e.preventDefault();
         dispatch( register( username, email, password ));
     }

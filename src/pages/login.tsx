@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../services/actions/users';
 import { Link, useHistory, Redirect } from 'react-router-dom';
@@ -7,23 +7,23 @@ import { getCookie } from '../utils/cookie';
 import styles from './pages.module.css';
 
 export function LoginPage() {
-    const history = useHistory();
+    const history: any = useHistory();
 
-    const dispatch = useDispatch();
-    const failed = useSelector( store => store.users.loginFailed );
-    const accessToken = useSelector( store => store.users.user.accessToken);
+    const dispatch: any = useDispatch();
+    const failed: any = useSelector<any>( store => store.users.loginFailed );
+    const accessToken: any = useSelector<any>( store => store.users.user.accessToken );
     
     const [ email, setEmail ] = React.useState('');
-    const onChangeEmail = e => {
+    const onChangeEmail = ( e: React.ChangeEvent<HTMLInputElement> ) => {
         setEmail( e.target.value )
     }
 
     const [ password, setPassword ] = React.useState('')
-    const onChangePassword = e => {
+    const onChangePassword = ( e: React.ChangeEvent<HTMLInputElement> ) => {
         setPassword( e.target.value )
     }
 
-    const handleBtn = ( e ) => {
+    const handleBtn = ( e: SyntheticEvent ) => {
         e.preventDefault();
         dispatch( login( email, password) );
     }

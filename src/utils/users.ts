@@ -8,8 +8,8 @@ import {
     API_URL_AUTH_USER
 } from "./api";
 
-export const registerUser = async ( name, email, password ) => {
-    const settings = {
+export const registerUser = async ( name: string, email: string, password: string ) => {
+    const settings: RequestInit = {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -33,8 +33,8 @@ export const registerUser = async ( name, email, password ) => {
     }
 }
 
-export const forgotPassword = async ( email ) => {
-    const settings = {
+export const forgotPassword = async ( email: string ) => {
+    const settings: RequestInit = {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -54,8 +54,8 @@ export const forgotPassword = async ( email ) => {
     }
 }
 
-export const resetPassword = async ( password, token ) => {
-    const settings = {
+export const resetPassword = async ( password: string, token: string ) => {
+    const settings: RequestInit = {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -78,8 +78,8 @@ export const resetPassword = async ( password, token ) => {
     }
 }
 
-export const loginUser = async ( email, password ) => {
-    const settings = {
+export const loginUser = async ( email: string, password: string ) => {
+    const settings: RequestInit = {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -102,8 +102,8 @@ export const loginUser = async ( email, password ) => {
     }
 }
 
-export const logoutUser = async ( token ) => {
-    const settings = {
+export const logoutUser = async ( token: string ) => {
+    const settings: RequestInit = {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -123,8 +123,8 @@ export const logoutUser = async ( token ) => {
     }
 }
 
-export const updateToken = async ( token ) => {
-    const settings = {
+export const updateToken = async ( token: string ) => {
+    const settings: RequestInit = {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -144,8 +144,8 @@ export const updateToken = async ( token ) => {
     }
 }
 
-export const updateUser = async ( token, data ) => {
-    const settings = {
+export const updateUser = async ( token: string, data: any ) => {
+    const settings: RequestInit = {
         method: 'PATCH',
         headers: {
             'Accept': 'application/json',
@@ -160,18 +160,13 @@ export const updateUser = async ( token, data ) => {
 
         //обработка ошибок запроса перенесена в action
         return await res.json();
-
-        //if ( res.ok ) {
-        //    return await res.json();
-        //} else if ( res.message === 'jwt expired' ) return await res.json();
-        //else return Promise.reject(`1 Ошибка обновления ${res.status}`);
     } catch (error) {
         return Promise.reject(`2 Ошибка обновления ${error}`);
     }
 }
 
-export const getUserData = async ( token ) => {
-    const settings = {
+export const getUserData = async ( token: string ) => {
+    const settings: RequestInit = {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -185,11 +180,6 @@ export const getUserData = async ( token ) => {
 
         //обработка ошибок заспроса перенесена в action
         return await res.json();
-
-        //if ( res.ok ) {
-        //    return await res.json();
-        //} else return await res.json();/*else if ( res.message === 'jwt expired' ) return await res.json();
-        //else return Promise.reject(`1 Ошибка получения информации ${res.status}`);*/
     } catch (error) {
         return Promise.reject(`2 Ошибка получения информации ${error}`);
     }

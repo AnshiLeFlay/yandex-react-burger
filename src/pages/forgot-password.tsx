@@ -7,12 +7,12 @@ import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-comp
 import styles from './pages.module.css';
 
 export function ForgotPage() {
-    const dispatch = useDispatch();
+    const dispatch: any = useDispatch();
 
-    const history = useHistory();
+    const history: any = useHistory();
 
-    const [ email, setEmail ] = React.useState('')
-    const onChangeEmail = e => {
+    const [ email, setEmail ] = React.useState<string>('');
+    const onChangeEmail = ( e: React.ChangeEvent<HTMLInputElement> ) => {
         setEmail( e.target.value );
     }
 
