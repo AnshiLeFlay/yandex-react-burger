@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { SyntheticEvent, useEffect } from 'react';
 import { Link, useHistory, NavLink } from 'react-router-dom';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,10 +8,10 @@ import { getCookie } from '../utils/cookie';
 import styles from './pages.module.css';
 
 export function ProfilePage() {
-    const dispatch = useDispatch();
-    const init_username = useSelector( store => store.users.user.name );
-    const init_email = useSelector( store => store.users.user.email );
-    const accessToken = useSelector( store => store.users.user.accessToken );
+    const dispatch: any = useDispatch();
+    const init_username: any = useSelector<any>( store => store.users.user.name );
+    const init_email: any = useSelector<any>( store => store.users.user.email );
+    const accessToken: any = useSelector<any>( store => store.users.user.accessToken );
 
     const [ username, setUsername ] = React.useState( init_username );
     const [ email, setEmail ] = React.useState( init_email );
@@ -20,15 +20,15 @@ export function ProfilePage() {
 
     const history = useHistory();
 
-    const onChangeEmail = e => {
-        setEmail(e.target.value)
+    const onChangeEmail = ( e: React.ChangeEvent<HTMLInputElement> ) => {
+        setEmail( e.target.value )
     }
     
-    const onChangePassword = e => {
-        setPassword(e.target.value);
+    const onChangePassword = ( e: React.ChangeEvent<HTMLInputElement> ) => {
+        setPassword( e.target.value );
     }
 
-    const handleLogout = (e) => {
+    const handleLogout = ( e: SyntheticEvent ) => {
         e.preventDefault();
         dispatch( logout( getCookie( 'refreshToken' ) ) );
 
@@ -64,7 +64,6 @@ export function ProfilePage() {
     }, [ username, email, init_username, init_email ] );
 
     useEffect( () => {
-        //console.log(init_username);
         setUsername( init_username );
         setEmail( init_email );
     // eslint-disable-next-line react-hooks/exhaustive-deps
