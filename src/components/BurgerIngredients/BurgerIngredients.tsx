@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { SyntheticEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useInView } from 'react-intersection-observer';
 
@@ -21,7 +21,7 @@ interface IBurgerElem {
 function BurgerIngredients() {
     const [ current, setCurrent ] = React.useState<String>( 'one' );
     const [ visible, setVisibility ] = React.useState<Boolean>( false );
-    const [ orderCounts, setOrderCounts ] = React.useState<any>( {} );
+    const [ orderCounts, setOrderCounts ] = React.useState<{ [ x: string ]: number }>( {} );
     const burgerBun: any = useSelector<any>( store => store.ingredients.burgerIngredients.bun );
     const burgerContent: any = useSelector<any>( store => store.ingredients.burgerIngredients.consist );
 
@@ -32,8 +32,8 @@ function BurgerIngredients() {
     const { ref: sauceRef, inView: sauceView } = useInView();
     const { ref: mainRef, inView: mainView } = useInView();
 
-    const countUnique = ( arr: Array<number> ) => {
-        const counts: any = {};
+    const countUnique = ( arr: Array<number> | Array<string> ) => {
+        let counts: { [ x: string ] : number } = {};
         for ( let i = 0; i < arr.length; i++ ) {
            counts[ arr[i] ] = 1 + ( counts[ arr[i] ] || 0 );
         };
@@ -48,7 +48,7 @@ function BurgerIngredients() {
     }, [bunsView, sauceView, mainView]);
 
     useEffect( () => {
-        const orderArr =  [ burgerBun, ...burgerContent ];
+        const orderArr: Array<string> = [ burgerBun, ...burgerContent ];
         setOrderCounts( countUnique( orderArr ) );
     }, [burgerBun, burgerContent]);
 
@@ -56,13 +56,13 @@ function BurgerIngredients() {
         dispatch( getItems() );
     }, [ dispatch ] );
   
-    function handleOpenModal( e: React.MouseEvent, elemData: object ) {
+    function handleOpenModal( e: React.MouseEvent, elemData: IBurgerElem ) {
         //добавляем в хранилище данные по ингредиенту и отображаем модальное окно
         dispatch({ type: ADD_DATA_INGREDIENTS_MODAL, item: elemData });
         setVisibility( true );
     }
 
-	const handleCloseModal = ( e: Event ) => {
+	const handleCloseModal = ( e: SyntheticEvent ) => {
 		e.preventDefault();
         //перед закрытием очищаем данные
         dispatch({ type: DELETE_DATA_INGREDIENTS_MODAL });

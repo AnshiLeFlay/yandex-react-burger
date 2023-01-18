@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { SyntheticEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -16,7 +16,7 @@ import { useHistory } from 'react-router-dom';
 interface IBurgerElem {
     image?: string; 
     _id?: string; 
-    price: number; 
+    price?: number; 
     name?: string;
 };
 
@@ -26,7 +26,7 @@ function BurgerConstructor() {
     const burgerContent: any = useSelector<any>( store => store.ingredients.burgerIngredients.consist );
 
     const [ constructor, setConstructor ] = React.useState<Array<[]>>( [] );
-    const [ bunTopBot, setBuns ] = React.useState<IBurgerElem>( { price: 0 } );
+    const [ bunTopBot, setBuns ] = React.useState<IBurgerElem>( );
     const [ visible, setVisibility ] = React.useState<boolean>( false );
     const [ orderCost, setOrderCost ] = React.useState<number>( 0 );
 
@@ -36,11 +36,11 @@ function BurgerConstructor() {
 
     useEffect( () => {
         if ( data[0] !== undefined ) {
-            const orderArr =  [ burgerBun, burgerBun, ...burgerContent ];
+            const orderArr: Array<string> = [ burgerBun, burgerBun, ...burgerContent ];
             let cost = 0;
 
             orderArr.forEach( ( elem ) => {
-                cost += data.find( ( item: { _id: string; } ) => item._id === elem ).price;
+                cost += data.find( ( item: IBurgerElem ) => item._id === elem ).price;
             });
 
             setOrderCost( cost );
@@ -51,8 +51,8 @@ function BurgerConstructor() {
     useEffect( () => {
         let buf: Array<[]> = [];
         let con: any = {};
-        burgerContent.forEach( (elem: string) => {
-            con = data.find( (item: { _id: string; } ) => item._id === elem );
+        burgerContent.forEach( ( elem: string ) => {
+            con = data.find( (item: IBurgerElem ) => item._id === elem );
             if ( con !== undefined ) {
                 buf.push( con );
             } 
@@ -63,12 +63,12 @@ function BurgerConstructor() {
     }, [ burgerContent, data ] );
 
     useEffect( () => {
-        let buf: IBurgerElem = { price: 0 };
-        buf = data.find( ( item: { _id: string; } ) => item._id === burgerBun );
+        let buf: IBurgerElem = { };
+        buf = data.find( ( item: IBurgerElem ) => item._id === burgerBun );
 
         if ( buf !== undefined ) setBuns( buf );
 
-    }, [burgerBun, data]);
+    }, [ burgerBun, data ] );
     
 	const handleOpenModal = () => {
 
@@ -86,7 +86,7 @@ function BurgerConstructor() {
 		setVisibility( true );
 	}
 
-	const handleCloseModal = ( e: Event ) => {
+	const handleCloseModal = ( e: SyntheticEvent ) => {
 		e.preventDefault();
         setVisibility( false );
 	}
@@ -96,8 +96,8 @@ function BurgerConstructor() {
             <div className={ `mt-25 pl-4 pr-4 ${ styles.constructor_wrapper }` }>
                 
                 {
-                    bunTopBot.image !== undefined &&
-                    <BurgerConstructorItemWrapper type="bun" pos="top" key={ "top." + bunTopBot._id } image={ bunTopBot.image } price={ bunTopBot.price } name={ bunTopBot.name + ' (верх)' } />
+                    bunTopBot?.image !== undefined &&
+                    <BurgerConstructorItemWrapper type="bun" pos="top" key={ "top." + bunTopBot?._id } image={ bunTopBot?.image! } price={ bunTopBot?.price! } name={ bunTopBot?.name + ' (верх)' } />
                 }
                 
                 { constructor.map( ( elem: any, index: number ) => 
@@ -107,8 +107,8 @@ function BurgerConstructor() {
                 )}
 
                 {
-                    bunTopBot.image !== undefined &&
-                    <BurgerConstructorItemWrapper type="bun" pos="bottom" key={ "bot." + bunTopBot._id } image={ bunTopBot.image } price={ bunTopBot.price } name={ bunTopBot.name + ' (низ)' } />
+                    bunTopBot?.image !== undefined &&
+                    <BurgerConstructorItemWrapper type="bun" pos="bottom" key={ "bot." + bunTopBot._id } image={ bunTopBot.image } price={ bunTopBot?.price! } name={ bunTopBot?.name + ' (низ)' } />
                 }
 
                 <div className={ styles.constructor_buttons_wrapper + ' mt-10' }>

@@ -6,7 +6,7 @@ interface IModalOverlayProps {
     onClick: Function;
     children?: React.ReactNode | JSX.Element | string;
 }
-//const DropTarget: FC<IDropTargetProps> = ( props ) => {
+
 const ModalOverlay: FC<IModalOverlayProps> = ( props ) => {
 
     const handleHideOverlay = ( e: SyntheticEvent ) => {

@@ -28,14 +28,14 @@ export const ProtectedRoute: FC<IProtectedRouteProps> = ( { children, ...rest } 
     const accessToken = useSelector<any>( getAccessToken );
     const username = useSelector<any>( getUsername );
 
-    const [ isUserLoaded, setUserLoaded ] = useState(false);
+    const [ isUserLoaded, setUserLoaded ] = useState<boolean>( false );
 
     const init = async () => {
         //проверить если данные о пользователе в хранилище
         //если их нет проверить куки
         //если есть кука, то обновить данные
 
-        const refreshToken = getCookie('refreshToken');
+        const refreshToken = getCookie( 'refreshToken' );
     
         if ( refreshToken !== '' && refreshToken !== undefined ) {
             if ( accessToken !== '' &&  accessToken !== undefined ) {
@@ -48,7 +48,7 @@ export const ProtectedRoute: FC<IProtectedRouteProps> = ( { children, ...rest } 
             }
         }
 
-        setUserLoaded(true);
+        setUserLoaded( true );
     };
 
     
