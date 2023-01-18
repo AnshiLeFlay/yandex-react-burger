@@ -8,7 +8,7 @@ import {
     API_URL_AUTH_USER
 } from "./api";
 
-export const registerUser = async ( name, email, password ) => {
+export const registerUser = async ( name: string, email: string, password: string ) => {
     const settings = {
         method: 'POST',
         headers: {
@@ -33,7 +33,7 @@ export const registerUser = async ( name, email, password ) => {
     }
 }
 
-export const forgotPassword = async ( email ) => {
+export const forgotPassword = async ( email: string ) => {
     const settings = {
         method: 'POST',
         headers: {
@@ -54,7 +54,7 @@ export const forgotPassword = async ( email ) => {
     }
 }
 
-export const resetPassword = async ( password, token ) => {
+export const resetPassword = async ( password: string, token: string ) => {
     const settings = {
         method: 'POST',
         headers: {
@@ -78,7 +78,7 @@ export const resetPassword = async ( password, token ) => {
     }
 }
 
-export const loginUser = async ( email, password ) => {
+export const loginUser = async ( email: string, password: string ) => {
     const settings = {
         method: 'POST',
         headers: {
@@ -102,7 +102,7 @@ export const loginUser = async ( email, password ) => {
     }
 }
 
-export const logoutUser = async ( token ) => {
+export const logoutUser = async ( token: string ) => {
     const settings = {
         method: 'POST',
         headers: {
@@ -123,7 +123,7 @@ export const logoutUser = async ( token ) => {
     }
 }
 
-export const updateToken = async ( token ) => {
+export const updateToken = async ( token: string ) => {
     const settings = {
         method: 'POST',
         headers: {
@@ -144,7 +144,7 @@ export const updateToken = async ( token ) => {
     }
 }
 
-export const updateUser = async ( token, data ) => {
+export const updateUser = async ( token: string, data: any ) => {
     const settings = {
         method: 'PATCH',
         headers: {
@@ -160,17 +160,12 @@ export const updateUser = async ( token, data ) => {
 
         //обработка ошибок запроса перенесена в action
         return await res.json();
-
-        //if ( res.ok ) {
-        //    return await res.json();
-        //} else if ( res.message === 'jwt expired' ) return await res.json();
-        //else return Promise.reject(`1 Ошибка обновления ${res.status}`);
     } catch (error) {
         return Promise.reject(`2 Ошибка обновления ${error}`);
     }
 }
 
-export const getUserData = async ( token ) => {
+export const getUserData = async ( token: string ) => {
     const settings = {
         method: 'GET',
         headers: {
@@ -185,11 +180,6 @@ export const getUserData = async ( token ) => {
 
         //обработка ошибок заспроса перенесена в action
         return await res.json();
-
-        //if ( res.ok ) {
-        //    return await res.json();
-        //} else return await res.json();/*else if ( res.message === 'jwt expired' ) return await res.json();
-        //else return Promise.reject(`1 Ошибка получения информации ${res.status}`);*/
     } catch (error) {
         return Promise.reject(`2 Ошибка получения информации ${error}`);
     }
