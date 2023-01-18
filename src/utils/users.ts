@@ -9,7 +9,7 @@ import {
 } from "./api";
 
 export const registerUser = async ( name: string, email: string, password: string ) => {
-    const settings = {
+    const settings: RequestInit = {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -34,7 +34,7 @@ export const registerUser = async ( name: string, email: string, password: strin
 }
 
 export const forgotPassword = async ( email: string ) => {
-    const settings = {
+    const settings: RequestInit = {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -55,7 +55,7 @@ export const forgotPassword = async ( email: string ) => {
 }
 
 export const resetPassword = async ( password: string, token: string ) => {
-    const settings = {
+    const settings: RequestInit = {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -79,7 +79,7 @@ export const resetPassword = async ( password: string, token: string ) => {
 }
 
 export const loginUser = async ( email: string, password: string ) => {
-    const settings = {
+    const settings: RequestInit = {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -103,7 +103,7 @@ export const loginUser = async ( email: string, password: string ) => {
 }
 
 export const logoutUser = async ( token: string ) => {
-    const settings = {
+    const settings: RequestInit = {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -124,7 +124,7 @@ export const logoutUser = async ( token: string ) => {
 }
 
 export const updateToken = async ( token: string ) => {
-    const settings = {
+    const settings: RequestInit = {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -145,7 +145,7 @@ export const updateToken = async ( token: string ) => {
 }
 
 export const updateUser = async ( token: string, data: any ) => {
-    const settings = {
+    const settings: RequestInit = {
         method: 'PATCH',
         headers: {
             'Accept': 'application/json',
@@ -166,7 +166,7 @@ export const updateUser = async ( token: string, data: any ) => {
 }
 
 export const getUserData = async ( token: string ) => {
-    const settings = {
+    const settings: RequestInit = {
         method: 'GET',
         headers: {
             'Accept': 'application/json',

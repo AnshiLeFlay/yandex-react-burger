@@ -13,7 +13,7 @@ interface IDraggableItemProps {
 const DraggableItem: FC<IDraggableItemProps> = ( props ) => {
     const { id, content, board, index } = props.data;
     const ref = useRef<HTMLDivElement>( null );
-    const dispatch = useDispatch();
+    const dispatch: any = useDispatch();
     
     const [ , drag] = useDrag({
         type: "item",
