@@ -11,20 +11,20 @@ interface IDropTargetProps {
 const DropTarget: FC<IDropTargetProps> = ( props ) => {
     const dispatch: any = useDispatch();
 
-    const [{ isHover } , drop] = useDrop({
+    const [ { isHover } , drop ] = useDrop( {
         accept: "item",
-        collect: monitor => ({
+        collect: monitor => ( {
             isHover: monitor.isOver(),
-        }),
+        } ),
         drop( itemId: any ) {
             dispatch( { type: ADD_INGREDIENTS_CONSTRUCTOR, item: itemId.id, content: itemId.content } );
         },
-    });
+    } );
 
     const borderColor = isHover ? 'lightgreen' : 'transparent';
 
     return (
-        <div ref={drop} style={{borderColor}}>
+        <div ref={ drop } style={ { borderColor } }>
             { props.children }
         </div>
     )
