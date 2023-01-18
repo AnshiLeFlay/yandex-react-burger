@@ -1,19 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { ADD_INGREDIENTS_CONSTRUCTOR } from '../../services/actions';
 import { useDrop } from 'react-dnd';
 
+interface IDropTargetProps {
+    children?: React.ReactNode | JSX.Element | string; 
+}
+
 //обертка для блоков с ингридиентами и конструктора
-const DropTarget = ( props ) => {
-    const dispatch = useDispatch();
+const DropTarget: FC<IDropTargetProps> = ( props ) => {
+    const dispatch: any = useDispatch();
 
     const [{ isHover } , drop] = useDrop({
         accept: "item",
         collect: monitor => ({
             isHover: monitor.isOver(),
         }),
-        drop(itemId) {
+        drop( itemId: any ) {
             dispatch( { type: ADD_INGREDIENTS_CONSTRUCTOR, item: itemId.id, content: itemId.content } );
         },
     });
@@ -25,10 +28,6 @@ const DropTarget = ( props ) => {
             { props.children }
         </div>
     )
-};
-
-DropTarget.propTypes = {
-    children: PropTypes.element
 };
 
 export default DropTarget;

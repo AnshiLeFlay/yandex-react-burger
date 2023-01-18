@@ -1,13 +1,18 @@
-import React, { useRef } from 'react';
+import React, { useRef, FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { MOVE_INGREDIENTS_CONSTRUCTOR } from '../../services/actions';
-import { useDrag, useDrop } from "react-dnd";
+import { useDrag, useDrop, XYCoord } from "react-dnd";
 
 import styles from './draganddrop.module.css'; 
 
-const DraggableItem = ( props ) => {
+interface IDraggableItemProps {
+    data: { id: string; content: string; board: string; index?: number };
+    children?: React.ReactNode | JSX.Element | string; 
+}
+
+const DraggableItem: FC<IDraggableItemProps> = ( props ) => {
     const { id, content, board, index } = props.data;
-    const ref = useRef( null );
+    const ref = useRef<HTMLDivElement>( null );
     const dispatch = useDispatch();
     
     const [ , drag] = useDrag({
@@ -26,14 +31,14 @@ const DraggableItem = ( props ) => {
         })
     });
 
-    const [{ handlerId }, drop] = useDrop({
+    const [ { handlerId }, drop ] = useDrop({
         accept: "constructor-item",
-        collect(monitor) {
+        collect( monitor ) {
             return {
                 handlerId: monitor.getHandlerId(),
             }
         },
-        drop(itemId, monitor) {
+        drop( itemId: any, monitor ) {
             if (!ref.current) {
                 return;
             }
@@ -46,16 +51,16 @@ const DraggableItem = ( props ) => {
             }
 
             const hoverBoundingRect = ref.current?.getBoundingClientRect();
-            const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-            const clientOffset = monitor.getClientOffset();
-            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+            const hoverMiddleY: number = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+            const clientOffset: XYCoord | null = monitor.getClientOffset();
+            const hoverClientY: number = clientOffset!.y - hoverBoundingRect.top;
 
             
-            if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+            if (dragIndex < hoverIndex! && hoverClientY < hoverMiddleY) {
                 return
             }
             
-            if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+            if (dragIndex > hoverIndex! && hoverClientY > hoverMiddleY) {
                 return
             }
 
