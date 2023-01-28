@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import { AnyAction, combineReducers } from 'redux';
 
 import { users } from './users';
 
@@ -28,7 +28,27 @@ dataRequest - флаг запроса к API
 dataFailed - флаг ошибки запроса к API
 */
 
-const initialState = {
+type TInitialState = {
+    data: {
+        ingredients: Array<String>,
+        dataRequest: Boolean,
+        dataFailed: Boolean
+    },
+    ingredients: {
+        burgerIngredients: {
+            bun: String,
+            consist: Array<String>
+        },
+        currentIngredient: {},
+    },
+    order: {
+        data: {},
+        orderRequest: Boolean,
+        orderFailed: Boolean
+    }
+}
+
+const initialState: TInitialState = {
     data: {
         ingredients: [],
         dataRequest: false,
@@ -51,8 +71,8 @@ const initialState = {
 /*
 Получение списка ингредиентов от API. Используется в компоненте BurgerIngredients.
 */
-const getIngredientsData = ( state = initialState.data, action ) => {
-    switch (action.type) {
+const getIngredientsData = ( state = initialState.data, action: AnyAction ) => {
+    switch ( action.type ) {
         case GET_DATA_REQUEST: {
             return {
                 ...state,
@@ -72,7 +92,7 @@ const getIngredientsData = ( state = initialState.data, action ) => {
 }
 
 /* Получение и обновление номера заказа в модальном окне OrderDetails. */
-const getOrderData = ( state = initialState.order, action ) => {
+const getOrderData = ( state = initialState.order, action: AnyAction ) => {
     switch (action.type) {
         case GET_ORDER_NUMBER_REQUEST: {
             return {
@@ -100,7 +120,7 @@ const getOrderData = ( state = initialState.order, action ) => {
 Добавление данных о просматриваемом в модальном окне IngredientDetails ингредиенте.
 Удаление данных о просматриваемом в модальном окне ингредиенте при закрытии модального окна.
 */
-const ingredientsReducer = ( state = initialState.ingredients, action ) => {
+const ingredientsReducer = ( state = initialState.ingredients, action: AnyAction ) => {
     switch (action.type) {
         case GET_INGREDIENTS_CONSTRUCTOR: {
             return {

@@ -23,9 +23,36 @@ import {
     GET_USER_DATA_REQUEST,
     GET_USER_DATA_SUCCESS,
     GET_USER_DATA_FAILED
-} from '../actions/users';
+} from '../constants/users';
 
-const initialState = {
+import { TUsersActions } from '../actions/users';
+
+type TInitialState = {
+    forgotRequest: boolean,
+    forgotFailed: boolean,
+    resetRequest: boolean,
+    resetFailed: boolean,
+    registerRequest: boolean,
+    registerFailed: boolean,
+    loginRequest: boolean,
+    loginFailed: boolean,
+    logoutRequest: boolean,
+    logoutFailed: boolean,
+    tokenRequest: boolean,
+    tokenFailed: boolean,
+    updateRequest: boolean,
+    updateFailed: boolean,
+    userRequest: boolean,
+    userFailed: boolean,
+    user: {
+        email: String,
+        name: String,
+        accessToken: String,
+        refreshToken: String
+    }
+}
+
+const initialState: TInitialState = {
     forgotRequest: false,
     forgotFailed: false,
     resetRequest: false,
@@ -50,7 +77,7 @@ const initialState = {
     }
 }
 
-export const users = ( state = initialState, action ) => {
+export const users = ( state = initialState, action: TUsersActions ) => {
     switch (action.type) {
         case PASSWORD_FORGOT_REQUEST: {
             return {
