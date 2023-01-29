@@ -42,7 +42,7 @@ function App() {
 						<IngredientsPage />
 					</Route>
 					<Route path='/'>
-						<div className={ styles.main_content_item + ' ' + styles.left_column_item }>
+						<div className={ `${ styles.main_content_item } ${ styles.left_column_item }` }>
 							<DndProvider backend={ HTML5Backend }>
 								<BurgerIngredients />
 							</DndProvider>

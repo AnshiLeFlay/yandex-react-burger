@@ -16,7 +16,9 @@ import {
     MOVE_INGREDIENTS_CONSTRUCTOR,
     ADD_DATA_INGREDIENTS_MODAL,
     DELETE_DATA_INGREDIENTS_MODAL
-} from '../actions';
+} from '../constants/order';
+
+import { TMainActions } from '../actions';
 
 /*
 Начальное состояние
@@ -71,7 +73,7 @@ const initialState: TInitialState = {
 /*
 Получение списка ингредиентов от API. Используется в компоненте BurgerIngredients.
 */
-const getIngredientsData = ( state = initialState.data, action: AnyAction ) => {
+const getIngredientsData = ( state = initialState.data, action: TMainActions ) => {
     switch ( action.type ) {
         case GET_DATA_REQUEST: {
             return {

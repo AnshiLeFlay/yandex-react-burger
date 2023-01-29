@@ -77,7 +77,7 @@ const initialState: TInitialState = {
     }
 }
 
-export const users = ( state = initialState, action: TUsersActions ) => {
+export const users = ( state: TInitialState = initialState, action: TUsersActions ) => {
     switch (action.type) {
         case PASSWORD_FORGOT_REQUEST: {
             return {

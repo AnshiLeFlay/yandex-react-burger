@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
-import { ADD_INGREDIENTS_CONSTRUCTOR } from '../../services/actions';
+import { ADD_INGREDIENTS_CONSTRUCTOR } from '../../services/constants/order';
 import { useDrop } from 'react-dnd';
 
 interface IDropTargetProps {

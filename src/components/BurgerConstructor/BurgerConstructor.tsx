@@ -7,7 +7,8 @@ import BurgerConstructorItemWrapper from './BurgerConstructorItemWrapper';
 import styles from './burgerconstructor.module.css'; 
 
 import Modal from '../Modal/Modal';
-import { getOrderNumber, DELETE_ORDER_NUMBER } from '../../services/actions';
+import { getOrderNumber } from '../../services/actions';
+import { DELETE_ORDER_NUMBER } from '../../services/constants/order';
 import DropTarget from '../DragAndDrop/DropTarget';
 import DraggableItem from '../DragAndDrop/DraggableItem';
 import { getCookie } from '../../utils/cookie';

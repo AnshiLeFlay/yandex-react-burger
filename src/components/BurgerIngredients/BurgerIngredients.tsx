@@ -7,7 +7,8 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientDetails from './IngredientDetails';
 import BurgerIngredientsItem from './BurgerIngredientsItem';
 import Modal from '../Modal/Modal';
-import { getItems, ADD_DATA_INGREDIENTS_MODAL, DELETE_DATA_INGREDIENTS_MODAL } from '../../services/actions';
+import { getItems } from '../../services/actions';
+import { ADD_DATA_INGREDIENTS_MODAL, DELETE_DATA_INGREDIENTS_MODAL } from '../../services/constants/order';
 import DraggableItem from '../DragAndDrop/DraggableItem';
 import styles from './burgeringredients.module.css'; 
 

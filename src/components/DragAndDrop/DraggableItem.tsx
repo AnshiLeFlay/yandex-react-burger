@@ -1,6 +1,6 @@
 import React, { useRef, FC } from 'react';
 import { useDispatch } from 'react-redux';
-import { MOVE_INGREDIENTS_CONSTRUCTOR } from '../../services/actions';
+import { MOVE_INGREDIENTS_CONSTRUCTOR } from '../../services/constants/order';
 import { useDrag, useDrop, XYCoord } from "react-dnd";
 
 import styles from './draganddrop.module.css'; 
