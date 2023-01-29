@@ -21,11 +21,11 @@ export function setCookie( name: string, value: string | null, props: { [x: stri
     document.cookie = updatedCookie;
 }
 
-export function getCookie( name: string ) {
+export function getCookie( name: string ): any {
     const matches = document.cookie.match(
         new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()[\]\\/+^])/g, '\\$1') + '=([^;]*)')
     );
-    return matches ? decodeURIComponent( matches[1] ) : 'undefined';
+    return matches ? decodeURIComponent( matches[1] ) : undefined;
 } 
 //new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
 
