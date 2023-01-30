@@ -10,7 +10,6 @@ import {
 } from '../../utils/users';
 
 import { setCookie, deleteCookie, getCookie } from "../../utils/cookie";
-import { Dispatch } from 'redux';
 
 import { 
     PASSWORD_FORGOT_REQUEST, PASSWORD_FORGOT_SUCCESS, PASSWORD_FORGOT_FAILED,
@@ -22,6 +21,7 @@ import {
     UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILED,
     GET_USER_DATA_REQUEST, GET_USER_DATA_SUCCESS, GET_USER_DATA_FAILED
 } from './../constants/users';
+import { AppDispatch, AppThunk } from '../types';
 
 export interface IPasswordForgotRequestAction {
     readonly type: typeof PASSWORD_FORGOT_REQUEST;
@@ -58,10 +58,10 @@ export interface ILoginRequestAction {
 }
 export interface ILoginSuccessAction {
     readonly type: typeof LOGIN_SUCCESS;
-    accessToken: String;
-    refreshToken: String;
-    email: String;
-    name: String;
+    accessToken: string;
+    refreshToken: string;
+    email: string;
+    name: string;
 }
 export interface ILoginFailedAction {
     readonly type: typeof LOGIN_FAILED;
@@ -82,8 +82,8 @@ export interface IUpdateTokenRequestAction {
 }
 export interface IUpdateTokenSuccessAction {
     readonly type: typeof UPDATE_TOKEN_SUCCESS;
-    accessToken: String;
-    refreshToken: String;
+    accessToken: string;
+    refreshToken: string;
 }
 export interface IUpdateTokenFailedAction {
     readonly type: typeof UPDATE_TOKEN_FAILED;
@@ -94,8 +94,8 @@ export interface IUpdateUserRequestAction {
 }
 export interface IUpdateUserSuccessAction {
     readonly type: typeof UPDATE_USER_SUCCESS;
-    name: String;
-    email: String;
+    name: string;
+    email: string;
 }
 export interface IUpdateUserFailedAction {
     readonly type: typeof UPDATE_USER_FAILED;
@@ -106,8 +106,8 @@ export interface IGetUserDataRequestAction {
 }
 export interface IGetUserDataSuccessAction {
     readonly type: typeof GET_USER_DATA_SUCCESS;
-    name: String;
-    email: String;
+    name: string;
+    email: string;
 }
 export interface IGetUserDataFailedAction {
     readonly type: typeof GET_USER_DATA_FAILED;
@@ -123,8 +123,8 @@ export type TUsersActions =
     | IUpdateUserRequestAction | IUpdateUserSuccessAction | IUpdateUserFailedAction
     | IGetUserDataRequestAction | IGetUserDataSuccessAction | IGetUserDataFailedAction;
 
-export function forgot( email: string ): Function {
-    return function( dispatch: Dispatch ) {
+export const forgot: AppThunk = ( email: string ) => {
+    return function( dispatch: AppDispatch ) {
         dispatch( {
             type: PASSWORD_FORGOT_REQUEST
         } );
@@ -142,8 +142,8 @@ export function forgot( email: string ): Function {
     };
 }
 
-export function reset( password: string, token: string ): Function {
-    return function( dispatch: Dispatch ) {
+export const reset: AppThunk = ( password: string, token: string ) => {
+    return function( dispatch: AppDispatch ) {
         dispatch({
             type: PASSWORD_RESET_REQUEST
         });
@@ -161,8 +161,8 @@ export function reset( password: string, token: string ): Function {
     };
 }
 
-export function register( name: string, email: string, password: string ): Function {
-    return function( dispatch: Dispatch<any> ) {
+export const register: AppThunk = ( name: string, email: string, password: string ) => {
+    return function( dispatch: AppThunk ) {
         dispatch( {
             type: REGISTER_REQUEST
         } );
@@ -183,8 +183,8 @@ export function register( name: string, email: string, password: string ): Funct
     };
 }
 
-export function login( email: string, password: string ): Function {
-    return function( dispatch: Dispatch ) {
+export const login: AppThunk = ( email: string, password: string ) => {
+    return function( dispatch: AppDispatch ) {
         dispatch( {
             type: LOGIN_REQUEST
         } );
@@ -221,8 +221,8 @@ export function login( email: string, password: string ): Function {
     };
 }
 
-export function logout( token: string ): Function {
-    return function( dispatch: Dispatch ) {
+export const logout: AppThunk = ( token: string ) => {
+    return function( dispatch: AppDispatch ) {
         dispatch( {
             type: LOGOUT_REQUEST
         } );
@@ -242,8 +242,8 @@ export function logout( token: string ): Function {
     };
 }
 
-export function token( refreshToken: string ): Function {
-    return function( dispatch: Dispatch ) {
+export const token: AppThunk = ( refreshToken: string ) => {
+    return function( dispatch: AppDispatch ) {
         dispatch( {
             type: UPDATE_TOKEN_REQUEST
         } );
@@ -265,8 +265,8 @@ export function token( refreshToken: string ): Function {
     };
 } 
 
-export function updateData( token: string, data: any ): Function {
-    return function( dispatch: Dispatch ) {
+export const updateData: AppThunk = ( token: string, data: any ) => {
+    return function( dispatch: AppDispatch ) {
         dispatch( {
             type: UPDATE_USER_REQUEST
         } );
@@ -317,8 +317,8 @@ export function updateData( token: string, data: any ): Function {
     };
 } 
 
-export function userData( token: string ): Function {
-    return function( dispatch: Dispatch ) {
+export const userData: AppThunk = ( token: string ) => {
+    return function( dispatch: AppDispatch ) {
         dispatch( {
             type: GET_USER_DATA_REQUEST
         } );
@@ -368,8 +368,8 @@ export function userData( token: string ): Function {
     };
 } 
 
-export function fullUpdate( token: string ): Function {
-    return function( dispatch: Dispatch ) {
+export const fullUpdate: AppThunk = ( token: string ) => {
+    return function( dispatch: AppDispatch ) {
         dispatch( {
             type: UPDATE_TOKEN_REQUEST
         } );

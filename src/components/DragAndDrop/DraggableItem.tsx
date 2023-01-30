@@ -1,6 +1,6 @@
 import React, { useRef, FC } from 'react';
-import { useDispatch } from 'react-redux';
-import { MOVE_INGREDIENTS_CONSTRUCTOR } from '../../services/constants/order';
+import { useDispatch } from '../../services/hooks';
+import { MOVE_INGREDIENTS_CONSTRUCTOR } from '../../services/constants/ingredients';
 import { useDrag, useDrop, XYCoord } from "react-dnd";
 
 import styles from './draganddrop.module.css'; 
@@ -13,7 +13,7 @@ interface IDraggableItemProps {
 const DraggableItem: FC<IDraggableItemProps> = ( props ) => {
     const { id, content, board, index } = props.data;
     const ref = useRef<HTMLDivElement>( null );
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
     
     const [ , drag] = useDrag({
         type: "item",

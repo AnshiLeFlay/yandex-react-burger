@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { useDispatch } from 'react-redux';
-import { DELETE_INGREDIENTS_CONSTRUCTOR } from '../../services/constants/order';
+import { useDispatch } from '../../services/hooks';
+import { DELETE_INGREDIENTS_CONSTRUCTOR } from '../../services/constants/ingredients';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './burgerconstructor.module.css'; 
@@ -17,7 +17,7 @@ interface IBurgerConstructorItemWrapperProps {
 const BurgerConstructorItemWrapper: FC<IBurgerConstructorItemWrapperProps> = ( props ) => {
     const itemType = props.type;
 
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
 
     const handleClose = () => {
         if ( itemType === 'bun' )

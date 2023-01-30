@@ -1,5 +1,5 @@
 import React, { SyntheticEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/hooks';
 import { login } from '../services/actions/users';
 import { Link, useHistory, Redirect } from 'react-router-dom';
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -9,9 +9,9 @@ import styles from './pages.module.css';
 export function LoginPage() {
     const history: any = useHistory();
 
-    const dispatch: any = useDispatch();
-    const failed: any = useSelector<any>( store => store.users.loginFailed );
-    const accessToken: any = useSelector<any>( store => store.users.user.accessToken );
+    const dispatch = useDispatch();
+    const failed = useSelector( store => store.users.loginFailed );
+    const accessToken = useSelector( store => store.users.user.accessToken );
     
     const [ email, setEmail ] = React.useState('');
     const onChangeEmail = ( e: React.ChangeEvent<HTMLInputElement> ) => {

@@ -1,13 +1,13 @@
 import React from "react";
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './burgerconstructor.module.css'; 
 
 function OrderDetails() {
-    const orderNumber: any = useSelector<any>( store => store?.order?.data?.order?.number );
-    const orderFailed: any = useSelector<any>( store => store?.order?.orderFailed );
+    const orderNumber = useSelector( store => store?.order?.data?.order?.number );
+    const orderFailed = useSelector( store => store?.order?.orderFailed );
 
     return (
             

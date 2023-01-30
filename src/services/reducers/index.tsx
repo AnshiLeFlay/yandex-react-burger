@@ -1,24 +1,19 @@
-import { AnyAction, combineReducers } from 'redux';
+import { combineReducers } from 'redux';
 
 import { users } from './users';
 
+import { 
+    GET_DATA_REQUEST, GET_DATA_SUCCESS, GET_DATA_FAILED
+} from '../constants/data';
 import {
-    GET_DATA_REQUEST,
-    GET_DATA_SUCCESS,
-    GET_DATA_FAILED,
-    GET_ORDER_NUMBER_REQUEST,
-    GET_ORDER_NUMBER_SUCCESS,
-    GET_ORDER_NUMBER_FAILED,
-    DELETE_ORDER_NUMBER,
-    GET_INGREDIENTS_CONSTRUCTOR,
-    ADD_INGREDIENTS_CONSTRUCTOR,
-    DELETE_INGREDIENTS_CONSTRUCTOR,
-    MOVE_INGREDIENTS_CONSTRUCTOR,
-    ADD_DATA_INGREDIENTS_MODAL,
-    DELETE_DATA_INGREDIENTS_MODAL
+    GET_ORDER_NUMBER_REQUEST, GET_ORDER_NUMBER_SUCCESS, GET_ORDER_NUMBER_FAILED, DELETE_ORDER_NUMBER
 } from '../constants/order';
+import { 
+    GET_INGREDIENTS_CONSTRUCTOR, ADD_INGREDIENTS_CONSTRUCTOR, DELETE_INGREDIENTS_CONSTRUCTOR, MOVE_INGREDIENTS_CONSTRUCTOR,
+    ADD_DATA_INGREDIENTS_MODAL, DELETE_DATA_INGREDIENTS_MODAL
+} from '../constants/ingredients';
 
-import { TMainActions } from '../actions';
+import { TDataActions, TIngredientsActions, TOrderActions } from '../actions';
 
 /*
 Начальное состояние
@@ -32,19 +27,30 @@ dataFailed - флаг ошибки запроса к API
 
 type TInitialState = {
     data: {
-        ingredients: Array<String>,
+        ingredients: any,
         dataRequest: Boolean,
         dataFailed: Boolean
     },
     ingredients: {
         burgerIngredients: {
-            bun: String,
-            consist: Array<String>
+            bun: string,
+            consist: Array<string>
         },
-        currentIngredient: {},
+        currentIngredient?: {
+            name?: string, 
+            calories?: string, 
+            proteins?: string, 
+            fat?: string, 
+            carbohydrates?: string,
+            image?: string
+        },
     },
     order: {
-        data: {},
+        data: {
+            order?: {
+                number: number
+            }
+        },
         orderRequest: Boolean,
         orderFailed: Boolean
     }
@@ -73,7 +79,7 @@ const initialState: TInitialState = {
 /*
 Получение списка ингредиентов от API. Используется в компоненте BurgerIngredients.
 */
-const getIngredientsData = ( state = initialState.data, action: TMainActions ) => {
+const getIngredientsData = ( state = initialState.data, action: TDataActions ): TInitialState['data'] => {
     switch ( action.type ) {
         case GET_DATA_REQUEST: {
             return {
@@ -94,7 +100,7 @@ const getIngredientsData = ( state = initialState.data, action: TMainActions ) =
 }
 
 /* Получение и обновление номера заказа в модальном окне OrderDetails. */
-const getOrderData = ( state = initialState.order, action: AnyAction ) => {
+const getOrderData = ( state = initialState.order, action: TOrderActions ): TInitialState['order'] => {
     switch (action.type) {
         case GET_ORDER_NUMBER_REQUEST: {
             return {
@@ -106,10 +112,10 @@ const getOrderData = ( state = initialState.order, action: AnyAction ) => {
             return { ...state, orderFailed: false, orderRequest: false, data: action.items };
         }
         case GET_ORDER_NUMBER_FAILED: {
-            return { ...state, orderFailed: true, orderRequest: false, data: '' };
+            return { ...state, orderFailed: true, orderRequest: false, data: {} };
         }
         case DELETE_ORDER_NUMBER: {
-            return { ...state, orderFailed: false, orderRequest: false, data: '' };
+            return { ...state, orderFailed: false, orderRequest: false, data: {} };
         }
         default: {
             return state;
@@ -122,7 +128,7 @@ const getOrderData = ( state = initialState.order, action: AnyAction ) => {
 Добавление данных о просматриваемом в модальном окне IngredientDetails ингредиенте.
 Удаление данных о просматриваемом в модальном окне ингредиенте при закрытии модального окна.
 */
-const ingredientsReducer = ( state = initialState.ingredients, action: AnyAction ) => {
+const ingredientsReducer = ( state = initialState.ingredients, action: TIngredientsActions ): TInitialState['ingredients'] => {
     switch (action.type) {
         case GET_INGREDIENTS_CONSTRUCTOR: {
             return {
@@ -193,9 +199,9 @@ const ingredientsReducer = ( state = initialState.ingredients, action: AnyAction
     }
 }
 
-export const rootReducer = combineReducers({
+export const rootReducer = combineReducers( {
     data: getIngredientsData,
     order: getOrderData,
     ingredients: ingredientsReducer,
     users: users
-});
+} );

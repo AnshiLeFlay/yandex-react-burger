@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../services/hooks';
 import { useHistory } from 'react-router-dom';
 import { getItems } from '../services/actions';
 
@@ -16,10 +16,10 @@ type TIngredient = {
 }
 
 export function IngredientsPage() {
-    const ingredients: any = useSelector<any>( store => store?.data?.ingredients );
+    const ingredients = useSelector( store => store?.data?.ingredients );
     const [ currentItem, setCurrentItem ] = React.useState<TIngredient>( {} );
     const history = useHistory();
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
 
     useEffect( () => {
         //обновить список ингредиентов

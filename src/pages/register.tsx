@@ -1,5 +1,5 @@
 import React, { SyntheticEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/hooks';
 import { register } from '../services/actions/users';
 import { Link, useHistory } from 'react-router-dom';
 import { Input, PasswordInput, EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -20,10 +20,10 @@ export function RegisterPage() {
         setPassword( e.target.value );
     }
 
-    const failed: any = useSelector<any>( store => store.users.registerFailed );
-    const token: any = useSelector<any>( store => store.users.user.refreshToken );
+    const failed = useSelector( store => store.users.registerFailed );
+    const token = useSelector( store => store.users.user.refreshToken );
 
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
 
     const handleBtn = ( e: SyntheticEvent ) => {
         e.preventDefault();

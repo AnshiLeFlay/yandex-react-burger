@@ -1,13 +1,18 @@
-import { Dispatch } from 'redux';
 import { Url } from 'url';
 import { getDataRequest, getOrderNumberRequest } from '../../utils/getdata';
 
 import { 
-    GET_DATA_REQUEST, GET_DATA_SUCCESS, GET_DATA_FAILED,
-    GET_ORDER_NUMBER_REQUEST, GET_ORDER_NUMBER_SUCCESS, GET_ORDER_NUMBER_FAILED, DELETE_ORDER_NUMBER,
+    GET_DATA_REQUEST, GET_DATA_SUCCESS, GET_DATA_FAILED
+} from '../constants/data';
+import {
+    GET_ORDER_NUMBER_REQUEST, GET_ORDER_NUMBER_SUCCESS, GET_ORDER_NUMBER_FAILED, DELETE_ORDER_NUMBER
+} from '../constants/order';
+import { 
     GET_INGREDIENTS_CONSTRUCTOR, ADD_INGREDIENTS_CONSTRUCTOR, DELETE_INGREDIENTS_CONSTRUCTOR, MOVE_INGREDIENTS_CONSTRUCTOR,
     ADD_DATA_INGREDIENTS_MODAL, DELETE_DATA_INGREDIENTS_MODAL
-} from '../constants/order';
+} from '../constants/ingredients';
+
+import { AppDispatch, AppThunk } from '../types';
 
 export interface IGetDataRequestAction {
     readonly type: typeof GET_DATA_REQUEST;
@@ -38,7 +43,7 @@ export interface IGetOrderNumberRequestAction {
 }
 export interface IGetOrderNumberSuccessAction {
     readonly type: typeof GET_ORDER_NUMBER_SUCCESS;
-    items: any
+    items: any;
 }
 export interface IGetOrderNumberFailedAction {
     readonly type: typeof GET_ORDER_NUMBER_FAILED;
@@ -52,31 +57,40 @@ export interface IGetIngredientsConstructorAction {
 }
 export interface IAddIngredientsConstructorAction {
     readonly type: typeof ADD_INGREDIENTS_CONSTRUCTOR;
-    items: any
+    content: string;
+    item: any;
 }
 export interface IDeleteIngredientsConstructorAction {
     readonly type: typeof DELETE_INGREDIENTS_CONSTRUCTOR;
+    itemDelete: any;
 }
 export interface IMoveIngredientsConstructorAction {
     readonly type: typeof MOVE_INGREDIENTS_CONSTRUCTOR;
+    itemReplace: number;
+    itemDrag: number;
 }
 
 export interface IAddDataIngredientsModalAction {
     readonly type: typeof ADD_DATA_INGREDIENTS_MODAL;
+    item: any;
 }
 export interface IDeleteDataIngredientsModalAction {
     readonly type: typeof DELETE_DATA_INGREDIENTS_MODAL;
 }
 
-export type TMainActions = 
-    | IGetDataRequestAction | IGetDataSuccessAction | IGetDataFailedAction
-    | IGetOrderNumberRequestAction | IGetOrderNumberSuccessAction | IGetOrderNumberFailedAction | IDeleteOrderNumberAction
+export type TDataActions =
+    | IGetDataRequestAction | IGetDataSuccessAction | IGetDataFailedAction;
+
+export type TOrderActions = 
+    | IGetOrderNumberRequestAction | IGetOrderNumberSuccessAction | IGetOrderNumberFailedAction | IDeleteOrderNumberAction;
+
+export type TIngredientsActions = 
     | IGetIngredientsConstructorAction | IAddIngredientsConstructorAction | IDeleteIngredientsConstructorAction | IMoveIngredientsConstructorAction
     | IAddDataIngredientsModalAction | IDeleteDataIngredientsModalAction;
 
 /* усилитель 1 - получение ингридиентов из API */
-export function getItems(): Function {
-    return function( dispatch: Dispatch ) {
+export const getItems: AppThunk = () => {
+    return function( dispatch: AppDispatch ) {
         dispatch( {
             type: GET_DATA_REQUEST
         } );
@@ -96,8 +110,8 @@ export function getItems(): Function {
 }
 
 /* усилитель 2 - получение данных заказа из API */
-export function getOrderNumber( order = {} ): Function {
-    return function( dispatch: Dispatch ) {
+export const getOrderNumber: AppThunk = ( order = {} ) => {
+    return function( dispatch: AppDispatch ) {
         dispatch( {
             type: GET_ORDER_NUMBER_REQUEST
         } );

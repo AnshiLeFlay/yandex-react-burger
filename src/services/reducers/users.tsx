@@ -45,10 +45,10 @@ type TInitialState = {
     userRequest: boolean,
     userFailed: boolean,
     user: {
-        email: String,
-        name: String,
-        accessToken: String,
-        refreshToken: String
+        email: string,
+        name: string,
+        accessToken: string,
+        refreshToken: string
     }
 }
 
@@ -77,7 +77,7 @@ const initialState: TInitialState = {
     }
 }
 
-export const users = ( state: TInitialState = initialState, action: TUsersActions ) => {
+export const users = ( state: TInitialState = initialState, action: TUsersActions ): TInitialState => {
     switch (action.type) {
         case PASSWORD_FORGOT_REQUEST: {
             return {

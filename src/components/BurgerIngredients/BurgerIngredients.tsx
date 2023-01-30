@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { useInView } from 'react-intersection-observer';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -8,7 +8,7 @@ import IngredientDetails from './IngredientDetails';
 import BurgerIngredientsItem from './BurgerIngredientsItem';
 import Modal from '../Modal/Modal';
 import { getItems } from '../../services/actions';
-import { ADD_DATA_INGREDIENTS_MODAL, DELETE_DATA_INGREDIENTS_MODAL } from '../../services/constants/order';
+import { ADD_DATA_INGREDIENTS_MODAL, DELETE_DATA_INGREDIENTS_MODAL } from '../../services/constants/ingredients';
 import DraggableItem from '../DragAndDrop/DraggableItem';
 import styles from './burgeringredients.module.css'; 
 
@@ -23,11 +23,11 @@ function BurgerIngredients() {
     const [ current, setCurrent ] = React.useState<String>( 'one' );
     const [ visible, setVisibility ] = React.useState<Boolean>( false );
     const [ orderCounts, setOrderCounts ] = React.useState<{ [ x: string ]: number }>( {} );
-    const burgerBun: any = useSelector<any>( store => store.ingredients.burgerIngredients.bun );
-    const burgerContent: any = useSelector<any>( store => store.ingredients.burgerIngredients.consist );
+    const burgerBun = useSelector( store => store.ingredients.burgerIngredients.bun );
+    const burgerContent = useSelector( store => store.ingredients.burgerIngredients.consist );
 
-    const dispatch: any = useDispatch();
-    const data: any = useSelector<any>( store => store.data.ingredients );
+    const dispatch = useDispatch();
+    const data = useSelector( store => store.data.ingredients );
 
     const { ref: bunsRef, inView: bunsView } = useInView();
     const { ref: sauceRef, inView: sauceView } = useInView();

@@ -1,11 +1,9 @@
 import React, { SyntheticEvent, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import OrderDetails from './OrderDetails';
 import BurgerConstructorItemWrapper from './BurgerConstructorItemWrapper';
-import styles from './burgerconstructor.module.css'; 
-
 import Modal from '../Modal/Modal';
 import { getOrderNumber } from '../../services/actions';
 import { DELETE_ORDER_NUMBER } from '../../services/constants/order';
@@ -13,6 +11,8 @@ import DropTarget from '../DragAndDrop/DropTarget';
 import DraggableItem from '../DragAndDrop/DraggableItem';
 import { getCookie } from '../../utils/cookie';
 import { useHistory } from 'react-router-dom';
+
+import styles from './burgerconstructor.module.css'; 
 
 interface IBurgerElem {
     image?: string; 
@@ -22,9 +22,9 @@ interface IBurgerElem {
 };
 
 function BurgerConstructor() {
-    const data: any = useSelector<any>( store => store.data.ingredients );
-    const burgerBun: any = useSelector<any>( store => store.ingredients.burgerIngredients.bun );
-    const burgerContent: any = useSelector<any>( store => store.ingredients.burgerIngredients.consist );
+    const data = useSelector( store => store.data.ingredients );
+    const burgerBun = useSelector( store => store.ingredients.burgerIngredients.bun );
+    const burgerContent = useSelector( store => store.ingredients.burgerIngredients.consist );
 
     const [ constructor, setConstructor ] = React.useState<Array<[]>>( [] );
     const [ bunTopBot, setBuns ] = React.useState<IBurgerElem>( );
@@ -33,11 +33,11 @@ function BurgerConstructor() {
 
     const history = useHistory();
 
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
 
     useEffect( () => {
         if ( data[0] !== undefined ) {
-            const orderArr: Array<string> = [ burgerBun, burgerBun, ...burgerContent ];
+            const orderArr: Array<String> = [ burgerBun, burgerBun, ...burgerContent ];
             let cost = 0;
 
             orderArr.forEach( ( elem ) => {
@@ -52,7 +52,7 @@ function BurgerConstructor() {
     useEffect( () => {
         let buf: Array<[]> = [];
         let con: any = {};
-        burgerContent.forEach( ( elem: string ) => {
+        burgerContent.forEach( ( elem: String ) => {
             con = data.find( (item: IBurgerElem ) => item._id === elem );
             if ( con !== undefined ) {
                 buf.push( con );
