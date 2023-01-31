@@ -63,3 +63,50 @@
 .nutrients p {
     text-align: center;
 }
+
+.main_content {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+}
+
+.main_content_item {
+    text-align: left;
+    max-width: 600px;
+    max-height: 912px;
+    width: 100%;
+}
+
+.page_header {
+    width: 1240px;
+}
+
+.text_icon_align {
+    display: flex;
+    align-items: center;
+}
+
+.text_color_order_number {
+    color: #00CCCC;
+}
+
+.left_column_item {
+    display: flex; 
+    flex-direction: column;
+    gap: 16px;
+}
+
+.wrapper_order_feed {
+    display: flex;
+    gap: 36px;
+}
+
+.wrapper_half {
+    width: 50%;
+}
+
+.wrapper_column {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
