@@ -12,7 +12,7 @@ import {
     ADD_DATA_INGREDIENTS_MODAL, DELETE_DATA_INGREDIENTS_MODAL
 } from '../constants/ingredients';
 
-import { AppDispatch, AppThunk } from '../types';
+import { AppDispatch } from '../types';
 
 export interface IGetDataRequestAction {
     readonly type: typeof GET_DATA_REQUEST;
@@ -89,7 +89,7 @@ export type TIngredientsActions =
     | IAddDataIngredientsModalAction | IDeleteDataIngredientsModalAction;
 
 /* усилитель 1 - получение ингридиентов из API */
-export const getItems: AppThunk = () => {
+export const getItems = () => {
     return function( dispatch: AppDispatch ) {
         dispatch( {
             type: GET_DATA_REQUEST
@@ -110,7 +110,7 @@ export const getItems: AppThunk = () => {
 }
 
 /* усилитель 2 - получение данных заказа из API */
-export const getOrderNumber: AppThunk = ( order = {} ) => {
+export const getOrderNumber = ( order = {} ) => {
     return function( dispatch: AppDispatch ) {
         dispatch( {
             type: GET_ORDER_NUMBER_REQUEST

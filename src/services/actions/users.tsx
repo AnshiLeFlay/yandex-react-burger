@@ -123,7 +123,7 @@ export type TUsersActions =
     | IUpdateUserRequestAction | IUpdateUserSuccessAction | IUpdateUserFailedAction
     | IGetUserDataRequestAction | IGetUserDataSuccessAction | IGetUserDataFailedAction;
 
-export const forgot: AppThunk = ( email: string ) => {
+export const forgot = ( email: string ) => {
     return function( dispatch: AppDispatch ) {
         dispatch( {
             type: PASSWORD_FORGOT_REQUEST
@@ -142,7 +142,7 @@ export const forgot: AppThunk = ( email: string ) => {
     };
 }
 
-export const reset: AppThunk = ( password: string, token: string ) => {
+export const reset = ( password: string, token: string ) => {
     return function( dispatch: AppDispatch ) {
         dispatch({
             type: PASSWORD_RESET_REQUEST
@@ -161,7 +161,7 @@ export const reset: AppThunk = ( password: string, token: string ) => {
     };
 }
 
-export const register: AppThunk = ( name: string, email: string, password: string ) => {
+export const register = ( name: string, email: string, password: string ) => {
     return function( dispatch: AppThunk ) {
         dispatch( {
             type: REGISTER_REQUEST
@@ -183,7 +183,7 @@ export const register: AppThunk = ( name: string, email: string, password: strin
     };
 }
 
-export const login: AppThunk = ( email: string, password: string ) => {
+export const login = ( email: string, password: string ) => {
     return function( dispatch: AppDispatch ) {
         dispatch( {
             type: LOGIN_REQUEST
@@ -201,6 +201,7 @@ export const login: AppThunk = ( email: string, password: string ) => {
                     }
                 } 
                 */
+               
             
                 dispatch( {
                     type: LOGIN_SUCCESS,
@@ -221,7 +222,7 @@ export const login: AppThunk = ( email: string, password: string ) => {
     };
 }
 
-export const logout: AppThunk = ( token: string ) => {
+export const logout = ( token: string ) => {
     return function( dispatch: AppDispatch ) {
         dispatch( {
             type: LOGOUT_REQUEST
@@ -242,7 +243,7 @@ export const logout: AppThunk = ( token: string ) => {
     };
 }
 
-export const token: AppThunk = ( refreshToken: string ) => {
+export const token = ( refreshToken: string ) => {
     return function( dispatch: AppDispatch ) {
         dispatch( {
             type: UPDATE_TOKEN_REQUEST
@@ -265,7 +266,7 @@ export const token: AppThunk = ( refreshToken: string ) => {
     };
 } 
 
-export const updateData: AppThunk = ( token: string, data: any ) => {
+export const updateData = ( token: string, data: any ) => {
     return function( dispatch: AppDispatch ) {
         dispatch( {
             type: UPDATE_USER_REQUEST
@@ -317,7 +318,7 @@ export const updateData: AppThunk = ( token: string, data: any ) => {
     };
 } 
 
-export const userData: AppThunk = ( token: string ) => {
+export const userData = ( token: string ) => {
     return function( dispatch: AppDispatch ) {
         dispatch( {
             type: GET_USER_DATA_REQUEST
@@ -368,7 +369,7 @@ export const userData: AppThunk = ( token: string ) => {
     };
 } 
 
-export const fullUpdate: AppThunk = ( token: string ) => {
+export const fullUpdate = ( token: string ) => {
     return function( dispatch: AppDispatch ) {
         dispatch( {
             type: UPDATE_TOKEN_REQUEST

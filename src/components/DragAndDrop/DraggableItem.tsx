@@ -43,8 +43,8 @@ const DraggableItem: FC<IDraggableItemProps> = ( props ) => {
                 return;
             }
 
-            const dragIndex = itemId.index;
-            const hoverIndex = index;
+            const dragIndex: number = itemId.index;
+            const hoverIndex: number = index!;
             
             if (dragIndex === hoverIndex) {
                 return;
