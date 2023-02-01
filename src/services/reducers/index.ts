@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import { users } from './users';
+import { wsReducer } from './wsReducer';
 
 import { 
     GET_DATA_REQUEST, GET_DATA_SUCCESS, GET_DATA_FAILED
@@ -203,5 +204,6 @@ export const rootReducer = combineReducers( {
     data: getIngredientsData,
     order: getOrderData,
     ingredients: ingredientsReducer,
-    users: users
+    users: users,
+    ws: wsReducer
 } );

@@ -20,7 +20,8 @@ import {
     UPDATE_TOKEN_REQUEST, UPDATE_TOKEN_SUCCESS, UPDATE_TOKEN_FAILED,
     UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILED,
     GET_USER_DATA_REQUEST, GET_USER_DATA_SUCCESS, GET_USER_DATA_FAILED
-} from './../constants/users';
+} from '../constants/users';
+
 import { AppDispatch, AppThunk } from '../types';
 
 export interface IPasswordForgotRequestAction {

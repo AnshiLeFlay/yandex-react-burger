@@ -9,8 +9,16 @@ import styles from './app.module.css';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
+import { getItems } from '../../services/actions';
+import { useDispatch } from '../../services/hooks';
 
 function App() {
+	const dispatch = useDispatch();
+
+	React.useEffect( () => {
+		dispatch( getItems() );
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
 	return (
 		<div className="App">

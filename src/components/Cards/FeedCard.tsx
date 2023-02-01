@@ -7,10 +7,7 @@ interface IFeedCardProps {
     orderNumber: number;
     orderDate: string;
     burgerName: string;
-    ingredients: Array<{
-        image: string;
-    }>
-    price: number;
+    ingredients: Array<any>;
 }
 
 const FeedCard: FC<IFeedCardProps> = ( props ) => {
@@ -18,11 +15,54 @@ const FeedCard: FC<IFeedCardProps> = ( props ) => {
     const toshowIngredients = props.ingredients.slice(0, 5);
     const otherIngredients = props.ingredients.slice(5);
 
+    //console.log( 'feedcard' );
+    //console.log( props.ingredients );
+    const getPrice = ( ) => {
+        let ans = 0;
+
+        for ( let i = 0; i < props.ingredients.length; i++ )
+            ans += props.ingredients[i].price;
+
+        return ans;
+    }
+
+    const timeSince = ( date: string ) => {
+        const timeOfOrder = new Date( date );
+        let formattedTime;
+        if ( timeOfOrder.getMinutes() < 10 )
+        formattedTime = `${ timeOfOrder.getHours() }:0${ timeOfOrder.getMinutes() }`;
+        else formattedTime = `${ timeOfOrder.getHours() }:${ timeOfOrder.getMinutes() }`;
+        const today = new Date().getTime()/1000;
+        const dataOfOrder = Date.parse( date )/1000;
+    
+        const seconds = Math.floor( today - dataOfOrder );
+     
+        const interval = seconds / 86400;
+
+        const daysAgo = Math.floor( Math.floor(interval) );
+        let ans = '';
+
+        if ( daysAgo === 0 ) {
+            ans = `Сегодня, `;
+        }
+        if ( daysAgo === 1 ) {
+            ans = 'Вчера, ';
+        }
+        if ( daysAgo > 1 && daysAgo < 5 ) {
+            ans = `${ interval } дня назад, `;
+        }
+        if ( daysAgo > 4 ) {
+            ans = `${ interval } дней назад, `;
+        }
+
+        return `${ ans }${ formattedTime }`;
+    }
+
     return (
         <div className={ `${ styles.order_card } p-6` }>
             <div className={ `mb-6 ${ styles.space_between }` }>
                 <span className="text text_type_digits-default">#{ props.orderNumber }</span>
-                <span className="text text_type_main-default text_color_inactive">Сегодня, HH:MM</span>
+                <span className="text text_type_main-default text_color_inactive">{ timeSince( props.orderDate ) }</span>
             </div>
             <p className="text text_type_main-medium mb-6">
                 { props.burgerName }
@@ -59,7 +99,7 @@ const FeedCard: FC<IFeedCardProps> = ( props ) => {
                     }
                     
                 </div>
-                <p className={ `text text_type_main-medium ${ styles.text_icon_align }` }><span className='text text_type_digits-default mr-2'>{ props.price }</span><CurrencyIcon type="primary" /></p>
+                <p className={ `text text_type_main-medium ${ styles.text_icon_align }` }><span className='text text_type_digits-default mr-2'>{ getPrice() }</span><CurrencyIcon type="primary" /></p>
             </div>
         </div>
     )
