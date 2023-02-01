@@ -25,7 +25,7 @@ const FeedCard: FC<IFeedCardProps> = ( props ) => {
                 <span className="text text_type_main-default text_color_inactive">Сегодня, HH:MM</span>
             </div>
             <p className="text text_type_main-medium mb-6">
-                burger_name
+                { props.burgerName }
             </p>
             <div className={ `${ styles.wrapper_feed }` }>
                 <div>
@@ -66,12 +66,3 @@ const FeedCard: FC<IFeedCardProps> = ( props ) => {
 }
 
 export default FeedCard;
-
-/*
-<div style={{ zIndex: 6 }} className={ `${ styles.ingredient_icon }` }></div>
-<div style={{ zIndex: 5, left: -16 }} className={ `${ styles.ingredient_icon }` }></div>
-<div style={{ zIndex: 4, left: -16*2 }} className={ `${ styles.ingredient_icon }` }></div>
-<div style={{ zIndex: 3, left: -16*3 }} className={ `${ styles.ingredient_icon }` }></div>
-<div style={{ zIndex: 2, left: -16*4 }} className={ `${ styles.ingredient_icon }` }></div>
-<div style={{ zIndex: 1, left: -16*5 }} className={ `${ styles.ingredient_icon }` }></div>
-*/

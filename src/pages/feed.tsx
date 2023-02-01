@@ -5,7 +5,51 @@ import FeedCard from '../components/Cards/FeedCard';
 import styles from './pages.module.css';
 
 export function FeedPage() {
+    const testArr = [
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+        '123123',
+    ];
 
+    const generateColumns = ( arr: Array<string>, textColor: string, hash: string ) => {
+        let buf = [];
+        let parentBuf = [];
+        for ( let i = 0; i < arr.length; i++ ) {
+            buf.push( <span key={ `${ hash }_${ i }` }>{ arr[i] }</span> );
+
+            if ( ( i + 1 ) % 10 === 0 ) {
+                parentBuf.push( <p key={ `${ hash }_p_${ i }` } className={ `text text_type_digits-default ${ textColor } ${ styles.wrapper_column }`}> { buf } </p> );
+                buf = [];
+            }
+            
+        }
+
+        if ( buf[0] !== undefined ) parentBuf.push( <p key={ `${ hash }_p_last` } className={ `text text_type_digits-default ${ textColor } ${ styles.wrapper_column }`}> { buf } </p> );
+
+        return parentBuf;
+    }
 
     return (
         <div>
@@ -38,22 +82,13 @@ export function FeedPage() {
                     <div className={ `mb-15 ${ styles.wrapper_order_feed }` }>
                         <div className={ styles.wrapper_half }>
                             <p className='text text_type_main-medium mb-6'>Готовы:</p>
-                            <p className={ `text text_type_digits-default ${ styles.text_color_order_number } ${ styles.wrapper_column }`}>
-                                <span>034501</span>
-                                <span>034501</span>
-                                <span>034501</span>
-                                <span>034501</span>
-                                <span>034501</span>
-                                <span>034501</span>
-                            </p>
+                            <div className={ styles.wrapper_flex }>
+                                { generateColumns( testArr, styles.text_color_order_number, 'inProgress' ) }
+                            </div>
                         </div>
                         <div className={ styles.wrapper_half }>
                             <p className='text text_type_main-medium mb-6'>В работе:</p>
-                            <p className={ `text text_type_digits-default ${ styles.wrapper_column }` }>
-                                <span>034501</span>
-                                <span>034501</span>
-                                <span>034501</span>
-                            </p>
+                            
                         </div>
                     </div>
                     <p className='text text_type_main-medium'>Выполнено за все время:</p>
@@ -65,3 +100,11 @@ export function FeedPage() {
         </div>
     );
 } 
+
+/*
+<p className={ `text text_type_digits-default ${ styles.wrapper_column }` }>
+    <span>034501</span>
+    <span>034501</span>
+    <span>034501</span>
+</p>
+*/
