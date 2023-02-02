@@ -3,7 +3,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
-import { LoginPage, RegisterPage, ForgotPage, ResetPage, ProfilePage, IngredientsPage, FeedPage } from '../../pages/';
+import { LoginPage, RegisterPage, ForgotPage, ResetPage, ProfilePage, IngredientsPage, FeedPage, OrderPage } from '../../pages/';
 import styles from './app.module.css';
 
 import AppHeader from '../AppHeader/AppHeader';
@@ -40,10 +40,10 @@ function App() {
 						<Route path="/reset-password">
 							<ResetPage />
 						</Route>
-						<Route path="/feed">
-							<FeedPage />
-						</Route>
 						<Route path="/feed/:id">
+							<OrderPage />
+						</Route>
+						<Route path="/feed">
 							<FeedPage />
 						</Route>
 						<ProtectedRoute path="/profile/orders/:id">

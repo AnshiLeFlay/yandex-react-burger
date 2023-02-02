@@ -22,7 +22,7 @@ export function ProfilePage() {
     const history = useHistory();
 
     const onChangeEmail = ( e: React.ChangeEvent<HTMLInputElement> ) => {
-        setEmail( e.target.value )
+        setEmail( e.target.value );
     }
     
     const onChangePassword = ( e: React.ChangeEvent<HTMLInputElement> ) => {

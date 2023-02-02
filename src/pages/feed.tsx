@@ -71,6 +71,7 @@ export function FeedPage() {
     const generateColumns = ( arr: Array<string>, textColor: string, hash: string ) => {
         let buf = [];
         let parentBuf = [];
+        if ( arr === undefined ) return [];
         for ( let i = 0; i < arr.length; i++ ) {
             buf.push( <span key={ `${ hash }_${ i }` }>{ arr[i] }</span> );
 
