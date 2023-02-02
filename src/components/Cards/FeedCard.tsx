@@ -11,12 +11,9 @@ interface IFeedCardProps {
 }
 
 const FeedCard: FC<IFeedCardProps> = ( props ) => {
-
     const toshowIngredients = props.ingredients.slice(0, 5);
     const otherIngredients = props.ingredients.slice(5);
 
-    //console.log( 'feedcard' );
-    //console.log( props.ingredients );
     const getPrice = ( ) => {
         let ans = 0;
 

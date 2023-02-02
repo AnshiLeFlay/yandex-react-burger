@@ -56,18 +56,6 @@ export function FeedPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [] );
 
-    /* orders
-    ingredients: Array<string>,
-    name: string,
-    createdAt: date,
-    number: number
-    */
-
-    /* messages
-    total: number,
-    totalToday: number
-    */
-
     const generateColumns = ( arr: Array<string>, textColor: string, hash: string ) => {
         if ( arr === undefined ) return [];
 
