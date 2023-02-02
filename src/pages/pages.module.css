@@ -8,6 +8,15 @@
     transform: translate(-50%, -50%);
 }
 
+.wrapper_middle {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .wrapper_profile {
     display: flex;
     width: 1240px;
@@ -86,7 +95,7 @@
     align-items: center;
 }
 
-.text_color_order_number {
+.text_color_light {
     color: #00CCCC;
 }
 
@@ -115,4 +124,32 @@
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
+}
+
+.spaced {
+    display: flex;
+    justify-content: space-between;
+}
+
+.full_width {
+    width: 100%;
+}
+
+.text_center {
+    text-align: center;
+}
+
+.ingredient_icon {
+    height: 64px;
+    width: 64px;
+    border-radius: 50%;
+    border-color: #4C4CFF;
+    border-width: medium;
+    border-style: solid;
+    background-color: #131316;
+    display: inline-block;
+    background-size: cover;
+    background-position: center;
+    box-sizing: border-box;
+    overflow: hidden;
 }

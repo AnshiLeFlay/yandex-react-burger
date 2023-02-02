@@ -69,9 +69,11 @@ export function FeedPage() {
     */
 
     const generateColumns = ( arr: Array<string>, textColor: string, hash: string ) => {
+        if ( arr === undefined ) return [];
+
         let buf = [];
         let parentBuf = [];
-        if ( arr === undefined ) return [];
+        
         for ( let i = 0; i < arr.length; i++ ) {
             buf.push( <span key={ `${ hash }_${ i }` }>{ arr[i] }</span> );
 
@@ -111,13 +113,13 @@ export function FeedPage() {
                         <div className={ styles.wrapper_half }>
                             <p className='text text_type_main-medium mb-6'>Готовы:</p>
                             <div className={ styles.wrapper_flex }>
-                                { generateColumns( doneOrders, styles.text_color_order_number, 'inProgress' ) }
+                                { generateColumns( doneOrders, styles.text_color_light, 'Done' ) }
                             </div>
                         </div>
                         <div className={ styles.wrapper_half }>
                             <p className='text text_type_main-medium mb-6'>В работе:</p>
                             <div className={ styles.wrapper_flex }>
-                                { generateColumns( otherOrders, styles.text_color_order_number, '' ) }
+                                { generateColumns( otherOrders, '', 'inProgress' ) }
                             </div>
                         </div>
                     </div>
