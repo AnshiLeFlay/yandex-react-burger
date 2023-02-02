@@ -41,7 +41,7 @@ export function FeedPage() {
             dispatch({ type: WS_CONNECTION_END });
         };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [] );
 
     /* orders
     ingredients: Array<string>,

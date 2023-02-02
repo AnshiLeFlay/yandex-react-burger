@@ -27,32 +27,34 @@ const FeedCard: FC<IFeedCardProps> = ( props ) => {
     }
 
     const timeSince = ( date: string ) => {
-        const timeOfOrder = new Date( date );
-        let formattedTime;
-        if ( timeOfOrder.getMinutes() < 10 )
-        formattedTime = `${ timeOfOrder.getHours() }:0${ timeOfOrder.getMinutes() }`;
-        else formattedTime = `${ timeOfOrder.getHours() }:${ timeOfOrder.getMinutes() }`;
-        const today = new Date().getTime()/1000;
-        const dataOfOrder = Date.parse( date )/1000;
-    
-        const seconds = Math.floor( today - dataOfOrder );
-     
-        const interval = seconds / 86400;
+        const dateOfOrder = new Date( date );
+        const dateOfToday = new Date();
 
-        const daysAgo = Math.floor( Math.floor(interval) );
+        const order = { year: dateOfOrder.getFullYear(), month: dateOfOrder.getMonth(), day: dateOfOrder.getDate() };
+        const today = { year: dateOfToday.getFullYear(), month: dateOfToday.getMonth(), day: dateOfToday.getDate() };
+
+        //упрощенный подсчет дней
+        const daysAgo = (today.year - order.year)*365 + (today.month - order.month)*30 + ( today.day - order.day );
+
+        let formattedTime;
+
+        if ( dateOfOrder.getMinutes() < 10 )
+        formattedTime = `${ dateOfOrder.getHours() }:0${ dateOfOrder.getMinutes() }`;
+        else formattedTime = `${ dateOfOrder.getHours() }:${ dateOfOrder.getMinutes() }`;
+
         let ans = '';
 
-        if ( daysAgo === 0 ) {
+        if ( daysAgo >= 0 && daysAgo < 1 ) {
             ans = `Сегодня, `;
         }
-        if ( daysAgo === 1 ) {
+        if ( daysAgo >= 1 && daysAgo < 2 ) {
             ans = 'Вчера, ';
         }
-        if ( daysAgo > 1 && daysAgo < 5 ) {
-            ans = `${ interval } дня назад, `;
+        if ( daysAgo >= 2 && daysAgo < 5 ) {
+            ans = `${ daysAgo } дня назад, `;
         }
-        if ( daysAgo > 4 ) {
-            ans = `${ interval } дней назад, `;
+        if ( daysAgo >= 5 ) {
+            ans = `${ daysAgo } дней назад, `;
         }
 
         return `${ ans }${ formattedTime }`;
