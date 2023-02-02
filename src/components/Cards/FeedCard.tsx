@@ -4,7 +4,7 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import styles from './cards.module.css'; 
 
 interface IFeedCardProps {
-    orderNumber: number;
+    orderNumber: string;
     orderDate: string;
     burgerName: string;
     ingredients: Array<any>;
@@ -34,6 +34,7 @@ const FeedCard: FC<IFeedCardProps> = ( props ) => {
         const today = { year: dateOfToday.getFullYear(), month: dateOfToday.getMonth(), day: dateOfToday.getDate() };
 
         //упрощенный подсчет дней
+        //заменить на секунды с обнулением до полуночи
         const daysAgo = (today.year - order.year)*365 + (today.month - order.month)*30 + ( today.day - order.day );
 
         let formattedTime;

@@ -16,12 +16,25 @@ type TIngredient = {
     carbohydrates?: string;
 }
 
+type TOrder = {
+    _id: string,
+    ingredients: Array<string>,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+    number: string,
+    status: string
+}
+
 export function FeedPage() {
     const dispatch = useDispatch();
     const ingredientsData = useSelector( store => store?.data?.ingredients );
-    const dataFeed = useSelector( store => store.ws.messages?.orders );
+    const dataFeed: Array<TOrder> = useSelector( store => store.ws.messages?.orders );
     const total = useSelector( store => store.ws.messages?.total );
     const totalToday = useSelector( store => store.ws.messages?.totalToday );
+
+    const doneOrders = dataFeed?.filter( elem => elem.status === 'done' )?.map( elem => elem.number );
+    const otherOrders = dataFeed?.filter( elem => elem.status !== 'done' )?.map( elem => elem.number );
 
     const findIngredients = ( args: Array<string>, inrgediensArray: Array<TIngredient> ) => {
         let res = [];
@@ -35,10 +48,10 @@ export function FeedPage() {
     }
 
     React.useEffect( () => {
-        dispatch({ type: WS_CONNECTION_START, url: 'feed' });
+        dispatch( { type: WS_CONNECTION_START, url: 'feed' } );
   
         return () => {
-            dispatch({ type: WS_CONNECTION_END });
+            dispatch( { type: WS_CONNECTION_END } );
         };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [] );
@@ -80,7 +93,7 @@ export function FeedPage() {
                 <div className={ `${ styles.main_content_item } ${ styles.left_column_item }` }>
 
                     {
-                        dataFeed?.map( ( elem: { _id: string; number: number; createdAt: string; name: string; ingredients: Array<string> } ) => 
+                        dataFeed?.map( ( elem ) => 
                             <FeedCard 
                                 key={ elem._id }
                                 orderNumber={ elem.number }
@@ -97,12 +110,14 @@ export function FeedPage() {
                         <div className={ styles.wrapper_half }>
                             <p className='text text_type_main-medium mb-6'>Готовы:</p>
                             <div className={ styles.wrapper_flex }>
-                                { generateColumns( [], styles.text_color_order_number, 'inProgress' ) }
+                                { generateColumns( doneOrders, styles.text_color_order_number, 'inProgress' ) }
                             </div>
                         </div>
                         <div className={ styles.wrapper_half }>
                             <p className='text text_type_main-medium mb-6'>В работе:</p>
-                            
+                            <div className={ styles.wrapper_flex }>
+                                { generateColumns( otherOrders, styles.text_color_order_number, '' ) }
+                            </div>
                         </div>
                     </div>
                     <p className='text text_type_main-medium'>Выполнено за все время:</p>
