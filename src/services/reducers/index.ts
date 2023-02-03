@@ -7,7 +7,7 @@ import {
     GET_DATA_REQUEST, GET_DATA_SUCCESS, GET_DATA_FAILED
 } from '../constants/data';
 import {
-    GET_ORDER_NUMBER_REQUEST, GET_ORDER_NUMBER_SUCCESS, GET_ORDER_NUMBER_FAILED, DELETE_ORDER_NUMBER, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED
+    GET_ORDER_NUMBER_REQUEST, GET_ORDER_NUMBER_SUCCESS, GET_ORDER_NUMBER_FAILED, DELETE_ORDER_NUMBER, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED, DELETE_ORDER
 } from '../constants/order';
 import { 
     GET_INGREDIENTS_CONSTRUCTOR, ADD_INGREDIENTS_CONSTRUCTOR, DELETE_INGREDIENTS_CONSTRUCTOR, MOVE_INGREDIENTS_CONSTRUCTOR,
@@ -52,11 +52,21 @@ type TInitialState = {
                 number: number
             }
         },
-        current: any,
+        current?: {
+            _id?: string;
+            ingredients?: Array<string>;
+            owner?: string;
+            status?: string;
+            name?: string;
+            createdAt?: string;
+            updatedAt?: string;
+            number?: number;
+            __v?: number
+        },
         orderDataRequest: boolean,
         orderDataFailed: boolean,
-        orderRequest: Boolean,
-        orderFailed: Boolean
+        orderRequest: boolean,
+        orderFailed: boolean
     }
 }
 
@@ -108,7 +118,7 @@ const getIngredientsData = ( state = initialState.data, action: TDataActions ): 
 
 /* Получение и обновление номера заказа в модальном окне OrderDetails. */
 const getOrderData = ( state = initialState.order, action: TOrderActions ): TInitialState['order'] => {
-    switch (action.type) {
+    switch ( action.type ) {
         case GET_ORDER_NUMBER_REQUEST: {
             return {
                 ...state,
@@ -135,6 +145,9 @@ const getOrderData = ( state = initialState.order, action: TOrderActions ): TIni
         }
         case GET_ORDER_FAILED: {
             return { ...state, orderDataFailed: true, orderDataRequest: false, current: {} };
+        }
+        case DELETE_ORDER: {
+            return { ...state, orderFailed: false, orderRequest: false, current: {} };
         }
         default: {
             return state;

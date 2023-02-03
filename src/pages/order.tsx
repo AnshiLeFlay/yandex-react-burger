@@ -9,13 +9,15 @@ import styles from './pages.module.css';
 import { getOrder } from '../services/actions';
 
 type TOrder = {
-    _id: string,
-    ingredients: Array<string>,
-    name: string,
-    createdAt: string,
-    updatedAt: string,
-    number: string,
-    status: string
+    _id?: string;
+    ingredients?: Array<string>;
+    owner?: string;
+    status?: string;
+    name?: string;
+    createdAt?: string;
+    updatedAt?: string;
+    number?: number;
+    __v?: number
 }
 
 type TIngredient = {
@@ -29,7 +31,7 @@ type TIngredient = {
     price?: string;
 }
 
-export function OrderPage( props: any ) {
+export function OrderPage( props: { id?: string, modal?: boolean } ) {
     const dispatch = useDispatch();
 
     const ingredientsData = useSelector( store => store?.data?.ingredients );
@@ -42,8 +44,6 @@ export function OrderPage( props: any ) {
     const params: { id: string } = useParams();
     
     useEffect( () => {
-        console.log( props );
-
         if ( props?.id !== undefined ) dispatch( getOrder( props?.id ) );
         else if ( params?.id !== undefined) dispatch( getOrder( params?.id ) );
 

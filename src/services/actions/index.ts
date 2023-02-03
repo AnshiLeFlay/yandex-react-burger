@@ -6,7 +6,7 @@ import {
 } from '../constants/data';
 import {
     GET_ORDER_NUMBER_REQUEST, GET_ORDER_NUMBER_SUCCESS, GET_ORDER_NUMBER_FAILED, DELETE_ORDER_NUMBER,
-    GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED
+    GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED, DELETE_ORDER
 } from '../constants/order';
 import { 
     GET_INGREDIENTS_CONSTRUCTOR, ADD_INGREDIENTS_CONSTRUCTOR, DELETE_INGREDIENTS_CONSTRUCTOR, MOVE_INGREDIENTS_CONSTRUCTOR,
@@ -62,6 +62,9 @@ export interface IGetOrderSuccessAction {
 export interface IGetOrderFailedAction {
     readonly type: typeof GET_ORDER_FAILED;
 }
+export interface IDeleteOrderAction {
+    readonly type: typeof DELETE_ORDER;
+}
 
 export interface IGetIngredientsConstructorAction {
     readonly type: typeof GET_INGREDIENTS_CONSTRUCTOR;
@@ -94,7 +97,7 @@ export type TDataActions =
 
 export type TOrderActions = 
     | IGetOrderNumberRequestAction | IGetOrderNumberSuccessAction | IGetOrderNumberFailedAction | IDeleteOrderNumberAction
-    | IGetOrderRequestAction | IGetOrderSuccessAction | IGetOrderFailedAction;
+    | IGetOrderRequestAction | IGetOrderSuccessAction | IGetOrderFailedAction | IDeleteOrderAction;
 
 export type TIngredientsActions = 
     | IGetIngredientsConstructorAction | IAddIngredientsConstructorAction | IDeleteIngredientsConstructorAction | IMoveIngredientsConstructorAction

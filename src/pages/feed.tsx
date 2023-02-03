@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 
 import FeedCard from '../components/Cards/FeedCard';
 import Modal from '../components/Modal/Modal';
+import { DELETE_ORDER } from '../services/constants/order';
 import { WS_CONNECTION_START, WS_CONNECTION_END } from '../services/constants/ws';
 import { useDispatch, useSelector } from '../services/hooks';
 import { findIngredients } from '../utils/functions';
@@ -41,6 +42,7 @@ export function FeedPage() {
 	const handleCloseModal = ( e: SyntheticEvent ) => {
 		e.preventDefault();
         setVisibility( false );
+        dispatch( { type: DELETE_ORDER } );
     }
 
     React.useEffect( () => {

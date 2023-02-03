@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 
 import { useDispatch, useSelector } from '../services/hooks';
 import { WS_CONNECTION_END, WS_CONNECTION_START } from '../services/constants/ws';
 import FeedCard from '../components/Cards/FeedCard';
 import { findIngredients } from '../utils/functions';
 import { TOrder } from '../services/types';
+import Modal from '../components/Modal/Modal';
+import { Route } from 'react-router-dom';
+import { OrderPage } from './order';
+import { DELETE_ORDER } from '../services/constants/order';
 
 import styles from './pages.module.css';
 
@@ -15,8 +19,21 @@ export function ProfileOrdersPage() {
     const ingredientsData = useSelector( store => store?.data?.ingredients );
     const dataFeed: Array<TOrder> = useSelector( store => store.ws.messages?.orders );
 
+    const [ visible, setVisibility ] = React.useState<boolean>( false );
+    const [ currentOrder, setCurrentOrder ] = React.useState<string>('');
+
+    const handleOpenModal = ( e: React.MouseEvent, value: string ) => {
+        setVisibility( true );
+        setCurrentOrder( value );
+	}
+
+	const handleCloseModal = ( e: SyntheticEvent ) => {
+		e.preventDefault();
+        setVisibility( false );
+        dispatch( { type: DELETE_ORDER } );
+    }
+
     React.useEffect( () => {
-        console.log( accessToken );
         const token = `?token=${ accessToken.replace( 'Bearer ', '') }`;
         dispatch({ type: WS_CONNECTION_START, url: `${ token }` });
 
@@ -31,16 +48,22 @@ export function ProfileOrdersPage() {
 
             {
                 dataFeed?.map( ( elem ) => 
-                    <FeedCard 
-                        key={ elem._id }
-                        orderNumber={ elem.number }
-                        orderDate={ elem.createdAt }
-                        burgerName={ elem.name }
-                        ingredients={ findIngredients( elem.ingredients, ingredientsData ) }
-                    />
+                    <div  key={ `div-${ elem._id }` } onClick={ (e) => handleOpenModal(e, elem.number) }>
+                        <FeedCard 
+                            key={ elem._id }
+                            orderNumber={ elem.number }
+                            orderDate={ elem.createdAt }
+                            burgerName={ elem.name }
+                            ingredients={ findIngredients( elem.ingredients, ingredientsData ) }
+                        />
+                    </div>
                 )
             }
-            
+            { visible && 
+                <Modal onClose={ handleCloseModal }>
+                    <Route path={ `/` } render={ ( props ) => <OrderPage id={ currentOrder } modal={ true } { ...props } /> } />
+                </Modal>
+            }
         </div>
     );
 } 

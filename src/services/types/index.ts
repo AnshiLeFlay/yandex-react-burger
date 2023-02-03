@@ -30,11 +30,11 @@ export type TIngredient = {
 }
 
 export type TOrder = {
-    _id: string,
-    ingredients: Array<string>,
-    name: string,
-    createdAt: string,
-    updatedAt: string,
-    number: string,
-    status: string
+    _id?: string,
+    ingredients?: Array<string>,
+    name?: string,
+    createdAt?: string,
+    updatedAt?: string,
+    number?: string,
+    status?: string
 }

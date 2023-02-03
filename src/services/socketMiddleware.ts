@@ -4,8 +4,6 @@ import type { AppThunk, RootState } from './types';
 //import { TWSActions } from './actions/wsActions';
 
 export const socketMiddleware = (wsUrl: string): Middleware => {
-    
-
     return ((store: MiddlewareAPI<AppThunk, RootState>) => {
         let socket: WebSocket | null = null;
 
@@ -13,25 +11,8 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { dispatch, getState } = store;
         const { type, payload, url } = action;
-        //const accessToken = getState().users.user.accessToken;
 
         if (type === 'WS_CONNECTION_START') {
-            // объект класса WebSocket
-            //console.log( accessToken.replace( 'Bearer ', '') );
-            //const url1 = `${ wsUrl} ?token=${ accessToken.replace( 'Bearer ', '') }`;
-            //console.log( url1.replace(' ', '') );
-            
-            //console.log( getState().ws.url );
-            
-            /*
-            if ( getState().ws.wsConnected && socket !== null ) {
-                console.log( 'check & close' );
-                socket.close();
-            }
-            */
-
-            console.log( `${ wsUrl }${ url }` );
-            
             socket = new WebSocket( `${ wsUrl }${ url }` );
         }
 
