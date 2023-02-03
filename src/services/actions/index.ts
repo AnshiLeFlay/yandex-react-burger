@@ -1,4 +1,3 @@
-import { Url } from 'url';
 import { getDataRequest, getOrderData, getOrderNumberRequest } from '../../utils/getdata';
 
 import { 
@@ -13,27 +12,14 @@ import {
     ADD_DATA_INGREDIENTS_MODAL, DELETE_DATA_INGREDIENTS_MODAL
 } from '../constants/ingredients';
 
-import { AppDispatch } from '../types';
+import { AppDispatch, TIngredient } from '../types';
 
 export interface IGetDataRequestAction {
     readonly type: typeof GET_DATA_REQUEST;
 }
 export interface IGetDataSuccessAction {
     readonly type: typeof GET_DATA_SUCCESS;
-    items: {
-        _id: string,
-       name: string,
-       type: string,
-       proteins: number,
-       fat: number,
-       carbohydrates: number,
-       calories: number,
-       price: number,
-       image: Url,
-       image_mobile: Url,
-       image_large: Url,
-       __v: number
-    }
+    items: Array<TIngredient>
 }
 export interface IGetDataFailedAction {
     readonly type: typeof GET_DATA_FAILED;

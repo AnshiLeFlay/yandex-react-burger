@@ -7,6 +7,7 @@ import { findIngredients } from '../utils/functions';
 
 import styles from './pages.module.css'; 
 import { getOrder } from '../services/actions';
+import { TIngredient } from '../services/types';
 
 type TOrder = {
     _id?: string;
@@ -18,17 +19,6 @@ type TOrder = {
     updatedAt?: string;
     number?: number;
     __v?: number
-}
-
-type TIngredient = {
-    _id?: string;
-    name?: string;
-    image?: string;
-    calories?: string;
-    proteins?: string;
-    fat?: string;
-    carbohydrates?: string;
-    price?: string;
 }
 
 export function OrderPage( props: { id?: string, modal?: boolean } ) {
@@ -64,7 +54,7 @@ export function OrderPage( props: { id?: string, modal?: boolean } ) {
         if ( ingredientsInOrder !== undefined ) {
             let buf = 0;
             ingredientsInOrder.forEach( elem => {
-                buf += parseInt( elem?.price! );
+                buf += elem?.price! ;
             } );
             setPrice( buf );
         }

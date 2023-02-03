@@ -15,6 +15,7 @@ import {
 } from '../constants/ingredients';
 
 import { TDataActions, TIngredientsActions, TOrderActions } from '../actions';
+import { TIngredient } from '../types';
 
 /*
 Начальное состояние
@@ -28,23 +29,16 @@ dataFailed - флаг ошибки запроса к API
 
 type TInitialState = {
     data: {
-        ingredients: any,
-        dataRequest: Boolean,
-        dataFailed: Boolean
+        ingredients: Array<TIngredient>,
+        dataRequest: boolean,
+        dataFailed: boolean
     },
     ingredients: {
         burgerIngredients: {
             bun: string,
             consist: Array<string>
         },
-        currentIngredient?: {
-            name?: string, 
-            calories?: string, 
-            proteins?: string, 
-            fat?: string, 
-            carbohydrates?: string,
-            image?: string
-        },
+        currentIngredient?: TIngredient,
     },
     order: {
         data: {

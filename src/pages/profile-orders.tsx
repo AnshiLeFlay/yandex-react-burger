@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from '../services/hooks';
 import { WS_CONNECTION_END, WS_CONNECTION_START } from '../services/constants/ws';
 import FeedCard from '../components/Cards/FeedCard';
 import { findIngredients } from '../utils/functions';
-import { TOrder } from '../services/types';
 import Modal from '../components/Modal/Modal';
 import { Route } from 'react-router-dom';
 import { OrderPage } from './order';
@@ -17,7 +16,7 @@ export function ProfileOrdersPage() {
     const accessToken = useSelector( store => store.users.user.accessToken );
 
     const ingredientsData = useSelector( store => store?.data?.ingredients );
-    const dataFeed: Array<TOrder> = useSelector( store => store.ws.messages?.orders );
+    const dataFeed = useSelector( store => store.ws.messages?.orders );
 
     const [ visible, setVisibility ] = React.useState<boolean>( false );
     const [ currentOrder, setCurrentOrder ] = React.useState<string>('');
@@ -47,7 +46,7 @@ export function ProfileOrdersPage() {
         <div className={ `${ styles.left_column_item }` }>
 
             {
-                dataFeed?.map( ( elem ) => 
+                dataFeed?.map( ( elem: { _id: React.Key | null | undefined; number: string; createdAt: string; name: string; ingredients: string[]; } ) => 
                     <div  key={ `div-${ elem._id }` } onClick={ (e) => handleOpenModal(e, elem.number) }>
                         <FeedCard 
                             key={ elem._id }

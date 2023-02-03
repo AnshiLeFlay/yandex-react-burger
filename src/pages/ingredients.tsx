@@ -2,18 +2,9 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from '../services/hooks';
 import { useHistory } from 'react-router-dom';
 import { getItems } from '../services/actions';
+import { TIngredient } from '../services/types';
 
 import styles from './pages.module.css'; 
-
-type TIngredient = {
-    _id?: string;
-    name?: string;
-    image?: string;
-    calories?: string;
-    proteins?: string;
-    fat?: string;
-    carbohydrates?: string;
-}
 
 export function IngredientsPage() {
     const ingredients = useSelector( store => store?.data?.ingredients );

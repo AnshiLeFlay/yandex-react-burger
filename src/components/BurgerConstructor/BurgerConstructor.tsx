@@ -13,6 +13,7 @@ import { getCookie } from '../../utils/cookie';
 import { useHistory } from 'react-router-dom';
 
 import styles from './burgerconstructor.module.css'; 
+import { TIngredient } from '../../services/types';
 
 interface IBurgerElem {
     image?: string; 
@@ -42,7 +43,7 @@ function BurgerConstructor() {
             let cost = 0;
 
             orderArr.forEach( ( elem ) => {
-                cost += data.find( ( item: IBurgerElem ) => item._id === elem ).price;
+                cost += data.find( ( item: TIngredient ) => item._id === elem )!.price!;
             });
 
             setOrderCost( cost );
@@ -54,7 +55,7 @@ function BurgerConstructor() {
         let buf: Array<[]> = [];
         let con: any = {};
         burgerContent.forEach( ( elem: String ) => {
-            con = data.find( (item: IBurgerElem ) => item._id === elem );
+            con = data.find( (item: TIngredient ) => item._id === elem );
             if ( con !== undefined ) {
                 buf.push( con );
             } 
@@ -66,7 +67,7 @@ function BurgerConstructor() {
 
     useEffect( () => {
         let buf: IBurgerElem = { };
-        buf = data.find( ( item: IBurgerElem ) => item._id === burgerBun );
+        buf = data.find( ( item: TIngredient ) => item._id === burgerBun )!;
 
         if ( buf !== undefined ) setBuns( buf );
 

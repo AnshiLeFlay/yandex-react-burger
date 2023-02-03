@@ -11,13 +11,7 @@ import { getItems } from '../../services/actions';
 import { ADD_DATA_INGREDIENTS_MODAL, DELETE_DATA_INGREDIENTS_MODAL } from '../../services/constants/ingredients';
 import DraggableItem from '../DragAndDrop/DraggableItem';
 import styles from './burgeringredients.module.css'; 
-
-interface IBurgerElem {
-    _id: string; 
-    image: string; 
-    price: number; 
-    name: string;
-}
+import { TIngredient } from '../../services/types';
 
 function BurgerIngredients() {
     const [ current, setCurrent ] = React.useState<String>( 'one' );
@@ -57,7 +51,7 @@ function BurgerIngredients() {
         dispatch( getItems() );
     }, [ dispatch ] );
   
-    function handleOpenModal( e: React.MouseEvent, elemData: IBurgerElem ) {
+    function handleOpenModal( e: React.MouseEvent, elemData: TIngredient ) {
         //добавляем в хранилище данные по ингредиенту и отображаем модальное окно
         dispatch({ type: ADD_DATA_INGREDIENTS_MODAL, item: elemData });
         setVisibility( true );
@@ -90,21 +84,21 @@ function BurgerIngredients() {
                 <div id="buns-section" ref={bunsRef}>
                     <p className="text text_type_main-medium mb-6">Булки</p>
                     <div className='pl-4'>
-                        { data.filter( ( filterElem: { type: string; } ) => filterElem.type === 'bun' ).map(
-                            ( elem: IBurgerElem ) => 
-                            <DraggableItem key={'bun_' + elem._id} data={{ id: elem._id, content: 'bun', board: 'ingredients'}}>
-                                <BurgerIngredientsItem handleClick={ e => handleOpenModal( e, elem ) } key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={ orderCounts[ elem._id ] } />
+                        { data.filter( ( filterElem ) => filterElem.type === 'bun' ).map(
+                            ( elem: TIngredient ) => 
+                            <DraggableItem key={'bun_' + elem._id} data={{ id: elem._id!, content: 'bun', board: 'ingredients'}}>
+                                <BurgerIngredientsItem handleClick={ e => handleOpenModal( e, elem ) } key={elem._id} imgSrc={ elem.image! } cost={ elem.price! } caption={ elem.name! } alt={ elem.name! } counterNumber={ orderCounts[ elem._id! ] } />
                             </DraggableItem>
-                        )}
+                        ) }
                     </div>
                 </div>
                 <div ref={sauceRef} id="sauce-section">
                     <p className="text text_type_main-medium mt-10 mb-6">Соусы</p>
                     <div className='pl-4'>
-                        { data.filter( ( filterElem: { type: string; } ) => filterElem.type === 'sauce').map(
-                            ( elem: IBurgerElem ) => 
-                            <DraggableItem key={'sauce_' + elem._id} data={{ id: elem._id, content: 'sauce', board: 'ingredients'}}>
-                                <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={ orderCounts[ elem._id ] } /> 
+                        { data.filter( ( filterElem ) => filterElem.type === 'sauce').map(
+                            ( elem: TIngredient ) => 
+                            <DraggableItem key={'sauce_' + elem._id} data={{ id: elem._id!, content: 'sauce', board: 'ingredients'}}>
+                                <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={ elem.image! } cost={ elem.price! } caption={ elem.name! } alt={ elem.name! } counterNumber={ orderCounts[ elem._id! ] } /> 
                             </DraggableItem>
                         )}
                     </div>
@@ -112,10 +106,10 @@ function BurgerIngredients() {
                 <div ref={mainRef} id="main-section">
                     <p className="text text_type_main-medium mt-10 mb-6">Начинки</p>
                     <div className='pl-4'>
-                        { data.filter( ( filterElem: { type: string; } ) => filterElem.type === 'main').map(
-                            ( elem: IBurgerElem ) => 
-                            <DraggableItem key={'main_' + elem._id} data={{ id: elem._id, content: 'main', board: 'ingredients'}}>
-                                <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={elem.image} cost={elem.price} caption={elem.name} alt={elem.name} counterNumber={ orderCounts[ elem._id ] } /> 
+                        { data.filter( ( filterElem ) => filterElem.type === 'main').map(
+                            ( elem: TIngredient ) => 
+                            <DraggableItem key={'main_' + elem._id} data={{ id: elem._id!, content: 'main', board: 'ingredients'}}>
+                                <BurgerIngredientsItem handleClick={ e => handleOpenModal( e, elem ) } key={ elem._id } imgSrc={ elem.image! } cost={ elem.price! } caption={ elem.name! } alt={ elem.name! } counterNumber={ orderCounts[ elem._id! ] } /> 
                             </DraggableItem>
                         )}
                     </div>

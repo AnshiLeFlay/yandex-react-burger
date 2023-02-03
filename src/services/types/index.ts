@@ -17,18 +17,6 @@ export type AppThunk = ThunkDispatch<RootState, any, TApplicationActions>;
 // Типизация метода dispatch для проверки на валидность отправляемого экшена
 export type AppDispatch = typeof store.dispatch; 
 
-//export type TWSActions = ;
-
-export type TIngredient = {
-    _id?: string;
-    name?: string;
-    image?: string;
-    calories?: string;
-    proteins?: string;
-    fat?: string;
-    carbohydrates?: string;
-}
-
 export type TOrder = {
     _id?: string,
     ingredients?: Array<string>,
@@ -37,4 +25,19 @@ export type TOrder = {
     updatedAt?: string,
     number?: string,
     status?: string
+}
+
+export type TIngredient = {
+    _id?: string,
+    name?: string,
+    type?: string,
+    proteins?: number,
+    fat?: number,
+    carbohydrates?: number,
+    calories?: number,
+    price?: number,
+    image?: string,
+    image_mobile?: string,
+    image_large?: string,
+    __v?: number
 }
