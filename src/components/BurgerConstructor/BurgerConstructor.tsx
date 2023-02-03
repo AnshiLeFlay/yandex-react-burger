@@ -117,7 +117,7 @@ function BurgerConstructor() {
                     <p className="text text_type_digits-medium mr-10"><span>{ orderCost }</span>&nbsp;<CurrencyIcon type="primary" /></p>
                     <div style={{overflow: 'hidden'}}>
                         <Button onClick={handleOpenModal} htmlType="button">Оформить заказ</Button>
-                        {visible && 
+                        { visible && 
                             <Modal onClose={ handleCloseModal }>
                                 <OrderDetails />
                             </Modal>

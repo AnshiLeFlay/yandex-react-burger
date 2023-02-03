@@ -47,7 +47,7 @@ function App() {
 							<FeedPage />
 						</Route>
 						<ProtectedRoute path="/profile/orders/:id">
-							<ProfilePage />
+							<OrderPage />
 						</ProtectedRoute>
 						<ProtectedRoute path="/profile/orders">
 							<ProfilePage />

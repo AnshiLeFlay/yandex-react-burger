@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './cards.module.css'; 
 
@@ -23,46 +23,11 @@ const FeedCard: FC<IFeedCardProps> = ( props ) => {
         return ans;
     }
 
-    const timeSince = ( date: string ) => {
-        const dateOfOrder = new Date( date );
-        const dateOfToday = new Date();
-
-        const order = { year: dateOfOrder.getFullYear(), month: dateOfOrder.getMonth(), day: dateOfOrder.getDate() };
-        const today = { year: dateOfToday.getFullYear(), month: dateOfToday.getMonth(), day: dateOfToday.getDate() };
-
-        //упрощенный подсчет дней
-        //заменить на секунды с обнулением до полуночи
-        const daysAgo = (today.year - order.year)*365 + (today.month - order.month)*30 + ( today.day - order.day );
-
-        let formattedTime;
-
-        if ( dateOfOrder.getMinutes() < 10 )
-        formattedTime = `${ dateOfOrder.getHours() }:0${ dateOfOrder.getMinutes() }`;
-        else formattedTime = `${ dateOfOrder.getHours() }:${ dateOfOrder.getMinutes() }`;
-
-        let ans = '';
-
-        if ( daysAgo >= 0 && daysAgo < 1 ) {
-            ans = `Сегодня, `;
-        }
-        if ( daysAgo >= 1 && daysAgo < 2 ) {
-            ans = 'Вчера, ';
-        }
-        if ( daysAgo >= 2 && daysAgo < 5 ) {
-            ans = `${ daysAgo } дня назад, `;
-        }
-        if ( daysAgo >= 5 ) {
-            ans = `${ daysAgo } дней назад, `;
-        }
-
-        return `${ ans }${ formattedTime }`;
-    }
-
     return (
         <div className={ `${ styles.order_card } p-6` }>
             <div className={ `mb-6 ${ styles.space_between }` }>
                 <span className="text text_type_digits-default">#{ props.orderNumber }</span>
-                <span className="text text_type_main-default text_color_inactive">{ timeSince( props.orderDate ) }</span>
+                <span className='text text_type_main-default text_color_inactive'><FormattedDate date={ new Date( props?.orderDate! ) } /></span>
             </div>
             <p className="text text_type_main-medium mb-6">
                 { props.burgerName }

@@ -1,11 +1,12 @@
 import { Url } from 'url';
-import { getDataRequest, getOrderNumberRequest } from '../../utils/getdata';
+import { getDataRequest, getOrderData, getOrderNumberRequest } from '../../utils/getdata';
 
 import { 
     GET_DATA_REQUEST, GET_DATA_SUCCESS, GET_DATA_FAILED
 } from '../constants/data';
 import {
-    GET_ORDER_NUMBER_REQUEST, GET_ORDER_NUMBER_SUCCESS, GET_ORDER_NUMBER_FAILED, DELETE_ORDER_NUMBER
+    GET_ORDER_NUMBER_REQUEST, GET_ORDER_NUMBER_SUCCESS, GET_ORDER_NUMBER_FAILED, DELETE_ORDER_NUMBER,
+    GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED
 } from '../constants/order';
 import { 
     GET_INGREDIENTS_CONSTRUCTOR, ADD_INGREDIENTS_CONSTRUCTOR, DELETE_INGREDIENTS_CONSTRUCTOR, MOVE_INGREDIENTS_CONSTRUCTOR,
@@ -51,6 +52,16 @@ export interface IGetOrderNumberFailedAction {
 export interface IDeleteOrderNumberAction {
     readonly type: typeof DELETE_ORDER_NUMBER;
 }
+export interface IGetOrderRequestAction {
+    readonly type: typeof GET_ORDER_REQUEST;
+}
+export interface IGetOrderSuccessAction {
+    readonly type: typeof GET_ORDER_SUCCESS;
+    order: any;
+}
+export interface IGetOrderFailedAction {
+    readonly type: typeof GET_ORDER_FAILED;
+}
 
 export interface IGetIngredientsConstructorAction {
     readonly type: typeof GET_INGREDIENTS_CONSTRUCTOR;
@@ -82,7 +93,8 @@ export type TDataActions =
     | IGetDataRequestAction | IGetDataSuccessAction | IGetDataFailedAction;
 
 export type TOrderActions = 
-    | IGetOrderNumberRequestAction | IGetOrderNumberSuccessAction | IGetOrderNumberFailedAction | IDeleteOrderNumberAction;
+    | IGetOrderNumberRequestAction | IGetOrderNumberSuccessAction | IGetOrderNumberFailedAction | IDeleteOrderNumberAction
+    | IGetOrderRequestAction | IGetOrderSuccessAction | IGetOrderFailedAction;
 
 export type TIngredientsActions = 
     | IGetIngredientsConstructorAction | IAddIngredientsConstructorAction | IDeleteIngredientsConstructorAction | IMoveIngredientsConstructorAction
@@ -124,6 +136,26 @@ export const getOrderNumber = ( order = {}, token: string ) => {
             } else {
                 dispatch( {
                     type: GET_ORDER_NUMBER_FAILED
+                } );
+            }
+        } );
+    };
+}
+
+export const getOrder = ( order: string ) => {
+    return function( dispatch: AppDispatch ) {
+        dispatch( {
+            type: GET_ORDER_REQUEST
+        } );
+        getOrderData( order ).then( res => {
+            if ( res && res.success ) {
+                dispatch( {
+                    type: GET_ORDER_SUCCESS,
+                    order: res
+                } );
+            } else {
+                dispatch( {
+                    type: GET_ORDER_FAILED
                 } );
             }
         } );

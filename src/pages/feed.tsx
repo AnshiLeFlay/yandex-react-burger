@@ -1,20 +1,14 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
+import { Route } from 'react-router-dom';
 
 import FeedCard from '../components/Cards/FeedCard';
+import Modal from '../components/Modal/Modal';
 import { WS_CONNECTION_START, WS_CONNECTION_END } from '../services/constants/ws';
 import { useDispatch, useSelector } from '../services/hooks';
+import { findIngredients } from '../utils/functions';
+import { OrderPage } from './order';
 
 import styles from './pages.module.css';
-
-type TIngredient = {
-    _id?: string;
-    name?: string;
-    image?: string;
-    calories?: string;
-    proteins?: string;
-    fat?: string;
-    carbohydrates?: string;
-}
 
 type TOrder = {
     _id: string,
@@ -33,19 +27,21 @@ export function FeedPage() {
     const total = useSelector( store => store.ws.messages?.total );
     const totalToday = useSelector( store => store.ws.messages?.totalToday );
 
+    const [ visible, setVisibility ] = React.useState<boolean>( false );
+    const [ currentOrder, setCurrentOrder ] = React.useState<string>('');
+
     const doneOrders = dataFeed?.filter( elem => elem.status === 'done' )?.map( elem => elem.number );
     const otherOrders = dataFeed?.filter( elem => elem.status !== 'done' )?.map( elem => elem.number );
 
-    const findIngredients = ( args: Array<string>, inrgediensArray: Array<TIngredient> ) => {
-        let res = [];
-        for ( let i = 0; i < inrgediensArray.length; i++ ) {
-            const buf = inrgediensArray.find( ( elem: TIngredient ) => elem._id === args[i] );
-            if ( buf !== undefined )
-                res.push( buf );
-        }
+    const handleOpenModal = ( e: React.MouseEvent, value: string ) => {
+        setVisibility( true );
+        setCurrentOrder( value );
+	}
 
-        return res;
-    }
+	const handleCloseModal = ( e: SyntheticEvent ) => {
+		e.preventDefault();
+        setVisibility( false );
+	}
 
     React.useEffect( () => {
         dispatch( { type: WS_CONNECTION_START, url: '/all' } );
@@ -85,13 +81,15 @@ export function FeedPage() {
 
                     {
                         dataFeed?.map( ( elem ) => 
-                            <FeedCard 
-                                key={ elem._id }
-                                orderNumber={ elem.number }
-                                orderDate={ elem.createdAt }
-                                burgerName={ elem.name }
-                                ingredients={ findIngredients( elem.ingredients, ingredientsData ) }
-                            />
+                            <div key={ `div-${ elem._id }` } onClick={ (e) => handleOpenModal(e, elem.number) }>
+                                <FeedCard 
+                                    key={ elem._id }
+                                    orderNumber={ elem.number }
+                                    orderDate={ elem.createdAt }
+                                    burgerName={ elem.name }
+                                    ingredients={ findIngredients( elem.ingredients, ingredientsData ) }
+                                />
+                            </div>
                         )
                     }
                     
@@ -117,6 +115,16 @@ export function FeedPage() {
                     <p className='text text_type_digits-large'>{ totalToday }</p>
                 </div>
             </div>
+            { visible && 
+                <Modal onClose={ handleCloseModal }>
+                    <div><Route path={ `/feed/${ currentOrder }` } render={ () => <OrderPage /> } /></div>
+                </Modal>
+            }
         </div>
     );
 } 
+/*
+<Modal onClose={ handleCloseModal }>
+    <Route path={ `/profile/orders/${ currentOrder }` } render={() => <div>home</div>} />
+</Modal>
+*/

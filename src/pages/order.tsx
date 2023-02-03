@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
 import { WS_CONNECTION_END, WS_CONNECTION_START } from '../services/constants/ws';
+import { findIngredients } from '../utils/functions';
 
 import styles from './pages.module.css'; 
 
@@ -75,17 +76,6 @@ export function OrderPage() {
         };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [] );
-
-    const findIngredients = ( args: Array<string>, inrgedientsArray: Array<TIngredient> ) => {
-        let res = [];
-        for ( let i = 0; i < inrgedientsArray.length; i++ ) {
-            const buf = inrgedientsArray?.find( elem => elem._id === args[i] );
-            if ( buf !== undefined )
-                res.push( buf );
-        }
-
-        return res;
-    }
 
     const uniqueIngredients = ( ingredients: any ) => {
         //const unique = ingredients.filter( (v: any, i: any, a: string | any[] ) => a.indexOf(v) === i );

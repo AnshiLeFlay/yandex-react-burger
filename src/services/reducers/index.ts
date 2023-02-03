@@ -7,7 +7,7 @@ import {
     GET_DATA_REQUEST, GET_DATA_SUCCESS, GET_DATA_FAILED
 } from '../constants/data';
 import {
-    GET_ORDER_NUMBER_REQUEST, GET_ORDER_NUMBER_SUCCESS, GET_ORDER_NUMBER_FAILED, DELETE_ORDER_NUMBER
+    GET_ORDER_NUMBER_REQUEST, GET_ORDER_NUMBER_SUCCESS, GET_ORDER_NUMBER_FAILED, DELETE_ORDER_NUMBER, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED
 } from '../constants/order';
 import { 
     GET_INGREDIENTS_CONSTRUCTOR, ADD_INGREDIENTS_CONSTRUCTOR, DELETE_INGREDIENTS_CONSTRUCTOR, MOVE_INGREDIENTS_CONSTRUCTOR,
@@ -52,6 +52,9 @@ type TInitialState = {
                 number: number
             }
         },
+        current: any,
+        orderDataRequest: boolean,
+        orderDataFailed: boolean,
         orderRequest: Boolean,
         orderFailed: Boolean
     }
@@ -72,6 +75,9 @@ const initialState: TInitialState = {
     },
     order: {
         data: {},
+        current: {},
+        orderDataRequest: false,
+        orderDataFailed: false,
         orderRequest: false,
         orderFailed: false
     }
@@ -117,6 +123,18 @@ const getOrderData = ( state = initialState.order, action: TOrderActions ): TIni
         }
         case DELETE_ORDER_NUMBER: {
             return { ...state, orderFailed: false, orderRequest: false, data: {} };
+        }
+        case GET_ORDER_REQUEST: {
+            return {
+                ...state,
+                orderDataRequest: true
+            };
+        }
+        case GET_ORDER_SUCCESS: {
+            return { ...state, orderDataFailed: false, orderDataRequest: false, current: action.order };
+        }
+        case GET_ORDER_FAILED: {
+            return { ...state, orderDataFailed: true, orderDataRequest: false, current: {} };
         }
         default: {
             return state;

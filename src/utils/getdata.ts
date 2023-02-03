@@ -33,3 +33,15 @@ export const getOrderNumberRequest = async ( order: { ingredients?: Array<string
         return Promise.reject(`Ошибка подключения к API ${error}`);
     }
 }
+
+export const getOrderData = async ( order: string ): Promise<any> => {
+    try {
+        const res: Response = await fetch( `${ API_URL_ORDER }/${ order }` );
+
+        if ( res.ok ) {
+            return await res.json();
+        } return Promise.reject(`Ошибка подключения к API ${res.status}`);
+    } catch (error) {
+        return Promise.reject(`Ошибка подключения к API ${error}`);
+    }
+}
