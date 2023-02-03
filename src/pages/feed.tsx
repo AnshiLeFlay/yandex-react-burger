@@ -48,7 +48,7 @@ export function FeedPage() {
     }
 
     React.useEffect( () => {
-        dispatch( { type: WS_CONNECTION_START, url: 'feed' } );
+        dispatch( { type: WS_CONNECTION_START, url: '/all' } );
   
         return () => {
             dispatch( { type: WS_CONNECTION_END } );

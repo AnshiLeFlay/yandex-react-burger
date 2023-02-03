@@ -18,3 +18,23 @@ export type AppThunk = ThunkDispatch<RootState, any, TApplicationActions>;
 export type AppDispatch = typeof store.dispatch; 
 
 //export type TWSActions = ;
+
+export type TIngredient = {
+    _id?: string;
+    name?: string;
+    image?: string;
+    calories?: string;
+    proteins?: string;
+    fat?: string;
+    carbohydrates?: string;
+}
+
+export type TOrder = {
+    _id: string,
+    ingredients: Array<string>,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+    number: string,
+    status: string
+}

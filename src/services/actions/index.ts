@@ -110,12 +110,12 @@ export const getItems = () => {
 }
 
 /* усилитель 2 - получение данных заказа из API */
-export const getOrderNumber = ( order = {} ) => {
+export const getOrderNumber = ( order = {}, token: string ) => {
     return function( dispatch: AppDispatch ) {
         dispatch( {
             type: GET_ORDER_NUMBER_REQUEST
         } );
-        getOrderNumberRequest( order ).then( res => {
+        getOrderNumberRequest( order, token ).then( res => {
             if ( res && res.success ) {
                 dispatch( {
                     type: GET_ORDER_NUMBER_SUCCESS,

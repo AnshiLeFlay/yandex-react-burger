@@ -6,7 +6,6 @@ import { logout, updateData, fullUpdate } from '../services/actions/users';
 import { ProfileOrdersPage } from './profile-orders';
 import { getCookie } from '../utils/cookie';
 import styles from './pages.module.css';
-import { WS_CONNECTION_END, WS_CONNECTION_START } from '../services/constants/ws';
 
 export function ProfilePage() {
     const dispatch = useDispatch();
@@ -74,15 +73,6 @@ export function ProfilePage() {
        if ( accessToken === '' || accessToken !== undefined ) fullUpdate( getCookie( 'refreshToken' ) );
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [] );
-
-    React.useEffect( () => {
-        dispatch({ type: WS_CONNECTION_START, url: 'profile' });
-
-        return () => {
-            dispatch({ type: WS_CONNECTION_END });
-        };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
 
     return (
         <div className={ `mt-30 ${styles.wrapper_profile}` }>

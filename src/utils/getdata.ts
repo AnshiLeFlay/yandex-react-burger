@@ -12,12 +12,13 @@ export const getDataRequest = async ( ): Promise<any> => {
     }
 }
 
-export const getOrderNumberRequest = async ( order: { ingredients?: Array<string> } = {} ): Promise<any> => {
+export const getOrderNumberRequest = async ( order: { ingredients?: Array<string> } = {}, token: string ): Promise<any> => {
     const settings: RequestInit = {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': token
         },
         body: JSON.stringify( order )
     };

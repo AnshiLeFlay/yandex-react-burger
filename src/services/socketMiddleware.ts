@@ -29,9 +29,10 @@ export const socketMiddleware = (wsUrl: string): Middleware => {
                 socket.close();
             }
             */
+
+            console.log( `${ wsUrl }${ url }` );
             
-            console.log( url );
-            socket = new WebSocket( wsUrl );
+            socket = new WebSocket( `${ wsUrl }${ url }` );
         }
 
         if (socket) {

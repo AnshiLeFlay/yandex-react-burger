@@ -25,6 +25,7 @@ function BurgerConstructor() {
     const data = useSelector( store => store.data.ingredients );
     const burgerBun = useSelector( store => store.ingredients.burgerIngredients.bun );
     const burgerContent = useSelector( store => store.ingredients.burgerIngredients.consist );
+    const accessToken = useSelector( store => store.users.user.accessToken );
 
     const [ constructor, setConstructor ] = React.useState<Array<[]>>( [] );
     const [ bunTopBot, setBuns ] = React.useState<IBurgerElem>( );
@@ -79,11 +80,11 @@ function BurgerConstructor() {
         }
 
         const orderArr =  { 
-            "ingredients": [ burgerBun, ...burgerContent ] 
+            "ingredients": [ burgerBun, ...burgerContent, burgerBun ] 
         };
 
         dispatch( { type: DELETE_ORDER_NUMBER } );
-        dispatch( getOrderNumber( orderArr ) );
+        dispatch( getOrderNumber( orderArr, accessToken ) );
 		setVisibility( true );
 	}
 
