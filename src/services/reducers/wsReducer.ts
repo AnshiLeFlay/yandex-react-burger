@@ -1,5 +1,3 @@
-// rootReducer.ts
-
 import {
     WS_CONNECTION_SUCCESS,
     WS_CONNECTION_ERROR,
@@ -9,9 +7,6 @@ import {
 } from '../constants/ws';
 
 import { TWSActions } from '../actions/wsActions';
-
-//import type { /*IMessage,*/ TWSActions } from '../types';
-
 
 type TWSState = {
     url: string;

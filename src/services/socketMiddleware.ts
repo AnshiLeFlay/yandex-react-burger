@@ -1,7 +1,6 @@
 import type { Middleware, MiddlewareAPI } from 'redux';
 
 import type { AppThunk, RootState } from './types';
-//import { TWSActions } from './actions/wsActions';
 
 export const socketMiddleware = (wsUrl: string): Middleware => {
     return ((store: MiddlewareAPI<AppThunk, RootState>) => {
