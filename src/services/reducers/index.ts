@@ -131,7 +131,7 @@ const getOrderData = ( state = initialState.order, action: TOrderActions ): TIni
             };
         }
         case GET_ORDER_SUCCESS: {
-            return { ...state, orderDataFailed: false, orderDataRequest: false, current: action.order };
+            return { ...state, orderDataFailed: false, orderDataRequest: false, current: action.order?.orders[0] };
         }
         case GET_ORDER_FAILED: {
             return { ...state, orderDataFailed: true, orderDataRequest: false, current: {} };

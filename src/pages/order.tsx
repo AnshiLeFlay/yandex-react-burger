@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from '../services/hooks';
-import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
-import { WS_CONNECTION_END, WS_CONNECTION_START } from '../services/constants/ws';
 import { findIngredients } from '../utils/functions';
 
 import styles from './pages.module.css'; 
+import { getOrder } from '../services/actions';
 
 type TOrder = {
     _id: string,
@@ -29,32 +29,35 @@ type TIngredient = {
     price?: string;
 }
 
-export function OrderPage() {
-    const history = useHistory();
+export function OrderPage( props: any ) {
     const dispatch = useDispatch();
 
     const ingredientsData = useSelector( store => store?.data?.ingredients );
-    const dataFeed: Array<TOrder> = useSelector( store => store.ws.messages?.orders );
+    const orderData = useSelector( store => store.order.current );
     const [ currentOrder, setCurrentOrder ] = React.useState<TOrder>( );
     const [ ingredients, setIngredients ] = React.useState<{ [x: string]: number }>();
     const [ ingredientsInOrder, setIngredientsInOrder ] = React.useState<Array<TIngredient>>();
     const [ price, setPrice ] = React.useState<number>( 0 );
+
+    const params: { id: string } = useParams();
     
     useEffect( () => {
-        const res = dataFeed?.find( elem => parseInt( elem.number ) === parseInt( history.location.pathname.split('/')[2] ) );
+        console.log( props );
 
-        //если нашли, то присвоить state и разорвать соединение
-        if ( res !== undefined ) { 
-            setCurrentOrder( res );
-            setIngredients( uniqueIngredients( res.ingredients ) );
-            setIngredientsInOrder( findIngredients( res.ingredients, ingredientsData ) );
-
-            dispatch( { type: WS_CONNECTION_END } );
-        }
-        //если нет, то ждем обновления от сервера
+        if ( props?.id !== undefined ) dispatch( getOrder( props?.id ) );
+        else if ( params?.id !== undefined) dispatch( getOrder( params?.id ) );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [ history.location.pathname, dataFeed ] );
+    }, [ ] );
+
+    useEffect( () => {
+        if ( orderData?.ingredients !== undefined ) { 
+            setCurrentOrder( orderData );
+            setIngredients( uniqueIngredients( orderData.ingredients ) );
+            setIngredientsInOrder( findIngredients( orderData.ingredients, ingredientsData ) );
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ orderData ] );
 
     useEffect( () => {
         
@@ -68,18 +71,8 @@ export function OrderPage() {
             
     }, [ ingredientsInOrder ] );
 
-    useEffect( () => {
-        dispatch( { type: WS_CONNECTION_START, url: 'feed' } );
-  
-        return () => {
-            dispatch( { type: WS_CONNECTION_END } );
-        };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [] );
-
     const uniqueIngredients = ( ingredients: any ) => {
-        //const unique = ingredients.filter( (v: any, i: any, a: string | any[] ) => a.indexOf(v) === i );
-        const unique = ingredients.reduce( (acc: { [x: string]: number; }, val: string | number ) => {
+        const unique = ingredients?.reduce( (acc: { [x: string]: number; }, val: string | number ) => {
             acc[val] = acc[val] === undefined ? 1 : acc[val] += 1;
             return acc;
         }, {});
@@ -101,7 +94,7 @@ export function OrderPage() {
     }
 
     return (
-        <div className={ `${ styles.wrapper_middle } ${ styles.wrapper_half }` }>
+        <div className={ !props?.modal ? `${ styles.wrapper_middle } ${ styles.wrapper_half }` : 'p-10' }>
             <p className={ `text text_type_digits-default mb-10 ${ styles.text_center }` }>#{ currentOrder?.number }</p>
             <p className='mb-3 text text_type_main-medium'>{ currentOrder?.name }</p>
             <p className={ `mb-15 text text_type_main-small ${ styles.text_color_light }` }>{ getStatus( currentOrder?.status! ) }</p>

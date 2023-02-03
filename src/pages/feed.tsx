@@ -41,7 +41,7 @@ export function FeedPage() {
 	const handleCloseModal = ( e: SyntheticEvent ) => {
 		e.preventDefault();
         setVisibility( false );
-	}
+    }
 
     React.useEffect( () => {
         dispatch( { type: WS_CONNECTION_START, url: '/all' } );
@@ -117,14 +117,9 @@ export function FeedPage() {
             </div>
             { visible && 
                 <Modal onClose={ handleCloseModal }>
-                    <div><Route path={ `/feed/${ currentOrder }` } render={ () => <OrderPage /> } /></div>
+                    <Route path={ `/feed` } render={ ( props ) => <OrderPage id={ currentOrder } modal={ true } { ...props } /> } />
                 </Modal>
             }
         </div>
     );
 } 
-/*
-<Modal onClose={ handleCloseModal }>
-    <Route path={ `/profile/orders/${ currentOrder }` } render={() => <div>home</div>} />
-</Modal>
-*/
