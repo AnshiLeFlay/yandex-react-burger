@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import FeedCard from '../components/Cards/FeedCard';
 import { DELETE_ORDER } from '../services/constants/order';
 import { WS_CONNECTION_START, WS_CONNECTION_END } from '../services/constants/ws';
 import { useDispatch, useSelector } from '../services/hooks';
+import { TIngredient } from '../services/types';
 import { findIngredients } from '../utils/functions';
 
 import styles from './pages.module.css';
@@ -19,17 +20,22 @@ type TOrder = {
     status: string
 }
 
+const ingredientsDataLink = (store: { data: { ingredients: Array<TIngredient>; }; }) => store?.data?.ingredients
+const dataFeedLink = (store: { ws: { messages: { orders: Array<TOrder>; }; }; }) => store.ws.messages?.orders
+const totalLink = (store: { ws: { messages: { total: string; }; }; }) => store.ws.messages?.total;
+const totalTodayLink = (store: { ws: { messages: { totalToday: string; }; }; }) => store.ws.messages?.totalToday;
+
 export function FeedPage() {
     let location = useLocation();
     
     const dispatch = useDispatch();
-    const ingredientsData = useSelector( store => store?.data?.ingredients );
-    const dataFeed: Array<TOrder> = useSelector( store => store.ws.messages?.orders );
-    const total = useSelector( store => store.ws.messages?.total );
-    const totalToday = useSelector( store => store.ws.messages?.totalToday );
+    const ingredientsData = useSelector( ingredientsDataLink );
+    const dataFeed: Array<TOrder> = useSelector( dataFeedLink );
+    const total = useSelector( totalLink );
+    const totalToday = useSelector( totalTodayLink );
 
-    const doneOrders = dataFeed?.filter( elem => elem.status === 'done' )?.map( elem => elem.number );
-    const otherOrders = dataFeed?.filter( elem => elem.status !== 'done' )?.map( elem => elem.number );
+    const doneOrders = useMemo( () => dataFeed?.filter( elem => elem.status === 'done' )?.map( elem => elem.number ), [dataFeed] );
+    const otherOrders = useMemo( () => dataFeed?.filter( elem => elem.status !== 'done' )?.map( elem => elem.number ), [dataFeed] );
 
     React.useEffect( () => {
         dispatch( { type: WS_CONNECTION_START, url: '/all' } );
@@ -63,10 +69,6 @@ export function FeedPage() {
 
     return (
         <div>
-            <Link to={{
-                pathname: `/feed/1`,
-                state: { background: location }
-            }}>Edit Profile</Link>
             <p className={ `text text_type_main-large mt-10 mb-5 ${ styles.page_header }`}>Лента заказов</p>
             <div className={ styles.main_content }>
                 <div className={ `${ styles.main_content_item } ${ styles.left_column_item }` }>
