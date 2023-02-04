@@ -78,7 +78,7 @@ function App( ) {
 					</Switch>
 					{background && <Route path="/feed/:id" render={() => ( <Modal><OrderPage modal /></Modal> )} />}
 
-					{background && <Route path="/profile/order/:id" render={() => ( <Modal><OrderPage modal /></Modal> )} />}
+					{background && <Route path="/profile/orders/:id" render={() => ( <Modal><OrderPage modal /></Modal> )} />}
 
 					{background && <Route path="/ingredients/:id" render={() => ( <Modal><IngredientsPage modal /></Modal> )} />}
 				</main>

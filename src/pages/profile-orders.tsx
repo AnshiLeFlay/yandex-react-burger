@@ -37,7 +37,7 @@ export function ProfileOrdersPage() {
                         className={ styles.link_reset }
                         onClick={ () => { dispatch( { type: DELETE_ORDER } ) }}
                         to={{
-                            pathname: `/profile/order/${ elem.number }`,
+                            pathname: `/profile/orders/${ elem.number }`,
                             state: { background: location }
                         }}
                         key={ `div-${ elem._id }` }>
