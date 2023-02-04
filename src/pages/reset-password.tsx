@@ -1,5 +1,5 @@
 import React, { SyntheticEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/hooks';
 import { reset } from '../services/actions/users';
 import { Link, Redirect, useHistory } from 'react-router-dom';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -7,9 +7,9 @@ import styles from './pages.module.css';
 
 export function ResetPage() {
     const history: any = useHistory();
-    const failed: any = useSelector<any>( store => store.users.resetFailed );
-
-    const dispatch: any = useDispatch();
+    
+    const failed = useSelector( store => store.users.resetFailed );
+    const dispatch = useDispatch();
 
     const [ code, setCode ] = React.useState( '' );
 

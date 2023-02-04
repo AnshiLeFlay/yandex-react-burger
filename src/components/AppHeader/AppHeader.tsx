@@ -10,7 +10,7 @@ function AppHeader() {
             <nav className={ `mt-4 mb-4 ${ styles.nav }` }>
                 <div>
                     <MenuItem exact={true} pathname={'/'} text={'Конструктор'}><BurgerIcon type="primary" /></MenuItem>
-                    <MenuItem pathname={'/orders'} text={'Лента заказов'}><ListIcon type="primary" /></MenuItem>
+                    <MenuItem pathname={'/feed'} text={'Лента заказов'}><ListIcon type="primary" /></MenuItem>
                 </div>
                 <div className={ styles.header_logo }>
                     <Button htmlType="button" type="secondary" size="medium">

@@ -1,17 +1,19 @@
 import React, { SyntheticEvent, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { CurrencyIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import OrderDetails from './OrderDetails';
 import BurgerConstructorItemWrapper from './BurgerConstructorItemWrapper';
-import styles from './burgerconstructor.module.css'; 
-
 import Modal from '../Modal/Modal';
-import { getOrderNumber, DELETE_ORDER_NUMBER } from '../../services/actions';
+import { getOrderNumber } from '../../services/actions';
+import { DELETE_ORDER_NUMBER } from '../../services/constants/order';
 import DropTarget from '../DragAndDrop/DropTarget';
 import DraggableItem from '../DragAndDrop/DraggableItem';
 import { getCookie } from '../../utils/cookie';
 import { useHistory } from 'react-router-dom';
+
+import styles from './burgerconstructor.module.css'; 
+import { TIngredient } from '../../services/types';
 
 interface IBurgerElem {
     image?: string; 
@@ -21,9 +23,10 @@ interface IBurgerElem {
 };
 
 function BurgerConstructor() {
-    const data: any = useSelector<any>( store => store.data.ingredients );
-    const burgerBun: any = useSelector<any>( store => store.ingredients.burgerIngredients.bun );
-    const burgerContent: any = useSelector<any>( store => store.ingredients.burgerIngredients.consist );
+    const data = useSelector( store => store.data.ingredients );
+    const burgerBun = useSelector( store => store.ingredients.burgerIngredients.bun );
+    const burgerContent = useSelector( store => store.ingredients.burgerIngredients.consist );
+    const accessToken = useSelector( store => store.users.user.accessToken );
 
     const [ constructor, setConstructor ] = React.useState<Array<[]>>( [] );
     const [ bunTopBot, setBuns ] = React.useState<IBurgerElem>( );
@@ -32,15 +35,15 @@ function BurgerConstructor() {
 
     const history = useHistory();
 
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
 
     useEffect( () => {
         if ( data[0] !== undefined ) {
-            const orderArr: Array<string> = [ burgerBun, burgerBun, ...burgerContent ];
+            const orderArr: Array<String> = [ burgerBun, burgerBun, ...burgerContent ];
             let cost = 0;
 
             orderArr.forEach( ( elem ) => {
-                cost += data.find( ( item: IBurgerElem ) => item._id === elem ).price;
+                cost += data.find( ( item: TIngredient ) => item._id === elem )!.price!;
             });
 
             setOrderCost( cost );
@@ -51,8 +54,8 @@ function BurgerConstructor() {
     useEffect( () => {
         let buf: Array<[]> = [];
         let con: any = {};
-        burgerContent.forEach( ( elem: string ) => {
-            con = data.find( (item: IBurgerElem ) => item._id === elem );
+        burgerContent.forEach( ( elem: String ) => {
+            con = data.find( (item: TIngredient ) => item._id === elem );
             if ( con !== undefined ) {
                 buf.push( con );
             } 
@@ -64,7 +67,7 @@ function BurgerConstructor() {
 
     useEffect( () => {
         let buf: IBurgerElem = { };
-        buf = data.find( ( item: IBurgerElem ) => item._id === burgerBun );
+        buf = data.find( ( item: TIngredient ) => item._id === burgerBun )!;
 
         if ( buf !== undefined ) setBuns( buf );
 
@@ -78,11 +81,11 @@ function BurgerConstructor() {
         }
 
         const orderArr =  { 
-            "ingredients": [ burgerBun, ...burgerContent ] 
+            "ingredients": [ burgerBun, ...burgerContent, burgerBun ] 
         };
 
         dispatch( { type: DELETE_ORDER_NUMBER } );
-        dispatch( getOrderNumber( orderArr ) );
+        dispatch( getOrderNumber( orderArr, accessToken ) );
 		setVisibility( true );
 	}
 
@@ -115,7 +118,7 @@ function BurgerConstructor() {
                     <p className="text text_type_digits-medium mr-10"><span>{ orderCost }</span>&nbsp;<CurrencyIcon type="primary" /></p>
                     <div style={{overflow: 'hidden'}}>
                         <Button onClick={handleOpenModal} htmlType="button">Оформить заказ</Button>
-                        {visible && 
+                        { visible && 
                             <Modal onClose={ handleCloseModal }>
                                 <OrderDetails />
                             </Modal>

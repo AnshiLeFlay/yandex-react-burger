@@ -1,25 +1,16 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from '../services/hooks';
 import { useHistory } from 'react-router-dom';
 import { getItems } from '../services/actions';
+import { TIngredient } from '../services/types';
 
 import styles from './pages.module.css'; 
 
-type TIngredient = {
-    _id?: string;
-    name?: string;
-    image?: string;
-    calories?: string;
-    proteins?: string;
-    fat?: string;
-    carbohydrates?: string;
-}
-
-export function IngredientsPage() {
-    const ingredients: any = useSelector<any>( store => store?.data?.ingredients );
+export function IngredientsPage( props: { modal?: boolean } ) {
+    const ingredients = useSelector( store => store?.data?.ingredients );
     const [ currentItem, setCurrentItem ] = React.useState<TIngredient>( {} );
     const history = useHistory();
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
 
     useEffect( () => {
         //обновить список ингредиентов
@@ -34,7 +25,7 @@ export function IngredientsPage() {
     }, [ history.location.pathname, ingredients ] )
 
     return (
-        <div className={ styles.wrapper }>
+        <div className={ !props?.modal ? `${ styles.wrapper }` : '' }>
             <p className={`text text_type_main-medium ${styles.profile_cells}`}>Детали ингредиента</p>
             <div className={styles.ingredients_wrapper}>
                 <img alt={currentItem.name} src={currentItem.image} />

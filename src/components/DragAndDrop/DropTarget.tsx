@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
-import { useDispatch } from 'react-redux';
-import { ADD_INGREDIENTS_CONSTRUCTOR } from '../../services/actions';
+import { useDispatch } from '../../services/hooks';
+import { ADD_INGREDIENTS_CONSTRUCTOR } from '../../services/constants/ingredients';
 import { useDrop } from 'react-dnd';
 
 interface IDropTargetProps {
@@ -9,7 +9,7 @@ interface IDropTargetProps {
 
 //обертка для блоков с ингридиентами и конструктора
 const DropTarget: FC<IDropTargetProps> = ( props ) => {
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
 
     const [ { isHover } , drop ] = useDrop( {
         accept: "item",

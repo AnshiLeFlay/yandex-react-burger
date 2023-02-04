@@ -10,7 +10,7 @@ interface IBurgerIngredientsItemProps {
     alt: string;
     cost: number;
     caption: string;
-    handleClick: MouseEventHandler;
+    handleClick?: MouseEventHandler;
 }
 
 const BurgerIngredientsItem: FC<IBurgerIngredientsItemProps> = ( props ) => {

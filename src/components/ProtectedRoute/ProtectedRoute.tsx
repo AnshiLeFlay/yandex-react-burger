@@ -1,6 +1,6 @@
 import React, { useEffect, useState, FC } from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 
 import { fullUpdate } from '../../services/actions/users';
 import { getCookie } from '../../utils/cookie';
@@ -19,14 +19,14 @@ interface IProtectedRouteProps {
     path: string;
 }
 
-const getAccessToken: any = ( store: IStore ) => store.users.user.accessToken; 
-const getUsername: any = ( store: IStore ) => store.users.user.name
+const getAccessToken = ( store: IStore ) => store.users.user.accessToken; 
+const getUsername = ( store: IStore ) => store.users.user.name
 
 export const ProtectedRoute: FC<IProtectedRouteProps> = ( { children, ...rest } ) => {
     const [ auth, setAuth ] = useState<boolean>( false );
     const dispatch: any = useDispatch();
-    const accessToken = useSelector<any>( getAccessToken );
-    const username = useSelector<any>( getUsername );
+    const accessToken = useSelector( getAccessToken );
+    const username = useSelector( getUsername );
 
     const [ isUserLoaded, setUserLoaded ] = useState<boolean>( false );
 

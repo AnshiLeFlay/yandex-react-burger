@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../services/hooks';
 import { forgot } from '../services/actions/users';
 import { Link, useHistory, Redirect } from 'react-router-dom';
 import { getCookie } from '../utils/cookie';
