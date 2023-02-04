@@ -1,9 +1,9 @@
 import React from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
-import { LoginPage, RegisterPage, ForgotPage, ResetPage, ProfilePage, IngredientsPage, FeedPage, OrderPage } from '../../pages/';
+import { LoginPage, RegisterPage, ForgotPage, ResetPage, ProfilePage, IngredientsPage, FeedPage, OrderPage } from '../../pages';
 import styles from './app.module.css';
 
 import AppHeader from '../AppHeader/AppHeader';
@@ -11,8 +11,13 @@ import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import { getItems } from '../../services/actions';
 import { useDispatch } from '../../services/hooks';
+import Modal from '../Modal/Modal';
 
-function App() {
+function App( ) {
+	let location:any = useLocation();
+	const background = location.state && location.state.background;
+
+
 	const dispatch = useDispatch();
 
 	React.useEffect( () => {
@@ -22,12 +27,12 @@ function App() {
 
 	return (
 		<div className="App">
-			<Router>
+			
 				<AppHeader />
 
 				<main className={ styles.main_content }>
 			
-					<Switch>
+					<Switch location={background || location}>
 						<Route path="/login">
 							<LoginPage />
 						</Route>
@@ -71,9 +76,13 @@ function App() {
 							</div>
 						</Route>
 					</Switch>
-			
+					{background && <Route path="/feed/:id" render={() => ( <Modal><OrderPage modal /></Modal> )} />}
+
+					{background && <Route path="/profile/order/:id" render={() => ( <Modal><OrderPage modal /></Modal> )} />}
+
+					{background && <Route path="/ingredients/:id" render={() => ( <Modal><IngredientsPage modal /></Modal> )} />}
 				</main>
-			</Router>
+			
 		</div>
 	);
 }

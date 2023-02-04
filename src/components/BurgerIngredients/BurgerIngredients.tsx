@@ -1,21 +1,21 @@
-import React, { SyntheticEvent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from '../../services/hooks';
 import { useInView } from 'react-intersection-observer';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import IngredientDetails from './IngredientDetails';
 import BurgerIngredientsItem from './BurgerIngredientsItem';
-import Modal from '../Modal/Modal';
 import { getItems } from '../../services/actions';
-import { ADD_DATA_INGREDIENTS_MODAL, DELETE_DATA_INGREDIENTS_MODAL } from '../../services/constants/ingredients';
+import { DELETE_DATA_INGREDIENTS_MODAL } from '../../services/constants/ingredients';
 import DraggableItem from '../DragAndDrop/DraggableItem';
 import styles from './burgeringredients.module.css'; 
 import { TIngredient } from '../../services/types';
+import { Link, useLocation } from 'react-router-dom';
 
 function BurgerIngredients() {
+    const location = useLocation();
+
     const [ current, setCurrent ] = React.useState<String>( 'one' );
-    const [ visible, setVisibility ] = React.useState<Boolean>( false );
     const [ orderCounts, setOrderCounts ] = React.useState<{ [ x: string ]: number }>( {} );
     const burgerBun = useSelector( store => store.ingredients.burgerIngredients.bun );
     const burgerContent = useSelector( store => store.ingredients.burgerIngredients.consist );
@@ -50,19 +50,6 @@ function BurgerIngredients() {
     useEffect( () => {
         dispatch( getItems() );
     }, [ dispatch ] );
-  
-    function handleOpenModal( e: React.MouseEvent, elemData: TIngredient ) {
-        //добавляем в хранилище данные по ингредиенту и отображаем модальное окно
-        dispatch({ type: ADD_DATA_INGREDIENTS_MODAL, item: elemData });
-        setVisibility( true );
-    }
-
-	const handleCloseModal = ( e: SyntheticEvent ) => {
-		e.preventDefault();
-        //перед закрытием очищаем данные
-        dispatch({ type: DELETE_DATA_INGREDIENTS_MODAL });
-        setVisibility( false );
-	}
 
     return (
         <>
@@ -87,7 +74,16 @@ function BurgerIngredients() {
                         { data.filter( ( filterElem ) => filterElem.type === 'bun' ).map(
                             ( elem: TIngredient ) => 
                             <DraggableItem key={'bun_' + elem._id} data={{ id: elem._id!, content: 'bun', board: 'ingredients'}}>
-                                <BurgerIngredientsItem handleClick={ e => handleOpenModal( e, elem ) } key={elem._id} imgSrc={ elem.image! } cost={ elem.price! } caption={ elem.name! } alt={ elem.name! } counterNumber={ orderCounts[ elem._id! ] } />
+                                <Link 
+                                    className={ styles.link_reset }
+                                    onClick={ () => { dispatch( { type: DELETE_DATA_INGREDIENTS_MODAL } ) }}
+                                    to={{
+                                        pathname: `/ingredients/${ elem._id }`,
+                                        state: { background: location }
+                                    }}
+                                    key={ `link-${ elem._id }` }>
+                                    <BurgerIngredientsItem key={elem._id} imgSrc={ elem.image! } cost={ elem.price! } caption={ elem.name! } alt={ elem.name! } counterNumber={ orderCounts[ elem._id! ] } />
+                                </Link>
                             </DraggableItem>
                         ) }
                     </div>
@@ -98,7 +94,16 @@ function BurgerIngredients() {
                         { data.filter( ( filterElem ) => filterElem.type === 'sauce').map(
                             ( elem: TIngredient ) => 
                             <DraggableItem key={'sauce_' + elem._id} data={{ id: elem._id!, content: 'sauce', board: 'ingredients'}}>
-                                <BurgerIngredientsItem handleClick={e => handleOpenModal(e, elem)} key={elem._id} imgSrc={ elem.image! } cost={ elem.price! } caption={ elem.name! } alt={ elem.name! } counterNumber={ orderCounts[ elem._id! ] } /> 
+                                <Link 
+                                    className={ styles.link_reset }
+                                    onClick={ () => { dispatch( { type: DELETE_DATA_INGREDIENTS_MODAL } ) }}
+                                    to={{
+                                        pathname: `/ingredients/${ elem._id }`,
+                                        state: { background: location }
+                                    }}
+                                    key={ `link-${ elem._id }` }>
+                                    <BurgerIngredientsItem key={elem._id} imgSrc={ elem.image! } cost={ elem.price! } caption={ elem.name! } alt={ elem.name! } counterNumber={ orderCounts[ elem._id! ] } /> 
+                                </Link>
                             </DraggableItem>
                         )}
                     </div>
@@ -109,18 +114,21 @@ function BurgerIngredients() {
                         { data.filter( ( filterElem ) => filterElem.type === 'main').map(
                             ( elem: TIngredient ) => 
                             <DraggableItem key={'main_' + elem._id} data={{ id: elem._id!, content: 'main', board: 'ingredients'}}>
-                                <BurgerIngredientsItem handleClick={ e => handleOpenModal( e, elem ) } key={ elem._id } imgSrc={ elem.image! } cost={ elem.price! } caption={ elem.name! } alt={ elem.name! } counterNumber={ orderCounts[ elem._id! ] } /> 
+                                <Link 
+                                    className={ styles.link_reset }
+                                    onClick={ () => { dispatch( { type: DELETE_DATA_INGREDIENTS_MODAL } ) }}
+                                    to={{
+                                        pathname: `/ingredients/${ elem._id }`,
+                                        state: { background: location }
+                                    }}
+                                    key={ `link-${ elem._id }` }>
+                                    <BurgerIngredientsItem key={ elem._id } imgSrc={ elem.image! } cost={ elem.price! } caption={ elem.name! } alt={ elem.name! } counterNumber={ orderCounts[ elem._id! ] } /> 
+                                </Link>
                             </DraggableItem>
                         )}
                     </div>
                 </div>
             </div>
-
-            {visible && 
-                <Modal header={'Детали ингридиента'} onClose={ handleCloseModal }>
-                    <IngredientDetails />
-                </Modal>
-            }
         </>
     );
 }

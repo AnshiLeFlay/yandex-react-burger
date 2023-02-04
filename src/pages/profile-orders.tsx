@@ -1,36 +1,22 @@
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 
 import { useDispatch, useSelector } from '../services/hooks';
 import { WS_CONNECTION_END, WS_CONNECTION_START } from '../services/constants/ws';
 import FeedCard from '../components/Cards/FeedCard';
 import { findIngredients } from '../utils/functions';
-import Modal from '../components/Modal/Modal';
-import { Route } from 'react-router-dom';
-import { OrderPage } from './order';
+import { Link, useLocation } from 'react-router-dom';
 import { DELETE_ORDER } from '../services/constants/order';
 
 import styles from './pages.module.css';
 
 export function ProfileOrdersPage() {
+    const location = useLocation();
+
     const dispatch = useDispatch();
     const accessToken = useSelector( store => store.users.user.accessToken );
 
     const ingredientsData = useSelector( store => store?.data?.ingredients );
     const dataFeed = useSelector( store => store.ws.messages?.orders );
-
-    const [ visible, setVisibility ] = React.useState<boolean>( false );
-    const [ currentOrder, setCurrentOrder ] = React.useState<string>('');
-
-    const handleOpenModal = ( e: React.MouseEvent, value: string ) => {
-        setVisibility( true );
-        setCurrentOrder( value );
-	}
-
-	const handleCloseModal = ( e: SyntheticEvent ) => {
-		e.preventDefault();
-        setVisibility( false );
-        dispatch( { type: DELETE_ORDER } );
-    }
 
     React.useEffect( () => {
         const token = `?token=${ accessToken.replace( 'Bearer ', '') }`;
@@ -47,7 +33,14 @@ export function ProfileOrdersPage() {
 
             {
                 dataFeed?.map( ( elem: { _id: React.Key | null | undefined; number: string; createdAt: string; name: string; ingredients: string[]; } ) => 
-                    <div  key={ `div-${ elem._id }` } onClick={ (e) => handleOpenModal(e, elem.number) }>
+                    <Link 
+                        className={ styles.link_reset }
+                        onClick={ () => { dispatch( { type: DELETE_ORDER } ) }}
+                        to={{
+                            pathname: `/profile/order/${ elem.number }`,
+                            state: { background: location }
+                        }}
+                        key={ `div-${ elem._id }` }>
                         <FeedCard 
                             key={ elem._id }
                             orderNumber={ elem.number }
@@ -55,13 +48,8 @@ export function ProfileOrdersPage() {
                             burgerName={ elem.name }
                             ingredients={ findIngredients( elem.ingredients, ingredientsData ) }
                         />
-                    </div>
+                    </Link>
                 )
-            }
-            { visible && 
-                <Modal onClose={ handleCloseModal }>
-                    <Route path={ `/` } render={ ( props ) => <OrderPage id={ currentOrder } modal={ true } { ...props } /> } />
-                </Modal>
             }
         </div>
     );

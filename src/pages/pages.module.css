@@ -153,3 +153,8 @@
     box-sizing: border-box;
     overflow: hidden;
 }
+
+.link_reset {
+    color: inherit;
+    text-decoration: none;
+}

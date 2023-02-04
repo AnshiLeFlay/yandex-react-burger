@@ -1,13 +1,11 @@
-import React, { SyntheticEvent } from 'react';
-import { Route } from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 import FeedCard from '../components/Cards/FeedCard';
-import Modal from '../components/Modal/Modal';
 import { DELETE_ORDER } from '../services/constants/order';
 import { WS_CONNECTION_START, WS_CONNECTION_END } from '../services/constants/ws';
 import { useDispatch, useSelector } from '../services/hooks';
 import { findIngredients } from '../utils/functions';
-import { OrderPage } from './order';
 
 import styles from './pages.module.css';
 
@@ -22,28 +20,16 @@ type TOrder = {
 }
 
 export function FeedPage() {
+    let location = useLocation();
+    
     const dispatch = useDispatch();
     const ingredientsData = useSelector( store => store?.data?.ingredients );
     const dataFeed: Array<TOrder> = useSelector( store => store.ws.messages?.orders );
     const total = useSelector( store => store.ws.messages?.total );
     const totalToday = useSelector( store => store.ws.messages?.totalToday );
 
-    const [ visible, setVisibility ] = React.useState<boolean>( false );
-    const [ currentOrder, setCurrentOrder ] = React.useState<string>('');
-
     const doneOrders = dataFeed?.filter( elem => elem.status === 'done' )?.map( elem => elem.number );
     const otherOrders = dataFeed?.filter( elem => elem.status !== 'done' )?.map( elem => elem.number );
-
-    const handleOpenModal = ( e: React.MouseEvent, value: string ) => {
-        setVisibility( true );
-        setCurrentOrder( value );
-	}
-
-	const handleCloseModal = ( e: SyntheticEvent ) => {
-		e.preventDefault();
-        setVisibility( false );
-        dispatch( { type: DELETE_ORDER } );
-    }
 
     React.useEffect( () => {
         dispatch( { type: WS_CONNECTION_START, url: '/all' } );
@@ -77,13 +63,24 @@ export function FeedPage() {
 
     return (
         <div>
+            <Link to={{
+                pathname: `/feed/1`,
+                state: { background: location }
+            }}>Edit Profile</Link>
             <p className={ `text text_type_main-large mt-10 mb-5 ${ styles.page_header }`}>Лента заказов</p>
             <div className={ styles.main_content }>
                 <div className={ `${ styles.main_content_item } ${ styles.left_column_item }` }>
 
                     {
                         dataFeed?.map( ( elem ) => 
-                            <div key={ `div-${ elem._id }` } onClick={ (e) => handleOpenModal(e, elem.number) }>
+                            <Link 
+                                className={ styles.link_reset }
+                                onClick={ () => { dispatch( { type: DELETE_ORDER } ) }}
+                                to={{
+                                    pathname: `/feed/${ elem.number }`,
+                                    state: { background: location }
+                                }}
+                                key={ `div-${ elem._id }` }>
                                 <FeedCard 
                                     key={ elem._id }
                                     orderNumber={ elem.number }
@@ -91,7 +88,7 @@ export function FeedPage() {
                                     burgerName={ elem.name }
                                     ingredients={ findIngredients( elem.ingredients, ingredientsData ) }
                                 />
-                            </div>
+                            </Link>
                         )
                     }
                     
@@ -117,11 +114,6 @@ export function FeedPage() {
                     <p className='text text_type_digits-large'>{ totalToday }</p>
                 </div>
             </div>
-            { visible && 
-                <Modal onClose={ handleCloseModal }>
-                    <Route path={ `/feed` } render={ ( props ) => <OrderPage id={ currentOrder } modal={ true } { ...props } /> } />
-                </Modal>
-            }
         </div>
     );
 } 

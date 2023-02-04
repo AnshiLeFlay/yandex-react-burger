@@ -6,7 +6,7 @@ import { TIngredient } from '../services/types';
 
 import styles from './pages.module.css'; 
 
-export function IngredientsPage() {
+export function IngredientsPage( props: { modal?: boolean } ) {
     const ingredients = useSelector( store => store?.data?.ingredients );
     const [ currentItem, setCurrentItem ] = React.useState<TIngredient>( {} );
     const history = useHistory();
@@ -25,7 +25,7 @@ export function IngredientsPage() {
     }, [ history.location.pathname, ingredients ] )
 
     return (
-        <div className={ styles.wrapper }>
+        <div className={ !props?.modal ? `${ styles.wrapper }` : '' }>
             <p className={`text text_type_main-medium ${styles.profile_cells}`}>Детали ингредиента</p>
             <div className={styles.ingredients_wrapper}>
                 <img alt={currentItem.name} src={currentItem.image} />
