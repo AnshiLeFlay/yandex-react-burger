@@ -22,35 +22,35 @@ import {
     UPDATE_USER_FAILED,
     GET_USER_DATA_REQUEST,
     GET_USER_DATA_SUCCESS,
-    GET_USER_DATA_FAILED
-} from '../constants/users';
+    GET_USER_DATA_FAILED,
+} from "../constants/users";
 
-import { TUsersActions } from '../actions/users';
+import { TUsersActions } from "../actions/users";
 
 type TInitialState = {
-    forgotRequest: boolean,
-    forgotFailed: boolean,
-    resetRequest: boolean,
-    resetFailed: boolean,
-    registerRequest: boolean,
-    registerFailed: boolean,
-    loginRequest: boolean,
-    loginFailed: boolean,
-    logoutRequest: boolean,
-    logoutFailed: boolean,
-    tokenRequest: boolean,
-    tokenFailed: boolean,
-    updateRequest: boolean,
-    updateFailed: boolean,
-    userRequest: boolean,
-    userFailed: boolean,
+    forgotRequest: boolean;
+    forgotFailed: boolean;
+    resetRequest: boolean;
+    resetFailed: boolean;
+    registerRequest: boolean;
+    registerFailed: boolean;
+    loginRequest: boolean;
+    loginFailed: boolean;
+    logoutRequest: boolean;
+    logoutFailed: boolean;
+    tokenRequest: boolean;
+    tokenFailed: boolean;
+    updateRequest: boolean;
+    updateFailed: boolean;
+    userRequest: boolean;
+    userFailed: boolean;
     user: {
-        email: string,
-        name: string,
-        accessToken: string,
-        refreshToken: string
-    }
-}
+        email: string;
+        name: string;
+        accessToken: string;
+        refreshToken: string;
+    };
+};
 
 const initialState: TInitialState = {
     forgotRequest: false,
@@ -70,19 +70,22 @@ const initialState: TInitialState = {
     userRequest: false,
     userFailed: false,
     user: {
-        email: '',
-        name: '',
-        accessToken: '',
-        refreshToken: ''
-    }
-}
+        email: "",
+        name: "",
+        accessToken: "",
+        refreshToken: "",
+    },
+};
 
-export const users = ( state: TInitialState = initialState, action: TUsersActions ): TInitialState => {
+export const users = (
+    state: TInitialState = initialState,
+    action: TUsersActions
+): TInitialState => {
     switch (action.type) {
         case PASSWORD_FORGOT_REQUEST: {
             return {
                 ...state,
-                forgotRequest: true
+                forgotRequest: true,
             };
         }
         case PASSWORD_FORGOT_SUCCESS: {
@@ -94,7 +97,7 @@ export const users = ( state: TInitialState = initialState, action: TUsersAction
         case PASSWORD_RESET_REQUEST: {
             return {
                 ...state,
-                resetRequest: true
+                resetRequest: true,
             };
         }
         case PASSWORD_RESET_SUCCESS: {
@@ -106,7 +109,7 @@ export const users = ( state: TInitialState = initialState, action: TUsersAction
         case REGISTER_REQUEST: {
             return {
                 ...state,
-                registerRequest: true
+                registerRequest: true,
             };
         }
         case REGISTER_SUCCESS: {
@@ -118,17 +121,20 @@ export const users = ( state: TInitialState = initialState, action: TUsersAction
         case LOGIN_REQUEST: {
             return {
                 ...state,
-                loginRequest: true
+                loginRequest: true,
             };
         }
         case LOGIN_SUCCESS: {
-            return { ...state, loginFailed: false, loginRequest: false,
-                user: { 
+            return {
+                ...state,
+                loginFailed: false,
+                loginRequest: false,
+                user: {
                     email: action.email,
                     name: action.name,
                     accessToken: action.accessToken,
-                    refreshToken: action.refreshToken
-                }
+                    refreshToken: action.refreshToken,
+                },
             };
         }
         case LOGIN_FAILED: {
@@ -137,17 +143,20 @@ export const users = ( state: TInitialState = initialState, action: TUsersAction
         case LOGOUT_REQUEST: {
             return {
                 ...state,
-                logoutRequest: true
+                logoutRequest: true,
             };
         }
         case LOGOUT_SUCCESS: {
-            return { ...state, logoutFailed: false, logoutRequest: false,
+            return {
+                ...state,
+                logoutFailed: false,
+                logoutRequest: false,
                 user: {
-                    email: '',
-                    name: '',
-                    accessToken: '',
-                    refreshToken: ''
-                }
+                    email: "",
+                    name: "",
+                    accessToken: "",
+                    refreshToken: "",
+                },
             };
         }
         case LOGOUT_FAILED: {
@@ -156,16 +165,19 @@ export const users = ( state: TInitialState = initialState, action: TUsersAction
         case UPDATE_TOKEN_REQUEST: {
             return {
                 ...state,
-                tokenRequest: true
+                tokenRequest: true,
             };
         }
         case UPDATE_TOKEN_SUCCESS: {
-            return { ...state, tokenFailed: false, tokenRequest: false,
+            return {
+                ...state,
+                tokenFailed: false,
+                tokenRequest: false,
                 user: {
                     ...state.user,
                     accessToken: action.accessToken,
-                    refreshToken: action.refreshToken
-                }
+                    refreshToken: action.refreshToken,
+                },
             };
         }
         case UPDATE_TOKEN_FAILED: {
@@ -174,16 +186,19 @@ export const users = ( state: TInitialState = initialState, action: TUsersAction
         case UPDATE_USER_REQUEST: {
             return {
                 ...state,
-                updateRequest: true
+                updateRequest: true,
             };
         }
         case UPDATE_USER_SUCCESS: {
-            return { ...state, updateFailed: false, updateRequest: false,
+            return {
+                ...state,
+                updateFailed: false,
+                updateRequest: false,
                 user: {
                     ...state.user,
                     name: action.name,
-                    email: action.email
-                }
+                    email: action.email,
+                },
             };
         }
         case UPDATE_USER_FAILED: {
@@ -192,16 +207,19 @@ export const users = ( state: TInitialState = initialState, action: TUsersAction
         case GET_USER_DATA_REQUEST: {
             return {
                 ...state,
-                userRequest: true
+                userRequest: true,
             };
         }
         case GET_USER_DATA_SUCCESS: {
-            return { ...state, userFailed: false, userRequest: false,
+            return {
+                ...state,
+                userFailed: false,
+                userRequest: false,
                 user: {
                     ...state.user,
                     name: action.name,
-                    email: action.email
-                }
+                    email: action.email,
+                },
             };
         }
         case GET_USER_DATA_FAILED: {
@@ -211,4 +229,4 @@ export const users = ( state: TInitialState = initialState, action: TUsersAction
             return state;
         }
     }
-}
+};
