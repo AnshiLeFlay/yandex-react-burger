@@ -5,7 +5,7 @@ describe("drag and drop working correctly", function () {
         cy.visit("http://localhost:3000");
     });
 
-    it("should drag visit beach to the to-do list", () => {
+    it("should drag first element from section sauce to constructor", () => {
         const dataTransfer = new DataTransfer();
 
         cy.get(
