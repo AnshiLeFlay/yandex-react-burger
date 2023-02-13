@@ -96,7 +96,7 @@ function BurgerConstructor() {
 
     return (
         <DropTarget>
-            <div className={ `mt-25 pl-4 pr-4 ${ styles.constructor_wrapper }` }>
+            <div id='dropConstructor' className={ `mt-25 pl-4 pr-4 ${ styles.constructor_wrapper }` }>
                 
                 {
                     bunTopBot?.image !== undefined &&
