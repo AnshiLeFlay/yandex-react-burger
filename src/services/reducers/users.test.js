@@ -25,7 +25,7 @@ describe("index users reducer", () => {
                 name: "",
                 accessToken: "",
                 refreshToken: "",
-            }
+            },
         });
     });
 
@@ -39,7 +39,7 @@ describe("index users reducer", () => {
             )
         ).toEqual(
             expect.objectContaining({
-                forgotRequest: true
+                forgotRequest: true,
             })
         );
 
@@ -52,7 +52,8 @@ describe("index users reducer", () => {
             )
         ).toEqual(
             expect.objectContaining({
-                forgotFailed: false, forgotRequest: false
+                forgotFailed: false,
+                forgotRequest: false,
             })
         );
 
@@ -65,7 +66,8 @@ describe("index users reducer", () => {
             )
         ).toEqual(
             expect.objectContaining({
-                forgotFailed: true, forgotRequest: false
+                forgotFailed: true,
+                forgotRequest: false,
             })
         );
 
@@ -78,7 +80,7 @@ describe("index users reducer", () => {
             )
         ).toEqual(
             expect.objectContaining({
-                resetRequest: true
+                resetRequest: true,
             })
         );
 
@@ -91,7 +93,8 @@ describe("index users reducer", () => {
             )
         ).toEqual(
             expect.objectContaining({
-                resetFailed: false, resetRequest: false 
+                resetFailed: false,
+                resetRequest: false,
             })
         );
 
@@ -104,7 +107,8 @@ describe("index users reducer", () => {
             )
         ).toEqual(
             expect.objectContaining({
-                resetFailed: true, resetRequest: false
+                resetFailed: true,
+                resetRequest: false,
             })
         );
 
@@ -117,7 +121,7 @@ describe("index users reducer", () => {
             )
         ).toEqual(
             expect.objectContaining({
-                registerRequest: true
+                registerRequest: true,
             })
         );
 
@@ -130,7 +134,8 @@ describe("index users reducer", () => {
             )
         ).toEqual(
             expect.objectContaining({
-                registerFailed: false, registerRequest: false
+                registerFailed: false,
+                registerRequest: false,
             })
         );
 
@@ -143,7 +148,8 @@ describe("index users reducer", () => {
             )
         ).toEqual(
             expect.objectContaining({
-                registerFailed: true, registerRequest: false
+                registerFailed: true,
+                registerRequest: false,
             })
         );
 
@@ -156,7 +162,7 @@ describe("index users reducer", () => {
             )
         ).toEqual(
             expect.objectContaining({
-                loginRequest: true
+                loginRequest: true,
             })
         );
 
@@ -165,10 +171,10 @@ describe("index users reducer", () => {
                 {},
                 {
                     type: types.LOGIN_SUCCESS,
-                    email: 'test@email.com',
-                    name: 'testUser',
-                    accessToken: 'access',
-                    refreshToken: 'refresh'
+                    email: "test@email.com",
+                    name: "testUser",
+                    accessToken: "access",
+                    refreshToken: "refresh",
                 }
             )
         ).toEqual(
@@ -176,11 +182,11 @@ describe("index users reducer", () => {
                 loginFailed: false,
                 loginRequest: false,
                 user: {
-                    email: 'test@email.com',
-                    name: 'testUser',
-                    accessToken: 'access',
-                    refreshToken: 'refresh',
-                }
+                    email: "test@email.com",
+                    name: "testUser",
+                    accessToken: "access",
+                    refreshToken: "refresh",
+                },
             })
         );
 
@@ -188,25 +194,13 @@ describe("index users reducer", () => {
             users(
                 {},
                 {
-                    type: types.LOGIN_FAILED
-                }
-            )
-        ).toEqual(
-            expect.objectContaining({
-                loginFailed: true, loginRequest: false
-            })
-        );
-
-        expect(
-            users(
-                {},
-                {
-                    type: types.LOGOUT_REQUEST
+                    type: types.LOGIN_FAILED,
                 }
             )
         ).toEqual(
             expect.objectContaining({
-                logoutRequest: true
+                loginFailed: true,
+                loginRequest: false,
             })
         );
 
@@ -214,7 +208,20 @@ describe("index users reducer", () => {
             users(
                 {},
                 {
-                    type: types.LOGOUT_SUCCESS
+                    type: types.LOGOUT_REQUEST,
+                }
+            )
+        ).toEqual(
+            expect.objectContaining({
+                logoutRequest: true,
+            })
+        );
+
+        expect(
+            users(
+                {},
+                {
+                    type: types.LOGOUT_SUCCESS,
                 }
             )
         ).toEqual(
@@ -226,7 +233,7 @@ describe("index users reducer", () => {
                     name: "",
                     accessToken: "",
                     refreshToken: "",
-                }
+                },
             })
         );
 
@@ -234,12 +241,13 @@ describe("index users reducer", () => {
             users(
                 {},
                 {
-                    type: types.LOGOUT_FAILED
+                    type: types.LOGOUT_FAILED,
                 }
             )
         ).toEqual(
             expect.objectContaining({
-                logoutFailed: true, logoutRequest: false
+                logoutFailed: true,
+                logoutRequest: false,
             })
         );
 
@@ -247,12 +255,12 @@ describe("index users reducer", () => {
             users(
                 {},
                 {
-                    type: types.UPDATE_TOKEN_REQUEST
+                    type: types.UPDATE_TOKEN_REQUEST,
                 }
             )
         ).toEqual(
             expect.objectContaining({
-                tokenRequest: true
+                tokenRequest: true,
             })
         );
 
@@ -261,8 +269,8 @@ describe("index users reducer", () => {
                 {},
                 {
                     type: types.UPDATE_TOKEN_SUCCESS,
-                    accessToken: 'accessToken',
-                    refreshToken: 'refreshToken'
+                    accessToken: "accessToken",
+                    refreshToken: "refreshToken",
                 }
             )
         ).toEqual(
@@ -270,9 +278,9 @@ describe("index users reducer", () => {
                 tokenFailed: false,
                 tokenRequest: false,
                 user: {
-                    accessToken: 'accessToken',
-                    refreshToken: 'refreshToken',
-                }
+                    accessToken: "accessToken",
+                    refreshToken: "refreshToken",
+                },
             })
         );
 
@@ -280,12 +288,13 @@ describe("index users reducer", () => {
             users(
                 {},
                 {
-                    type: types.UPDATE_TOKEN_FAILED
+                    type: types.UPDATE_TOKEN_FAILED,
                 }
             )
         ).toEqual(
             expect.objectContaining({
-                tokenFailed: true, tokenRequest: false
+                tokenFailed: true,
+                tokenRequest: false,
             })
         );
 
@@ -293,12 +302,12 @@ describe("index users reducer", () => {
             users(
                 {},
                 {
-                    type: types.UPDATE_USER_REQUEST
+                    type: types.UPDATE_USER_REQUEST,
                 }
             )
         ).toEqual(
             expect.objectContaining({
-                updateRequest: true
+                updateRequest: true,
             })
         );
 
@@ -307,8 +316,8 @@ describe("index users reducer", () => {
                 {},
                 {
                     type: types.UPDATE_USER_SUCCESS,
-                    email: 'test@email.com',
-                    name: 'testUser'
+                    email: "test@email.com",
+                    name: "testUser",
                 }
             )
         ).toEqual(
@@ -316,9 +325,9 @@ describe("index users reducer", () => {
                 updateFailed: false,
                 updateRequest: false,
                 user: {
-                    email: 'test@email.com',
-                    name: 'testUser'
-                }
+                    email: "test@email.com",
+                    name: "testUser",
+                },
             })
         );
 
@@ -326,12 +335,13 @@ describe("index users reducer", () => {
             users(
                 {},
                 {
-                    type: types.UPDATE_USER_FAILED
+                    type: types.UPDATE_USER_FAILED,
                 }
             )
         ).toEqual(
             expect.objectContaining({
-                updateFailed: true, updateRequest: false
+                updateFailed: true,
+                updateRequest: false,
             })
         );
 
@@ -339,12 +349,12 @@ describe("index users reducer", () => {
             users(
                 {},
                 {
-                    type: types.GET_USER_DATA_REQUEST
+                    type: types.GET_USER_DATA_REQUEST,
                 }
             )
         ).toEqual(
             expect.objectContaining({
-                userRequest: true
+                userRequest: true,
             })
         );
 
@@ -353,8 +363,8 @@ describe("index users reducer", () => {
                 {},
                 {
                     type: types.GET_USER_DATA_SUCCESS,
-                    email: 'test@email.com',
-                    name: 'testUser'
+                    email: "test@email.com",
+                    name: "testUser",
                 }
             )
         ).toEqual(
@@ -362,9 +372,9 @@ describe("index users reducer", () => {
                 userFailed: false,
                 userRequest: false,
                 user: {
-                    email: 'test@email.com',
-                    name: 'testUser'
-                }
+                    email: "test@email.com",
+                    name: "testUser",
+                },
             })
         );
 
@@ -372,14 +382,14 @@ describe("index users reducer", () => {
             users(
                 {},
                 {
-                    type: types.GET_USER_DATA_FAILED
+                    type: types.GET_USER_DATA_FAILED,
                 }
             )
         ).toEqual(
             expect.objectContaining({
-                userFailed: true, userRequest: false
+                userFailed: true,
+                userRequest: false,
             })
         );
-
     });
 });
