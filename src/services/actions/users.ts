@@ -1,28 +1,44 @@
-import { 
-    forgotPassword, 
-    resetPassword, 
+import {
+    forgotPassword,
+    resetPassword,
     registerUser,
     loginUser,
     logoutUser,
     updateToken,
     updateUser,
-    getUserData
-} from '../../utils/users';
+    getUserData,
+} from "../../utils/users";
 
 import { setCookie, deleteCookie, getCookie } from "../../utils/cookie";
 
-import { 
-    PASSWORD_FORGOT_REQUEST, PASSWORD_FORGOT_SUCCESS, PASSWORD_FORGOT_FAILED,
-    PASSWORD_RESET_REQUEST, PASSWORD_RESET_SUCCESS, PASSWORD_RESET_FAILED,
-    REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILED,
-    LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED,
-    LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILED,
-    UPDATE_TOKEN_REQUEST, UPDATE_TOKEN_SUCCESS, UPDATE_TOKEN_FAILED,
-    UPDATE_USER_REQUEST, UPDATE_USER_SUCCESS, UPDATE_USER_FAILED,
-    GET_USER_DATA_REQUEST, GET_USER_DATA_SUCCESS, GET_USER_DATA_FAILED
-} from '../constants/users';
+import {
+    PASSWORD_FORGOT_REQUEST,
+    PASSWORD_FORGOT_SUCCESS,
+    PASSWORD_FORGOT_FAILED,
+    PASSWORD_RESET_REQUEST,
+    PASSWORD_RESET_SUCCESS,
+    PASSWORD_RESET_FAILED,
+    REGISTER_REQUEST,
+    REGISTER_SUCCESS,
+    REGISTER_FAILED,
+    LOGIN_REQUEST,
+    LOGIN_SUCCESS,
+    LOGIN_FAILED,
+    LOGOUT_REQUEST,
+    LOGOUT_SUCCESS,
+    LOGOUT_FAILED,
+    UPDATE_TOKEN_REQUEST,
+    UPDATE_TOKEN_SUCCESS,
+    UPDATE_TOKEN_FAILED,
+    UPDATE_USER_REQUEST,
+    UPDATE_USER_SUCCESS,
+    UPDATE_USER_FAILED,
+    GET_USER_DATA_REQUEST,
+    GET_USER_DATA_SUCCESS,
+    GET_USER_DATA_FAILED,
+} from "../constants/users";
 
-import { AppDispatch, AppThunk } from '../types';
+import { AppDispatch, AppThunk } from "../types";
 
 export interface IPasswordForgotRequestAction {
     readonly type: typeof PASSWORD_FORGOT_REQUEST;
@@ -114,83 +130,99 @@ export interface IGetUserDataFailedAction {
     readonly type: typeof GET_USER_DATA_FAILED;
 }
 
-export type TUsersActions = 
-    | IPasswordForgotRequestAction | IPasswordForgotSuccessAction | IPasswordForgotFailedAction
-    | IPasswordResetRequestAction | IPasswordResetSuccessAction | IPasswordResetFailedAction
-    | IRegisterRequestAction | IRegisterSuccessAction | IRegisterFailedAction
-    | ILoginRequestAction | ILoginSuccessAction | ILoginFailedAction
-    | ILogoutRequestAction | ILogoutSuccessAction | ILogoutFailedAction
-    | IUpdateTokenRequestAction | IUpdateTokenSuccessAction | IUpdateTokenFailedAction
-    | IUpdateUserRequestAction | IUpdateUserSuccessAction | IUpdateUserFailedAction
-    | IGetUserDataRequestAction | IGetUserDataSuccessAction | IGetUserDataFailedAction;
+export type TUsersActions =
+    | IPasswordForgotRequestAction
+    | IPasswordForgotSuccessAction
+    | IPasswordForgotFailedAction
+    | IPasswordResetRequestAction
+    | IPasswordResetSuccessAction
+    | IPasswordResetFailedAction
+    | IRegisterRequestAction
+    | IRegisterSuccessAction
+    | IRegisterFailedAction
+    | ILoginRequestAction
+    | ILoginSuccessAction
+    | ILoginFailedAction
+    | ILogoutRequestAction
+    | ILogoutSuccessAction
+    | ILogoutFailedAction
+    | IUpdateTokenRequestAction
+    | IUpdateTokenSuccessAction
+    | IUpdateTokenFailedAction
+    | IUpdateUserRequestAction
+    | IUpdateUserSuccessAction
+    | IUpdateUserFailedAction
+    | IGetUserDataRequestAction
+    | IGetUserDataSuccessAction
+    | IGetUserDataFailedAction;
 
-export const forgot = ( email: string ) => {
-    return function( dispatch: AppDispatch ) {
-        dispatch( {
-            type: PASSWORD_FORGOT_REQUEST
-        } );
-        forgotPassword( email ).then( res => {
-            if ( res && res.success ) {
-                dispatch( {
-                    type: PASSWORD_FORGOT_SUCCESS
-                } );
-            } else {
-                dispatch( {
-                    type: PASSWORD_FORGOT_FAILED
-                } );
-            }
-        });
-    };
-}
-
-export const reset = ( password: string, token: string ) => {
-    return function( dispatch: AppDispatch ) {
+export const forgot = (email: string) => {
+    return function (dispatch: AppDispatch) {
         dispatch({
-            type: PASSWORD_RESET_REQUEST
+            type: PASSWORD_FORGOT_REQUEST,
         });
-        resetPassword( password, token ).then( res => {
-            if ( res && res.success ) {
-                dispatch( {
-                    type: PASSWORD_RESET_SUCCESS
-                } );
-            } else {
-                dispatch( {
-                    type: PASSWORD_RESET_FAILED
-                } );
-            }
-        } );
-    };
-}
-
-export const register = ( name: string, email: string, password: string ) => {
-    return function( dispatch: AppThunk ) {
-        dispatch( {
-            type: REGISTER_REQUEST
-        } );
-        registerUser( name, email, password ).then( res => {
-            if ( res && res.success ) {
-                dispatch( {
-                    type: REGISTER_SUCCESS
-                } );
-
-                //авторизовать пользователя после успешной регистрации
-                dispatch( login( email, password ) );
+        forgotPassword(email).then((res) => {
+            if (res && res.success) {
+                dispatch({
+                    type: PASSWORD_FORGOT_SUCCESS,
+                });
             } else {
                 dispatch({
-                    type: REGISTER_FAILED
+                    type: PASSWORD_FORGOT_FAILED,
                 });
             }
         });
     };
-}
+};
 
-export const login = ( email: string, password: string ) => {
-    return function( dispatch: AppDispatch ) {
-        dispatch( {
-            type: LOGIN_REQUEST
-        } );
-        loginUser( email, password ).then( res => {
-            if ( res && res.success ) {
+export const reset = (password: string, token: string) => {
+    return function (dispatch: AppDispatch) {
+        dispatch({
+            type: PASSWORD_RESET_REQUEST,
+        });
+        resetPassword(password, token).then((res) => {
+            if (res && res.success) {
+                dispatch({
+                    type: PASSWORD_RESET_SUCCESS,
+                });
+            } else {
+                dispatch({
+                    type: PASSWORD_RESET_FAILED,
+                });
+            }
+        });
+    };
+};
+
+export const register = (name: string, email: string, password: string) => {
+    return function (dispatch: AppThunk) {
+        dispatch({
+            type: REGISTER_REQUEST,
+        });
+        registerUser(name, email, password).then((res) => {
+            if (res && res.success) {
+                dispatch({
+                    type: REGISTER_SUCCESS,
+                });
+
+                //авторизовать пользователя после успешной регистрации
+                dispatch(login(email, password));
+            } else {
+                dispatch({
+                    type: REGISTER_FAILED,
+                });
+            }
+        });
+    };
+};
+
+export const login = (email: string, password: string) => {
+    return function (dispatch: AppDispatch) {
+        dispatch({
+            type: LOGIN_REQUEST,
+        });
+        loginUser(email, password).then((res) => {
+            if (res && res.success) {
                 /* anser from server
                 {
                     "success": true,
@@ -202,209 +234,209 @@ export const login = ( email: string, password: string ) => {
                     }
                 } 
                 */
-               
-            
-                dispatch( {
+
+                dispatch({
                     type: LOGIN_SUCCESS,
                     accessToken: res.accessToken,
                     refreshToken: res.refreshToken,
                     email: res.user.email,
-                    name: res.user.name
-                } );
+                    name: res.user.name,
+                });
 
                 //устанавливаем cookie на 1 день
-                setCookie( 'refreshToken', res.refreshToken, { expires: 86400 } );
+                setCookie("refreshToken", res.refreshToken, { expires: 86400 });
             } else {
-                dispatch( {
-                    type: LOGIN_FAILED
-                } );
+                dispatch({
+                    type: LOGIN_FAILED,
+                });
             }
         });
     };
-}
+};
 
-export const logout = ( token: string ) => {
-    return function( dispatch: AppDispatch ) {
-        dispatch( {
-            type: LOGOUT_REQUEST
-        } );
-        logoutUser( token ).then( res => {
-            if ( res && res.success ) {
-                dispatch( {
+export const logout = (token: string) => {
+    return function (dispatch: AppDispatch) {
+        dispatch({
+            type: LOGOUT_REQUEST,
+        });
+        logoutUser(token).then((res) => {
+            if (res && res.success) {
+                dispatch({
                     type: LOGOUT_SUCCESS,
-                } );
+                });
 
-                deleteCookie( 'refreshToken' );
+                deleteCookie("refreshToken");
             } else {
-                dispatch( {
-                    type: LOGOUT_FAILED
-                } );
+                dispatch({
+                    type: LOGOUT_FAILED,
+                });
             }
         });
     };
-}
+};
 
-export const token = ( refreshToken: string ) => {
-    return function( dispatch: AppDispatch ) {
-        dispatch( {
-            type: UPDATE_TOKEN_REQUEST
-        } );
-        updateToken( refreshToken ).then( res => {
-            if ( res && res.success ) {
-                dispatch( {
-                    type: UPDATE_TOKEN_SUCCESS,
-                    accessToken: res.accessToken,
-                    refreshToken: res.refreshToken
-                } );
-
-                setCookie( 'refreshToken', res.refreshToken, { expires: 86400 } );
-            } else {
-                dispatch( {
-                    type: UPDATE_TOKEN_FAILED
-                } );
-            }
+export const token = (refreshToken: string) => {
+    return function (dispatch: AppDispatch) {
+        dispatch({
+            type: UPDATE_TOKEN_REQUEST,
         });
-    };
-} 
-
-export const updateData = ( token: string, data: any ) => {
-    return function( dispatch: AppDispatch ) {
-        dispatch( {
-            type: UPDATE_USER_REQUEST
-        } );
-        updateUser( token, data ).then( res => {
-            if ( res && res.success ) {
-                dispatch( {
-                    type: UPDATE_USER_SUCCESS,
-                    name: res.user.name,
-                    email: res.user.email
-                } );
-            } else {
-                //проверка jwt expired
-
-                if ( res.message === 'jwt expired' ) {
-
-                    updateToken( getCookie( 'refreshToken' ) ).then( res2 => {
-                        if ( res2 && res2.success ) {
-                            dispatch( {
-                                type: UPDATE_TOKEN_SUCCESS,
-                                accessToken: res2.accessToken,
-                                refreshToken: res2.refreshToken
-                            } );
-            
-                            setCookie( 'refreshToken', res2.refreshToken, { expires: 86400 } );
-
-                            updateUser( res2.accessToken, data ).then( res3 => {
-                                if ( res3 && res3.success ) {
-                                    dispatch( {
-                                        type: UPDATE_USER_SUCCESS,
-                                        name: res3.user.name,
-                                        email: res3.user.email
-                                    } );
-                                } else {
-                                    dispatch( {
-                                        type: UPDATE_USER_FAILED
-                                    } );
-                                }
-                            } );
-                        }
-                    } );
-                } else {
-                    dispatch( {
-                        type: UPDATE_USER_FAILED
-                    } );
-                }
-            }
-        } );
-    };
-} 
-
-export const userData = ( token: string ) => {
-    return function( dispatch: AppDispatch ) {
-        dispatch( {
-            type: GET_USER_DATA_REQUEST
-        } );
-        getUserData( token ).then( res => {
-            if ( res && res.success ) {
-                dispatch( {
-                    type: GET_USER_DATA_SUCCESS,
-                    name: res.user.name,
-                    email: res.user.email
-                } );
-            } else {
-                if ( res.message === 'jwt expired' ) {
-                    //проверка jwt expired
-
-                    updateToken( getCookie( 'refreshToken' ) ).then( res2 => {
-                        if ( res2 && res2.success ) {
-                            dispatch( {
-                                type: UPDATE_TOKEN_SUCCESS,
-                                accessToken: res2.accessToken,
-                                refreshToken: res2.refreshToken
-                            } );
-            
-                            setCookie( 'refreshToken', res2.refreshToken, { expires: 86400 } );
-
-                            getUserData( res2.accessToken ).then( res3 => {
-                                if ( res3 && res3.success ) {
-                                    dispatch( {
-                                        type: GET_USER_DATA_SUCCESS,
-                                        name: res.user.name,
-                                        email: res.user.email
-                                    } );
-                                } else {
-                                    dispatch( {
-                                        type: GET_USER_DATA_FAILED
-                                    } );
-                                }
-                            } );
-                        }
-                    } );
-                } else {
-                    dispatch( {
-                        type: GET_USER_DATA_FAILED
-                    } );
-                }
-            }
-        } );
-    };
-} 
-
-export const fullUpdate = ( token: string ) => {
-    return function( dispatch: AppDispatch ) {
-        dispatch( {
-            type: UPDATE_TOKEN_REQUEST
-        } );
-        updateToken( token ).then( res => {
-            if ( res && res.success ) {
-
+        updateToken(refreshToken).then((res) => {
+            if (res && res.success) {
                 dispatch({
                     type: UPDATE_TOKEN_SUCCESS,
                     accessToken: res.accessToken,
-                    refreshToken: res.refreshToken
+                    refreshToken: res.refreshToken,
                 });
 
-                setCookie( 'refreshToken', res.refreshToken, { expires: 86400 } );
+                setCookie("refreshToken", res.refreshToken, { expires: 86400 });
+            } else {
+                dispatch({
+                    type: UPDATE_TOKEN_FAILED,
+                });
+            }
+        });
+    };
+};
 
-                getUserData( res.accessToken ).then( res => {
-                    if ( res && res.success ) {
-                        dispatch( {
+export const updateData = (token: string, data: any) => {
+    return function (dispatch: AppDispatch) {
+        dispatch({
+            type: UPDATE_USER_REQUEST,
+        });
+        updateUser(token, data).then((res) => {
+            if (res && res.success) {
+                dispatch({
+                    type: UPDATE_USER_SUCCESS,
+                    name: res.user.name,
+                    email: res.user.email,
+                });
+            } else {
+                //проверка jwt expired
+
+                if (res.message === "jwt expired") {
+                    updateToken(getCookie("refreshToken")).then((res2) => {
+                        if (res2 && res2.success) {
+                            dispatch({
+                                type: UPDATE_TOKEN_SUCCESS,
+                                accessToken: res2.accessToken,
+                                refreshToken: res2.refreshToken,
+                            });
+
+                            setCookie("refreshToken", res2.refreshToken, {
+                                expires: 86400,
+                            });
+
+                            updateUser(res2.accessToken, data).then((res3) => {
+                                if (res3 && res3.success) {
+                                    dispatch({
+                                        type: UPDATE_USER_SUCCESS,
+                                        name: res3.user.name,
+                                        email: res3.user.email,
+                                    });
+                                } else {
+                                    dispatch({
+                                        type: UPDATE_USER_FAILED,
+                                    });
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    dispatch({
+                        type: UPDATE_USER_FAILED,
+                    });
+                }
+            }
+        });
+    };
+};
+
+export const userData = (token: string) => {
+    return function (dispatch: AppDispatch) {
+        dispatch({
+            type: GET_USER_DATA_REQUEST,
+        });
+        getUserData(token).then((res) => {
+            if (res && res.success) {
+                dispatch({
+                    type: GET_USER_DATA_SUCCESS,
+                    name: res.user.name,
+                    email: res.user.email,
+                });
+            } else {
+                if (res.message === "jwt expired") {
+                    //проверка jwt expired
+
+                    updateToken(getCookie("refreshToken")).then((res2) => {
+                        if (res2 && res2.success) {
+                            dispatch({
+                                type: UPDATE_TOKEN_SUCCESS,
+                                accessToken: res2.accessToken,
+                                refreshToken: res2.refreshToken,
+                            });
+
+                            setCookie("refreshToken", res2.refreshToken, {
+                                expires: 86400,
+                            });
+
+                            getUserData(res2.accessToken).then((res3) => {
+                                if (res3 && res3.success) {
+                                    dispatch({
+                                        type: GET_USER_DATA_SUCCESS,
+                                        name: res.user.name,
+                                        email: res.user.email,
+                                    });
+                                } else {
+                                    dispatch({
+                                        type: GET_USER_DATA_FAILED,
+                                    });
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    dispatch({
+                        type: GET_USER_DATA_FAILED,
+                    });
+                }
+            }
+        });
+    };
+};
+
+export const fullUpdate = (token: string) => {
+    return function (dispatch: AppDispatch) {
+        dispatch({
+            type: UPDATE_TOKEN_REQUEST,
+        });
+        updateToken(token).then((res) => {
+            if (res && res.success) {
+                dispatch({
+                    type: UPDATE_TOKEN_SUCCESS,
+                    accessToken: res.accessToken,
+                    refreshToken: res.refreshToken,
+                });
+
+                setCookie("refreshToken", res.refreshToken, { expires: 86400 });
+
+                getUserData(res.accessToken).then((res) => {
+                    if (res && res.success) {
+                        dispatch({
                             type: GET_USER_DATA_SUCCESS,
                             name: res.user.name,
-                            email: res.user.email
-                        } );
+                            email: res.user.email,
+                        });
                     } else {
-                        dispatch( {
-                            type: GET_USER_DATA_FAILED
-                        } );
+                        dispatch({
+                            type: GET_USER_DATA_FAILED,
+                        });
                     }
                 });
-                
             } else {
-                dispatch( {
-                    type: UPDATE_TOKEN_FAILED
-                } );
+                dispatch({
+                    type: UPDATE_TOKEN_FAILED,
+                });
             }
-        } );
-    }
-}
+        });
+    };
+};
