@@ -24,11 +24,11 @@ To run the application on your local machine, follow these steps:
 
 Unit tests can be run using Jest:
 
-npm run test
+`npm run test`
 
 Integration tests can be run using Cypress:
 
-npx cypress open
+`npx cypress open`
 
 ## Code Quality
 
