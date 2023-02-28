@@ -32,7 +32,7 @@ Integration tests can be run using Cypress:
 
 ## Code Quality
 
-Code quality is maintained using eslint and prettier. To run eslint:
+Code quality is maintained using eslint and prettier.
 
 ## Contributors
 
